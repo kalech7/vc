@@ -1,5 +1,6 @@
 {
   "name": "vertex",
+  "homepage": "https://www.vertexcapital.today",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -26,7 +27,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "nodemon backend/index.js"
   },
   "eslintConfig": {
     "extends": [
@@ -50,6 +52,11 @@
     "@babel/core": "^7.24.8",
     "@babel/preset-env": "^7.24.8",
     "@babel/preset-react": "^7.24.7",
-    "babel-loader": "^9.1.3"
-  }
+    "babel-loader": "^9.1.3",
+    "nodemon": "^3.1.4"
+  },
+  "main": "index.js",
+  "repository": "https://github.com/kalech7/vc.git",
+  "author": "alejandro <chavezalejo85@gmail.com>",
+  "license": "MIT"
 }
