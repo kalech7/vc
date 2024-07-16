@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cambio de Contraseña</title>
+    <style>
+        :root {
+            --header-height: 70px;
+            --body-color: #1c2833;
+            --title-color: #ffffff;
+            --title-color-dark: #000;
+            --font-medium: 500;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding-top: var(--header-height); /* espacio para el header fijo */
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow: hidden;
+            padding: 100px 0;
+            height: auto;
+        }
+        .header {
+            height: var(--header-height);
+            width: 100%;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            text-align: center;
+            background-color: var(--body-color);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header img {
+            width: 50px; /* ajusta el tamaño del logo según sea necesario */
+            margin-right: 10px; /* espacio entre el logo y el título */
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: var(--font-medium);
+        }
+        .content {
+            margin: 20px 0;
+        }
+        .footer {
+            background-color: #24262b;
+            color: #ffffff;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="/public/logo_vertex.ico" alt="Logo de Vertex Capital"> 
+            <h1>Confirmación de Registro</h1>
+        </div>
+        <div class="content">
+            <p>Hola {{nombre}},</p>
+            <p>Tu cuenta ha sido creada exitosamente. Tu número de cuenta es: {{numeroCuenta}}</p>
+            <p>Saludos,<br>El equipo de Vertex Capital</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2024 Vertex Capital. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</body>
+</html>

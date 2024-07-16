@@ -1,0 +1,97 @@
+.offers-page {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .offers-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .offer-card {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px 0;
+  }
+  
+  .offer-card.left .offer-text {
+    order: 1;
+  }
+  
+  .offer-card.right .offer-text {
+    order: 2;
+  }
+  
+  /* Hacer más pequeñas las imágenes de Tarjeta y Préstamo */
+  .offer-card:nth-child(1) .offer-image, /* Tarjeta */
+  .offer-card:nth-child(2) .offer-image { /* Préstamo */
+    width: 30%;
+  }
+  
+  .offer-image {
+    width: 50%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .offer-text {
+    width: 50%;
+    text-align: left;
+    padding: 0 20px;
+  }
+  
+  .offer-title {
+    font-size: 1.5em;
+    margin: 10px 0;
+  }
+  
+  .offer-description {
+    font-size: 1em;
+    color: #555;
+    text-align: justify;
+  }
+  
+  /* Specific styles for the second and fourth offer */
+  .offer-card:nth-child(2) .offer-image {
+    order: 2;
+  }
+  
+  .offer-card:nth-child(2) .offer-text {
+    order: 1;
+  }
+  
+  .offer-card:nth-child(4) .offer-image {
+    order: 2;
+  }
+  
+  .offer-card:nth-child(4) .offer-text {
+    order: 1;
+  }
+  
+  /* Estilos para el botón "¿Quieres saber más?" */
+  .more-info-button {
+    background-color: #8EC5C0; /* Color base del botón */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .more-info-button:hover {
+    background-color: #388D92; /* Color al pasar el mouse */
+  }
+  
+  /* Ajusta el margen superior del contenedor principal para reducir el espacio con el header */
+  .offers-page .container {
+    margin-top: 0px;
+  }

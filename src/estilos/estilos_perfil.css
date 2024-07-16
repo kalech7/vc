@@ -1,0 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content-container {
+  display: flex;
+  flex: 1;
+  transition: transform 0.3s;
+}
+
+.menu-open .content-container {
+  transform: translateX(
+    250px
+  ); /* Mueve el contenido principal hacia la derecha */
+}
+
+.sidebar {
+  width: 300px;
+  background-color: #1c2833;
+  padding: 30px;
+  padding-top: 80px;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: -500px;
+  height: 100vh; /* Ocupa toda la altura vertical */
+  transition: left 0.3s;
+  text-align: center;
+}
+
+.menu-open .sidebar {
+  left: 0;
+}
+
+.menu-toggle {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+  color: #ffffff;
+  font-size: 18px;
+}
+
+.dashboard {
+  flex: 1;
+  background-color: #ffffff;
+  margin-left: 400px;
+  padding: 100px;
+  margin-bottom: 200px;
+}
+
+.dashboard h1 {
+  color: #090b52;
+  font-size: 35px;
+  margin-bottom: 80px;
+  width: 450px;
+}
+
+.dashboard h2 {
+  color: rgb(57, 91, 100);
+  font-size: 35px;
+  margin-top: 20px;
+}
+
+.dashboard h3 {
+  color: #000000;
+  font-size: 1.2em;
+  margin-top: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 350px;
+  padding: 20px;
+}
+
+.info-container {
+  background: linear-gradient(180deg, #b6cde2 0%, rgb(221, 186, 137) 100%);
+  padding: 30px;
+  width: 500px;
+  border-radius: 15px; /* Bordes más redondeados */
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+  font-family: 'Roboto', sans-serif; /* Tipografía atractiva */
+  color: #333; /* Color de texto */
+  display: flex; /* Para alinear los íconos y el texto */
+  flex-direction: column; /* Alineación vertical */
+}
+
+.info-box {
+  display: flex;
+  font-size: 20px;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px; /* Espacio entre cada info-box */
+}
+
+.info-label {
+  margin-right: 100px; /* Espacio entre el label y el valor */
+  flex: auto;
+}
+
+.info-value {
+  padding: 5px 10px;
+  font-size: 25px;
+  border-radius: 4px;
+}
+
+/* estilos_perfil.css */
+
+/* Estilo para todos los h3 dentro de .info-section */
+.info-container h3 {
+  padding: 20px; /* Relleno interno */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
+  color: #333; /* Color del texto */
+  margin: 0; /* Eliminar márgenes predeterminados */
+  font-size: 20px; /* Tamaño de fuente */
+}
+
+.dashboard .button-container {
+  margin-top: 20px;
+  text-align: center;
+  width: 450px;
+  padding-top: 10px;
+}
+
+.dashboard .button {
+  display: block;
+  margin: 10px auto;
+  padding: 10px 20px;
+  background-color: rgb(165, 201, 202);
+  color: black;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.paypal-button-container {
+  margin-top: 20px; /* Espacio superior */
+}
+
+/* Estilos para el botón de PayPal */
+button.paypal-button-container {
+  background-color: #003087; /* Color de fondo */
+  color: #ffffff; /* Color de texto */
+  padding: 10px 20px; /* Padding interno */
+  border: none; /* Sin borde */
+  border-radius: 5px; /* Borde redondeado */
+  cursor: pointer; /* Cursor apuntador al pasar el ratón */
+  font-size: 16px; /* Tamaño de fuente */
+  transition: background-color 0.3s ease; /* Transición de color de fondo */
+}
+
+button.paypal-button-container:hover {
+  background-color: #001e57; /* Color de fondo al pasar el ratón */
+}
+
+.dashboard .button:hover {
+  background-color: rgb(57, 148, 153);
+  color: white;
+}
+
+.button {
+  display: block; /* Cambiado a bloque para ocupar todo el ancho disponible */
+  margin: 20px; /* Margen automático para centrar verticalmente */
+  padding: 10px 20px;
+  background-color: rgb(57, 148, 153);
+  color: rgb(255, 255, 255); /* Color del texto */
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: rgb(165, 201, 202);
+  color: white; /* Cambia el color del texto al hacer hover */
+}
+
+/* Estilos para el footer */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+.row {
+  display: flex;
+  flex-wrap: nowrap;
+}
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer {
+  bottom: 0; /* Colocarlo en la parte inferior */
+  left: 0;
+  width: 100%; /* Ancho completo */
+  background-color: #24262b;
+  padding: 10px 20px; /* Ajustar el padding según sea necesario */
+  color: #ffffff;
+}
+
+.footer-top {
+  width: 50%;
+  color: #ffffff;
+}
