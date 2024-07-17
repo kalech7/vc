@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({
     origin: 'https://vertexcapital.today',
-    methods: ['GET', 'POST'], 
+    methods: ['GET', 'POST','FETCH'], 
     allowedHeaders: ['Content-Type'],
   }));
 
