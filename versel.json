@@ -1,16 +1,29 @@
 {
     "version": 2,
     "builds": [
-        {
-            "src": "backend/index.js",
-            "use": "@vercel/node"
-        }
-        
+      {
+        "src": "backend/index.js",
+        "use": "@vercel/node"
+      }
     ],
-    "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "/backend/index.js"
-        }
+    "headers": [
+      {
+        "source": "/(.*)",  
+        "headers": [
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "https://vertexcapital.today"
+          },
+          {
+            "key": "Access-Control-Allow-Methods",
+            "value": "GET, POST, OPTIONS"
+          },
+          {
+            "key": "Access-Control-Allow-Headers",
+            "value": "Origin, Content-Type, Accept, Authorization"
+          }
+        ]
+      }
     ]
-}
+  }
+  
