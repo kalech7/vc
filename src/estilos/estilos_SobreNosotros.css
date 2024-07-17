@@ -1,0 +1,53 @@
+.contenedori {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: #fff;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.sobre-nosotros,
+.historia,
+.valores,
+.equipo {
+  margin-bottom: 2rem;
+  padding: 2rem;
+  background: rgb(165, 201, 202);
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 800px;
+  margin-left: 135px;
+}
+
+.sobre-nosotros h2,
+.historia h2,
+.valores h2,
+.equipo h2 {
+  color: #333;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.sobre-nosotros p,
+.historia p,
+.equipo p {
+  color: #141010;
+  margin-bottom: 1rem;
+  text-align: justify;
+}
+
+.valores ul {
+  list-style: none;
+  padding: 0;
+}
+
+.valores ul li {
+  margin: 0.5rem 0;
+  color: #333;
+}
+
+.valores ul li i {
+  color: #b3d682;
+  margin-right: 0.5rem;
+}
