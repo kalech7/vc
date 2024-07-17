@@ -33,7 +33,7 @@ const Transferencias = ({ user }) => {
   const consultarDatosCuentaDestino = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3030/consultar-cuenta?cuentaDestino=${cuentaDestino}`
+        `https://vc-su7z.onrender.com/consultar-cuenta?cuentaDestino=${cuentaDestino}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -104,7 +104,7 @@ const Transferencias = ({ user }) => {
     setSaldoActual(nuevoSaldoActual);
 
     try {
-      const response = await fetch('http://localhost:3030/send-confirmation-link', {
+      const response = await fetch('https://vc-su7z.onrender.com/send-confirmation-link', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

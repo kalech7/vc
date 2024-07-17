@@ -30,13 +30,13 @@ const UserDashboard = ({ user }) => {
         try {
           // Obtener transacciones
           const responseTransacciones = await fetch(
-            `http://localhost:3030/transacciones/${user.numeroCuenta}`
+            `https://vc-su7z.onrender.com/transacciones/${user.numeroCuenta}`
           );
           const dataTransacciones = await responseTransacciones.json();
 
           // Obtener recargas
           const responseRecargas = await fetch(
-            `http://localhost:3030/recargas/${user.numeroCuenta}`
+            `https://vc-su7z.onrender.com/recargas/${user.numeroCuenta}`
           );
           const dataRecargas = await responseRecargas.json();
 

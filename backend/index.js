@@ -29,12 +29,12 @@ const serviceAccount = require('./credencialbase.json');
 // Inicializa la aplicación de Firebase
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'hhttps://vertexcapital-5ee1a-default-rtdb.firebaseio.com/',
+  databaseURL: 'https://vertexcapital-5ee1a-default-rtdb.firebaseio.com/',
 });
 
 const db = admin.database();
 // Ruta para realizar transferencias de dinero
-app.post('/transfer', async (req, res) => {
+app.post('https://vc-su7z.onrender.com/transfer', async (req, res) => {
   const { cuentaOrigen, cuentaDestino, monto, descripcion, saldoAnterior, fechaTransaccion } = req.body;
 
   try {
@@ -101,7 +101,7 @@ app.post('/transfer', async (req, res) => {
 
 //Ruta para transferencia con correo de confirmacion 
 // Generar y enviar enlace de confirmación
-app.post('/send-confirmation-link', async (req, res) => {
+app.post('https://vc-su7z.onrender.com/send-confirmation-link', async (req, res) => {
   const { email, cuentaOrigen, cuentaDestino, monto, descripcion, saldoAnterior, fechaTransaccion } = req.body;
 
   try {
@@ -119,7 +119,7 @@ app.post('/send-confirmation-link', async (req, res) => {
       timestamp: Date.now()
     });
 
-    const confirmUrl = `http://localhost:3030/confirm-transfer?token=${token}`;
+    const confirmUrl = `https://vc-su7z.onrender.com/confirm-transfer?token=${token}`;
     const asunto = 'Confirmación de Transferencia';
     const cuerpoHtml = procesarPlantilla('./plantillas/correo_confirmacion.html', { url: confirmUrl });
     await enviarCorreo(email, asunto, cuerpoHtml);
@@ -131,7 +131,7 @@ app.post('/send-confirmation-link', async (req, res) => {
 });
 
 // Confirmar la transferencia
-app.get('/confirm-transfer', async (req, res) => {
+app.get('https://vc-su7z.onrender.com/confirm-transfer', async (req, res) => {
   const { token } = req.query;
 
   try {
@@ -262,7 +262,7 @@ const procesarPlantilla = (templatePath, variables) => {
 
 
 // Ruta para enviar el correo de verificación (sin guardar en la base de datos)
-app.post('/send-verification-email', async (req, res) => {
+app.post('https://vc-su7z.onrender.com/send-verification-email', async (req, res) => {
   const { email, code } = req.body;
 
   const mailOptions = {
@@ -284,7 +284,7 @@ app.post('/send-verification-email', async (req, res) => {
 });
 
 // Ruta para guardar datos
-app.post('/save-data', async (req, res) => {
+app.post('https://vc-su7z.onrender.com/save-data', async (req, res) => {
   const { cliente } = req.body;
 
   // Asegurarse de que el saldo sea numérico
@@ -313,7 +313,7 @@ app.post('/save-data', async (req, res) => {
 });
 
 // Ruta para verificar el código de verificación
-app.post('/verify-code', async (req, res) => {
+app.post('https://vc-su7z.onrender.com/verify-code', async (req, res) => {
   const { email, code, inputCode } = req.body;
 
   if (code === inputCode) {
@@ -350,7 +350,7 @@ app.post('/change-password', async (req, res) => {
 
 
 // Ruta para verificar correo electrónico
-app.post('/check-email', async (req, res) => {
+app.post('https://vc-su7z.onrender.com/check-email', async (req, res) => {
   const { email } = req.body;
 
   try {
@@ -370,7 +370,7 @@ app.post('/check-email', async (req, res) => {
 });
 
 // Ruta para verificar si el cliente ya existe
-app.post('/check-client', async (req, res) => {
+app.post('https://vc-su7z.onrender.com/check-client', async (req, res) => {
   const { username, email, nodocumento, celular } = req.body;
 
   try {
@@ -411,7 +411,7 @@ app.post('/check-client', async (req, res) => {
 });
 
 // Ruta para iniciar sesión
-app.post('/login', async (req, res) => {
+app.post('https://vc-su7z.onrender.com/login', async (req, res) => {
   const { username, password } = req.body;
 
   try {
@@ -481,7 +481,7 @@ app.post('/login', async (req, res) => {
   }
 });
 // Ruta para manejar transferencias con PayPal
-app.post('/transfer', async (req, res) => {
+app.post('https://vc-su7z.onrender.com/transfer', async (req, res) => {
   const { cuentaDestino, monto, descripcion } = req.body;
 
   // Token de acceso de PayPal
@@ -503,8 +503,8 @@ app.post('/transfer', async (req, res) => {
           description: descripcion
         }],
         redirect_urls: {
-          return_url: 'http://localhost:3030/success',
-          cancel_url: 'http://localhost:3030/cancel'
+          return_url: 'https://vc-su7z.onrender.com/success',
+          cancel_url: 'https://vc-su7z.onrender.com/cancel'
         }
       },
       {
@@ -527,7 +527,7 @@ app.post('/transfer', async (req, res) => {
 });
 
 
-app.post('/create-order', async (req, res) => {
+app.post('https://vc-su7z.onrender.com/create-order', async (req, res) => {
   const { amount } = req.body;
   
   const request = new checkoutNodeJssdk.orders.OrdersCreateRequest();
@@ -551,7 +551,7 @@ app.post('/create-order', async (req, res) => {
 });
 
 
-app.post('/capture-order', async (req, res) => {
+app.post('https://vc-su7z.onrender.com/capture-order', async (req, res) => {
   const { orderID } = req.body;
   const request = new checkoutNodeJssdk.orders.OrdersCaptureRequest(orderID);
   request.requestBody({});
@@ -564,7 +564,7 @@ app.post('/capture-order', async (req, res) => {
   }
 });
 
-app.get('/consultar-cuenta', async (req, res) => {
+app.get('https://vc-su7z.onrender.com/consultar-cuenta', async (req, res) => {
   try {
     const { cuentaDestino } = req.query;
 
@@ -594,7 +594,7 @@ app.get('/consultar-cuenta', async (req, res) => {
 });
 
 // Ruta para transferir fondos
-app.post('/transferir', async (req, res) => {
+app.post('https://vc-su7z.onrender.com/transferir', async (req, res) => {
   try {
     const { cuentaOrigen, cuentaDestino, monto } = req.body;
 
@@ -630,7 +630,7 @@ app.post('/transferir', async (req, res) => {
     res.status(500).send('Error al procesar la transferencia.');
   }
 });
-app.post('/transacciones/recarga', async (req, res) => {
+app.post('https://vc-su7z.onrender.com/transacciones/recarga', async (req, res) => {
   const { numeroCuenta, monto, saldo, fecha } = req.body;
 
   try {
@@ -657,7 +657,7 @@ app.post('/transacciones/recarga', async (req, res) => {
 
 
 
-app.get('/transacciones/:numeroCuenta', async (req, res) => {
+app.get('https://vc-su7z.onrender.com/transacciones/:numeroCuenta', async (req, res) => {
   const { numeroCuenta } = req.params;
 
   try {
@@ -690,7 +690,7 @@ app.get('/transacciones/:numeroCuenta', async (req, res) => {
     res.status(500).json({ error: 'Error al obtener las transacciones.' });
   }
 });
-app.get('/recargas/:numeroCuenta', async (req, res) => {
+app.get('https://vc-su7z.onrender.com/recargas/:numeroCuenta', async (req, res) => {
   const { numeroCuenta } = req.params;
 
   try {
@@ -712,7 +712,7 @@ app.get('/recargas/:numeroCuenta', async (req, res) => {
     res.status(500).json({ error: 'Error al obtener las recargas' });
   }
 });
-app.post('/update-user-data', async (req, res) => {
+app.post('https://vc-su7z.onrender.com/update-user-data', async (req, res) => {
   const { email, newData } = req.body; // Asegúrate de recibir el email y los nuevos datos
 
   try {
