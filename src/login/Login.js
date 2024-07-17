@@ -35,7 +35,7 @@ const Login = ({ setUser }) => {
     event.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3030/login', {
+      const response = await fetch('https://vc-a161.vercel.app/login.js', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
