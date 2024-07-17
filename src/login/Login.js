@@ -35,7 +35,7 @@ const Login = ({ setUser }) => {
     event.preventDefault();
 
     try {
-      const response = await fetch('https://vc-su7z.onrender.com/login', {
+      const response = await fetch('https://vc-a161.vercel.app:10000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
