@@ -57,7 +57,7 @@ const UserDashboard = ({ user }) => {
         .padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
 
       try {
-        const response = await fetch('http://localhost:3030/transacciones/recarga', {
+        const response = await fetch('https://vc-su7z.onrender.com/transacciones/recarga', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ const UserDashboard = ({ user }) => {
         }
 
         // Obtener los datos actualizados del usuario después de la transacción
-        const userDataResponse = await fetch(`http://localhost:3030/usuarios/${userState.id}`);
+        const userDataResponse = await fetch(`https://vc-su7z.onrender.com/usuarios/${userState.id}`);
         if (!userDataResponse.ok) {
           throw new Error('Error al obtener los datos actualizados del usuario');
         }
