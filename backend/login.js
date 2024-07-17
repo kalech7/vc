@@ -12,7 +12,9 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({
-    origin: 'https://vertexcapital.today'
+    origin: 'https://vertexcapital.today',
+    methods: ['GET', 'POST'], 
+    allowedHeaders: ['Content-Type'],
   }));
 
 //carpeta para archivos estaticos 
@@ -35,7 +37,7 @@ admin.initializeApp({
 });
 
 const db = admin.database();
-app.post('/login', async (req, res) => {
+app.post('/login.js', async (req, res) => {
     const { username, password } = req.body;
   
     try {
@@ -104,4 +106,3 @@ app.post('/login', async (req, res) => {
       res.status(500).json({ message: 'Error al iniciar sesión.' });
     }
   });
-  
