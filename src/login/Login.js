@@ -4,9 +4,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../inicio/Header.js';
 import Footer from '../inicio/Footer.js';
-app.use(cors({
-  origin: 'https://vertexcapital.today'
-}));
+
 const Login = ({ setUser }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
