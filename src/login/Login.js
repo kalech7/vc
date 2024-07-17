@@ -4,7 +4,9 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../inicio/Header.js';
 import Footer from '../inicio/Footer.js';
-
+app.use(cors({
+  origin: 'https://vertexcapital.today'
+}));
 const Login = ({ setUser }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -62,7 +64,6 @@ const Login = ({ setUser }) => {
         const retryAfter = 30; // 30 segundos de bloqueo
         setBlockTime(Date.now() + retryAfter * 1000);
       } else {
-        setMessage('Error al iniciar sesión.');
       }
     } catch (error) {
       console.error('Error al procesar la respuesta del servidor:', error);

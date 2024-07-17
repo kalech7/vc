@@ -11,7 +11,9 @@ const path = require('path');
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({
+    origin: 'https://vertexcapital.today'
+  }));
 
 //carpeta para archivos estaticos 
 app.use(express.static(path.join(__dirname, '../src/transferencias')));
@@ -102,3 +104,4 @@ app.post('/login', async (req, res) => {
       res.status(500).json({ message: 'Error al iniciar sesión.' });
     }
   });
+  
