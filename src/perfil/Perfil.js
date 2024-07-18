@@ -33,7 +33,7 @@ const UserProfile = ({ user }) => {
     setCode(generatedCode.toString());
 
     try {
-      await fetch('http://localhost:3030/send-verification-email', {
+      await fetch('https://vc-su7z.onrender.com/send-verification-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ const UserProfile = ({ user }) => {
     }
 
     try {
-      const response = await fetch('http://localhost:3030/update-user-data', {
+      const response = await fetch('https://vc-su7z.onrender.com/update-user-data', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
