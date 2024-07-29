@@ -33,7 +33,7 @@ const Recuperar = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:3030/check-email', {
+      const response = await fetch('https://vc-su7z.onrender.com/check-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ const Recuperar = () => {
   const sendVerificationCode = async () => {
     const generatedCode = Math.floor(100000 + Math.random() * 900000).toString(); // Generar código de 6 dígitos
     try {
-      const response = await fetch('http://localhost:3030/send-password-reset-code', {
+      const response = await fetch('https://vc-su7z.onrender.com/send-password-reset-code', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -117,7 +117,7 @@ const Recuperar = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:3030/verify-password-reset-code', {
+      const response = await fetch('https://vc-su7z.onrender.com/verify-password-reset-code', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -139,7 +139,7 @@ const Recuperar = () => {
 
   const changePassword = async () => {
     try {
-      const response = await fetch('http://localhost:3030/change-password', {
+      const response = await fetch('https://vc-su7z.onrender.com/change-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
