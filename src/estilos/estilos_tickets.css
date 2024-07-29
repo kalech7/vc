@@ -1,0 +1,161 @@
+/* estilos_tickets.css */
+
+/* Colores principales */
+:root {
+  --header-height: 70px;
+  --body-color: #1c2833;
+  --title-color: #ffffff;
+  --title-color-dark: #000;
+  --font-medium: 500;
+  --primary-color: #2c3e50;
+  --primary-hover-color: #34495e;
+  --secondary-color: #e74c3c;
+  --secondary-hover-color: #c0392b;
+}
+
+/* Contenedor principal */
+.content-container {
+  display: flex;
+}
+
+/* Contenedor de las pestañas */
+.tabs-container {
+  margin-bottom: 20px;
+  margin-top: 30px;
+  margin-left: 25%;
+  padding: 5px;
+}
+
+.tab {
+  display: inline-block;
+
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: border-color 0.3s, color 0.3s, background-color 0.3s;
+  color: var(--body-color);
+  background-color: #f8f9fa; /* Fondo claro para los tabs */
+  border-radius: 5px; /* Bordes redondeados */
+  margin-right: 20px; /* Espacio entre tabs */
+}
+
+.tab:hover {
+  background-color: #e2e6ea; /* Fondo ligeramente más oscuro en hover */
+}
+
+.tab.active {
+  border-bottom: 3px solid var(--primary-color); /* Color del borde cuando está activo */
+  background-color: #a3c1cf; /* Fondo blanco cuando está activo */
+  color: var(--primary-color); /* Color del texto cuando está activo */
+  font-weight: bold; /* Texto en negrita cuando está activo */
+}
+
+.tab:first-child {
+  margin-left: 0; /* Elimina el margen izquierdo del primer tab */
+}
+
+.tab:last-child {
+  margin-right: 0; /* Elimina el margen derecho del último tab si es necesario */
+}
+
+button[type='submit'] {
+  width: 300px;
+}
+
+/* Formulario de creación de tickets */
+.tickets-form {
+  margin-left: 25%;
+  margin-right: 35%;
+}
+
+.tickets-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.tickets-form label {
+  margin-bottom: 10px;
+  color: var(--body-color);
+}
+
+.tickets-form input,
+.tickets-form select,
+.tickets-form textarea {
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #797575;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.tickets-form button {
+  padding: 10px 15px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.tickets-form button:hover {
+  background-color: var(--primary-hover-color);
+}
+
+/* Lista de tickets */
+.tickets-list {
+  text-align: left;
+  margin-left: 25%;
+  margin-right: 20%;
+}
+
+.tickets-list h2 {
+  margin-bottom: 20px;
+  color: var(--title-color);
+}
+
+.tickets-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.tickets-list .ticket-item {
+  padding: 15px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+  max-width: 90%; /* Limita el ancho del ticket */
+  word-wrap: break-word; /* Permite el ajuste de palabras largas */
+}
+
+.ticket-item.open {
+  background-color: #93b4c9d3;
+}
+
+.ticket-item.resolved {
+  background-color: #aaeeb0d5;
+}
+
+.tickets-list .ticket-item h3 {
+  margin-top: 0;
+  color: var(--body-color);
+}
+
+.tickets-list .ticket-item p {
+  margin: 5px 0;
+  color: var(--body-color);
+}
+.ticket-item button {
+  padding: 10px 15px;
+  background-color: #2c3e50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.ticket-item button:hover {
+  background-color: #34495e;
+}

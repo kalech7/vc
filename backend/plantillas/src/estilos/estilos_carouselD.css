@@ -1,0 +1,54 @@
+.carouseld-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  width: 80%;
+  margin: auto;
+}
+
+.carouseld {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  width: 100%;
+}
+
+.carouseld-item {
+  min-width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+.carouseld-card {
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  font-size: 0.8em;
+}
+
+.carouseld-card img {
+  width: 100px;
+  height: auto;
+  border-radius: 4px;
+}
+
+.carouseld-button {
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.carouseld-button.left {
+  left: 5px;
+}
+
+.carouseld-button.right {
+  right: 5px;
+}

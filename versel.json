@@ -1,0 +1,18 @@
+{
+    "builds": [
+        {
+            "src": "/backend/",
+            "use": "@vercel/node"
+        }
+    ],
+    "routes": [
+    {
+      "src": "/(.*)",
+      "status": 301,
+      "headers": {
+        "Location": "https://vc-a161.vercel.app/"
+      }
+    }
+    ]
+
+}
