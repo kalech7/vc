@@ -38,7 +38,7 @@ const Transferencias = ({ user }) => {
     const fetchCuentas = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3030/clientes/${userState.nodocumento}/cuentas`
+          `https://vc-su7z.onrender.com/clientes/${userState.nodocumento}/cuentas`
         );
         if (!response.ok) {
           throw new Error('Error al obtener las cuentas del usuario');
@@ -68,7 +68,7 @@ const Transferencias = ({ user }) => {
   const consultarDatosCuentaDestino = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3030/consultar-cuenta?numeroCuenta=${cuentaDestino}`
+        `https://vc-su7z.onrender.com/consultar-cuenta?numeroCuenta=${cuentaDestino}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -151,7 +151,7 @@ const Transferencias = ({ user }) => {
   
     try {
       const response = await fetch(
-        'http://localhost:3030/send-confirmation-link',
+        'https://vc-su7z.onrender.com/send-confirmation-link',
         {
           method: 'POST',
           headers: {
