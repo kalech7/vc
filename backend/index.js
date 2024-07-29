@@ -246,7 +246,7 @@ app.post('/send-confirmation-link', async (req, res) => {
       timestamp: Date.now()
     });
 
-    const confirmUrl = `http://localhost:3030/confirm-transfer?token=${token}`;
+    const confirmUrl = `https://vc-su7z.onrender.com/confirm-transfer?token=${token}`;
     const asunto = 'Confirmación de Transferencia';
 
     const cuerpoHtml = procesarPlantilla('./plantillas/correo_confirmacion.html', {
@@ -558,8 +558,8 @@ app.post('/transfer', async (req, res) => {
           description: descripcion
         }],
         redirect_urls: {
-          return_url: 'http://localhost:3030/success',
-          cancel_url: 'http://localhost:3030/cancel'
+          return_url: 'https://vc-su7z.onrender.com/success',
+          cancel_url: 'https://vc-su7z.onrender.com/cancel'
         }
       },
       {
