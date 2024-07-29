@@ -34,7 +34,7 @@ const UserDashboard = ({ user }) => {
     const fetchCuentas = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3030/clientes/${userState.nodocumento}/cuentas`
+          `https://vc-su7z.onrender.com/clientes/${userState.nodocumento}/cuentas`
         );
         if (!response.ok) {
           throw new Error('Error al obtener las cuentas del usuario');
@@ -103,7 +103,7 @@ const UserDashboard = ({ user }) => {
   
       try {
         const response = await fetch(
-          'http://localhost:3030/transacciones/recarga',
+          'https://vc-su7z.onrender.com/transacciones/recarga',
           {
             method: 'POST',
             headers: {
@@ -123,7 +123,7 @@ const UserDashboard = ({ user }) => {
         }
   
         const userDataResponse = await fetch(
-          `http://localhost:3030/clientes/${userState.nodocumento}`
+          `https://vc-su7z.onrender.com/clientes/${userState.nodocumento}`
         );
         if (!userDataResponse.ok) {
           throw new Error('Error al obtener los datos actualizados del usuario');
@@ -188,7 +188,7 @@ const UserDashboard = ({ user }) => {
       console.log('UserDocument:', nodocumento);
 
       const response = await fetch(
-        `http://localhost:3030/clientes/${nodocumento}/cuentas`,
+        `https://vc-su7z.onrender.com/clientes/${nodocumento}/cuentas`,
         {
           method: 'POST',
           headers: {

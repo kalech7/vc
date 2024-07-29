@@ -39,7 +39,7 @@ const UserDashboard = ({ user }) => {
     const fetchCuentas = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3030/clientes/${userState.nodocumento}/cuentas`
+          `https://vc-su7z.onrender.com/clientes/${userState.nodocumento}/cuentas`
         );
         if (!response.ok) {
           throw new Error('Error al obtener las cuentas del usuario');
@@ -64,10 +64,10 @@ const UserDashboard = ({ user }) => {
       if (selectedAccount) {
         try {
           const transaccionesResponse = await fetch(
-            `http://localhost:3030/transacciones/${selectedAccount.numeroCuenta}`
+            `https://vc-su7z.onrender.com/transacciones/${selectedAccount.numeroCuenta}`
           );
           const recargasResponse = await fetch(
-            `http://localhost:3030/recargas/${selectedAccount.numeroCuenta}`
+            `https://vc-su7z.onrender.com/recargas/${selectedAccount.numeroCuenta}`
           );
 
           if (!transaccionesResponse.ok) {

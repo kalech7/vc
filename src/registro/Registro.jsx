@@ -150,7 +150,7 @@ const Registro = () => {
     } = formData;
 
     try {
-      const checkResponse = await fetch('http://localhost:3030/check-client', {
+      const checkResponse = await fetch('https://vc-su7z.onrender.com/check-client', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -192,7 +192,7 @@ const Registro = () => {
       setGeneratedCode(code);
 
       const emailResponse = await fetch(
-        'http://localhost:3030/send-verification-email',
+        'https://vc-su7z.onrender.com/send-verification-email',
         {
           method: 'POST',
           headers: {
@@ -257,7 +257,7 @@ const Registro = () => {
         ],
       };
 
-      await fetch('http://localhost:3030/save-data', {
+      await fetch('https://vc-su7z.onrender.com/save-data', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
