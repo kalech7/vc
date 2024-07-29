@@ -210,7 +210,7 @@ app.get('/confirm-transfer', async (req, res) => {
     });
     await enviarCorreo(correoDestino, asunto, cuerpoHtml);
 
-    res.redirect(`https://vertexcapital.today/confirmacion_transferencias.html?monto=${montoNumerico}&nombre=${nombreDestino}&fecha=${fechaTransaccion}&saldoDestino=${nuevoSaldoDestino}`);
+    res.redirect(`https://vertexcapital.today/confirmacion-transferencias?monto=${montoNumerico}&nombre=${nombreDestino}&fecha=${fechaTransaccion}&saldoDestino=${nuevoSaldoDestino}`);
   } catch (error) {
     console.error('Error al realizar la transferencia:', error);
     res.status(500).json({ error: 'Error al realizar la transferencia' });

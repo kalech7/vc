@@ -19,6 +19,7 @@ import Tickets from './tickets/Tickets';
 import Equipo from './team/equipo';
 import Reclamos from './reclamos/reclamos'; // Importa el componente Reclamos
 import { ThemeContext } from './context/ThemeContext'; // Importa el ThemeContext
+import ConfirmacionTransferencias from './Transferencias/confirmacion_transferencias';
 import './estilos/theme.css';
 
 const App = () => {
@@ -54,6 +55,7 @@ const App = () => {
             <Route path="/tickets" element={<Tickets user={user}/>} />
             <Route path="/equipo" element={<Equipo />}  />
             <Route path="/reclamos" element={<Reclamos />} /> {/* Agrega esta línea */}
+            <Route path="/confirmacion-transferencias" component={ConfirmacionTransferencias} />
           </Routes>
         </main>
       </div>
