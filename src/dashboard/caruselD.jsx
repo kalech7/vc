@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import prestamoImg from '../img/prestamo.jpg';
+import prestamoImg from '../img/inversion1.jpg';
 import '../estilos/estilos_carouselD.css';
 
 const CarouselD = () => {
@@ -15,8 +15,8 @@ const CarouselD = () => {
       title: 'Préstamos',
       copy: '¡Próximamente disponible! Prepárate para obtener el mejor préstamo para tus necesidades.',
       button: 'Más información',
-      link: '/prestamos',
-    }
+      link: '/ofertas',
+    },
   ];
 
   useEffect(() => {
@@ -47,7 +47,9 @@ const CarouselD = () => {
   };
 
   const prevCard = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + cardsData.length) % cardsData.length);
+    setCurrentIndex(
+      (prevIndex) => (prevIndex - 1 + cardsData.length) % cardsData.length
+    );
   };
 
   const handleButtonClick = (link) => {
@@ -56,10 +58,7 @@ const CarouselD = () => {
 
   return (
     <div className="carouseld-container">
-      <button
-        className="carouseld-button left"
-        onClick={prevCard}
-      >
+      <button className="carouseld-button left" onClick={prevCard}>
         &lt;
       </button>
       <div className="carouseld" ref={carouselRef}>
@@ -72,16 +71,11 @@ const CarouselD = () => {
             }}
           >
             <div className="carouseld-card">
-              <img
-                src={card.image}
-                alt={card.title}
-              />
+              <img src={card.image} alt={card.title} />
               <div>
                 <h3>{card.title}</h3>
                 <p>{card.copy}</p>
-                <button
-                  onClick={() => handleButtonClick(card.link)}
-                >
+                <button onClick={() => handleButtonClick(card.link)}>
                   {card.button}
                 </button>
               </div>
@@ -89,10 +83,7 @@ const CarouselD = () => {
           </div>
         ))}
       </div>
-      <button
-        className="carouseld-button right"
-        onClick={nextCard}
-      >
+      <button className="carouseld-button right" onClick={nextCard}>
         &gt;
       </button>
     </div>

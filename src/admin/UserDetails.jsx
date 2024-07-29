@@ -127,6 +127,36 @@ const UserDetails = ({ user }) => {
     }
   };
 
+  // Función para cambiar el estado de la cuenta
+  const handleChangeAccountStatus = async (newStatus) => {
+    if (!selectedAccount) {
+      alert('No hay cuenta seleccionada.');
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:3030/clientes/${encodeURIComponent(user.nombre)}/${encodeURIComponent(user.apellido)}/cuentas/${selectedAccount.numeroCuenta}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ estado: newStatus })
+      });
+
+      if (response.ok) {
+        const updatedAccount = { ...selectedAccount, estado: newStatus };
+        setSelectedAccount(updatedAccount);
+        alert(`Estado de la cuenta cambiado a: ${newStatus}`);
+      } else {
+        const errorData = await response.json();
+        alert(`Error al cambiar el estado de la cuenta: ${errorData.error}`);
+      }
+    } catch (error) {
+      console.error('Error al cambiar el estado de la cuenta:', error);
+      alert('Error al cambiar el estado de la cuenta.');
+    }
+  };
+
   return (
     <div className="user-details">
       <h2>{user.nombre} {user.apellido}</h2>
@@ -136,11 +166,11 @@ const UserDetails = ({ user }) => {
         </button>
         {selectedAccount && (
           <button onClick={handleDeleteAccount} className="btn btn-block">
-            En revision
+            Eliminar cuenta
           </button>
         )}
         <button onClick={handleDeleteClient} className="btn btn-block">
-          Bloquear
+          Eliminar cliente
         </button>
       </div>
       <p>Cuentas:</p>
@@ -152,48 +182,56 @@ const UserDetails = ({ user }) => {
         )) : <p>No hay cuentas disponibles.</p>}
       </div>
       {selectedAccount && (
-        <div className="transactions-container">
-          <h3>Lista de Transacciones</h3>
-          <table className="transaction-table">
-            <thead>
-              <tr>
-                <th>Fecha</th>
-                <th>Descripción</th>
-                <th>Monto</th>
-                <th>Cuenta Destino</th>
-                <th>Saldo Anterior</th>
-                <th>Saldo Actual</th>
-                <th>Tipo</th> {/* Añadir columna para el tipo de transacción */}
-              </tr>
-            </thead>
-            <tbody>
-              {/* Mapeo de transacciones */}
-              {transactions.map((transaction, index) => (
-                <tr key={`trans-${index}`}>
-                  <td>{transaction.fecha}</td>
-                  <td>{transaction.descripcion}</td>
-                  <td>{transaction.monto}</td>
-                  <td>{transaction.cuentaDestino}</td>
-                  <td>{transaction.saldoAnterior}</td>
-                  <td>{transaction.saldoActual}</td>
-                  <td>Transferencia</td>
+        <>
+          <div className="transactions-container">
+            <div className="account-status-buttons">
+              <button className="btn btn-status btn-activar" onClick={() => handleChangeAccountStatus('Activada')}>Activar</button>
+              <button className="btn btn-status btn-revision" onClick={() => handleChangeAccountStatus('En Revisión')}>Revisión</button>
+              <button className="btn btn-status btn-bloquear" onClick={() => handleChangeAccountStatus('Bloqueada')}>Bloquear</button>
+              <span className="account-status">Estado de la cuenta: {selectedAccount.estado}</span>
+            </div>
+            <h3>Lista de Transacciones</h3>
+            <table className="transaction-table">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Descripción</th>
+                  <th>Monto</th>
+                  <th>Cuenta Destino</th>
+                  <th>Saldo Anterior</th>
+                  <th>Saldo Actual</th>
+                  <th>Tipo</th> {/* Añadir columna para el tipo de transacción */}
                 </tr>
-              ))}
-              {/* Mapeo de recargas */}
-              {recargas.map((recarga, index) => (
-                <tr key={`recarga-${index}`}>
-                  <td>{recarga.fecha}</td>
-                  <td>{recarga.descripcion}</td>
-                  <td>{recarga.monto}</td>
-                  <td>{recarga.numeroCuenta}</td> {/* Mostrar numeroCuenta en cuentaDestino */}
-                  <td>{recarga.saldoAnterior}</td>
-                  <td>{recarga.saldo}</td> {/* Mostrar saldo en saldoActual */}
-                  <td>Recarga</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {/* Mapeo de transacciones */}
+                {transactions.map((transaction, index) => (
+                  <tr key={`trans-${index}`}>
+                    <td>{transaction.fecha}</td>
+                    <td>{transaction.descripcion}</td>
+                    <td>{transaction.monto}</td>
+                    <td>{transaction.cuentaDestino}</td>
+                    <td>{transaction.saldoAnterior}</td>
+                    <td>{transaction.saldoActual}</td>
+                    <td>Transferencia</td>
+                  </tr>
+                ))}
+                {/* Mapeo de recargas */}
+                {recargas.map((recarga, index) => (
+                  <tr key={`recarga-${index}`}>
+                    <td>{recarga.fecha}</td>
+                    <td>{recarga.descripcion}</td>
+                    <td>{recarga.monto}</td>
+                    <td>{recarga.numeroCuenta}</td> {/* Mostrar numeroCuenta en cuentaDestino */}
+                    <td>{recarga.saldoAnterior}</td>
+                    <td>{recarga.saldo}</td> {/* Mostrar saldo en saldoActual */}
+                    <td>Recarga</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
     </div>
   );

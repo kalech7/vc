@@ -36,6 +36,47 @@
   overflow-y: auto;
 }
 
+.account-status-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.btn-status {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-activar {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-activar:hover {
+  background-color: #218838;
+}
+
+.btn-revision {
+  background-color: #ffc107;
+  color: black;
+}
+
+.btn-revision:hover {
+  background-color: #e0a800;
+}
+
+.btn-bloquear {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-bloquear:hover {
+  background-color: #c82333;
+}
+
 .transaction-table {
   width: 100%;
   border-collapse: collapse;

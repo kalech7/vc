@@ -20,29 +20,88 @@
 }
 
 .carouseld-card {
-  background: #f8f9fa;
+  background: #f8f9fa; /* Color de fondo */
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 10px;
+  padding: 40px;
   text-align: center;
-  font-size: 0.8em;
+  font-size: 0.9em;
+  color: #333; /* Color del texto */
+  justify-content: center; /* Centrar el contenido verticalmente */
+  align-items: flex-end;
 }
 
 .carouseld-card img {
-  width: 100px;
+  width: 300px;
   height: auto;
   border-radius: 4px;
 }
 
-.carouseld-button {
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
+.carouseld-card button {
+  background-color: #31023f; /* O un color que se ajuste a tu diseño */
+  color: #fff;
   border: none;
-  padding: 5px;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.carouseld-card button:hover {
+  background-color: #184563;
+}
+
+/* Estilo para los botones del carrusel */
+.carouseld-button {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 45%;
+  background-color: rgba(0, 0, 0, 0.5); /* Color de fondo semitransparente */
+  color: #ffffff; /* Color del texto */
+  border: none; /* Sin borde */
+  border-radius: 50%; /* Bordes redondeados */
+  width: 40px; /* Ancho del botón */
+  height: 40px; /* Alto del botón */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px; /* Tamaño del ícono */
+  cursor: pointer; /* Cursor apuntador al pasar el ratón */
+  z-index: 1000; /* Asegúrate de que el botón esté sobre otros elementos */
+  transition: background-color 0.3s, transform 0.3s; /* Transición suave */
+}
+
+.carouseld-button.left {
+  left: 10px; /* Posiciona el botón a la izquierda */
+}
+
+.carouseld-button.right {
+  right: 10px; /* Posiciona el botón a la derecha */
+}
+
+/* Efecto hover para los botones */
+.carouseld-button:hover {
+  background-color: rgba(0, 0, 0, 0.8); /* Color más oscuro al pasar el ratón */
+  transform: scale(1.1); /* Aumenta el tamaño del botón en hover */
+}
+
+/* Estilo para los botones dentro de cada card */
+.carouseld-card button {
+  background-color: #31023f; /* Color de fondo del botón */
+  color: #ffffff; /* Color del texto */
+  border: none; /* Sin borde */
+  border-radius: 5px; /* Bordes redondeados */
+  padding: 10px 20px; /* Espaciado interno */
+  font-size: 16px; /* Tamaño de fuente */
+  cursor: pointer; /* Cursor en forma de mano */
+  transition: background-color 0.3s, transform 0.3s; /* Transición suave */
+  margin-top: 10px; /* Espacio superior */
+}
+
+/* Efecto hover para los botones dentro de cada card */
+.carouseld-card button:hover {
+  background-color: #184563; /* Color de fondo más oscuro al pasar el ratón */
+  transform: scale(1.05); /* Aumenta el tamaño del botón en hover */
 }
 
 .carouseld-button.left {
@@ -51,4 +110,25 @@
 
 .carouseld-button.right {
   right: 5px;
+}
+
+/* Estilo del título en cada card */
+.carouseld-card h3 {
+  margin-left: 260px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  font-size: 1.4em; /* Aumenta el tamaño del texto */
+  font-weight: 700; /* Usa un peso de fuente más grueso para destacar */
+  color: #31023f; /* Un color azul oscuro para destacar el título */
+  /* Agrega un margen superior e inferior */
+  text-transform: uppercase; /* Transforma el texto a mayúsculas para más impacto */
+  letter-spacing: 1px; /* Espacio entre letras para mejorar la legibilidad */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Agrega una sombra sutil al texto */
+}
+
+/* Estilo del texto en cada card */
+.carouseld-card p {
+  font-size: 17px;
+  color: #333;
+  margin: 10px 0;
 }

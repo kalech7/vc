@@ -1535,6 +1535,121 @@ app.delete('/clientes/:nombre/:apellido', async (req, res) => {
     res.status(500).json({ error: 'Error al eliminar el cliente' });
   }
 });
+app.patch('/clientes/:nombre/:apellido/cuentas/:numeroCuenta', async (req, res) => {
+  const { nombre, apellido, numeroCuenta } = req.params;
+  const { estado } = req.body;
+
+  try {
+    if (!nombre || !apellido || !numeroCuenta || !estado) {
+      return res.status(400).json({ error: 'Nombre, apellido, número de cuenta y estado son requeridos.' });
+    }
+
+    const clienteRef = db.ref('clientes');
+    const snapshot = await clienteRef
+      .orderByChild('nombre')
+      .equalTo(nombre)
+      .once('value');
+
+    if (!snapshot.exists()) {
+      return res.status(404).json({ error: 'Cliente no encontrado.' });
+    }
+
+    let clienteKey = null;
+    snapshot.forEach(childSnapshot => {
+      const childData = childSnapshot.val();
+      if (childData.apellido === apellido) {
+        clienteKey = childSnapshot.key;
+      }
+    });
+
+    if (!clienteKey) {
+      return res.status(404).json({ error: 'Cliente no encontrado.' });
+    }
+
+    const cuentaRef = db.ref(`clientes/${clienteKey}/cuentas`);
+    const cuentaSnapshot = await cuentaRef.orderByChild('numeroCuenta').equalTo(numeroCuenta).once('value');
+    
+    if (!cuentaSnapshot.exists()) {
+      return res.status(404).json({ error: 'Cuenta no encontrada.' });
+    }
+
+    cuentaSnapshot.forEach(async (cuentaChildSnapshot) => {
+      await cuentaChildSnapshot.ref.update({ estado });
+    });
+
+    res.status(200).json({ message: 'Estado de la cuenta actualizado exitosamente.', estado });
+  } catch (error) {
+    console.error('Error al actualizar el estado de la cuenta:', error);
+    res.status(500).json({ error: 'Error al actualizar el estado de la cuenta.' });
+  }
+});
+
+
+// Ruta para enviar el correo de verificación (almacenando en la base de datos para cambio de contraseña)
+app.post('/send-password-reset-code', async (req, res) => {
+  const { email, code } = req.body;
+
+  try {
+    // Almacenar el código de verificación en la base de datos
+    const verificationRef = db.ref('passwordResets').push();
+    await verificationRef.set({
+      email,
+      code,
+      timestamp: Date.now()
+    });
+
+    const mailOptions = {
+      from: 'verificaciones@vertexcapital.today',
+      to: email,
+      subject: 'Código de verificación para cambio de contraseña',
+      text: `Tu código de verificación es: ${code}`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error('Error al enviar el correo:', error);
+        res.json({ success: false, error });
+      } else {
+        console.log('Correo enviado:', info.response);
+        res.json({ success: true });
+      }
+    });
+  } catch (error) {
+    console.error('Error al enviar el correo de verificación:', error);
+    res.status(500).json({ message: 'Error al enviar el correo de verificación.', error });
+  }
+});
+
+
+// Ruta para verificar el código de verificación para cambio de contraseña
+app.post('/verify-password-reset-code', async (req, res) => {
+  const { email, inputCode } = req.body;
+
+  try {
+    // Obtén el código de verificación almacenado en la base de datos
+    const verificationRef = db.ref('passwordResets').orderByChild('email').equalTo(email);
+    const snapshot = await verificationRef.once('value');
+
+    if (!snapshot.exists()) {
+      return res.status(404).json({ message: 'Código de verificación no encontrado.' });
+    }
+
+    let storedCode;
+    snapshot.forEach((childSnapshot) => {
+      storedCode = childSnapshot.val().code;
+    });
+
+    // Compara el código ingresado con el código almacenado
+    if (storedCode === inputCode) {
+      res.status(200).json({ message: 'Código de verificación correcto.' });
+    } else {
+      res.status(400).json({ message: 'Código de verificación incorrecto.' });
+    }
+  } catch (error) {
+    console.error('Error al verificar el código:', error);
+    res.status(500).json({ message: 'Error al verificar el código.' });
+  }
+});
 
 // Iniciar el servidor
 const PORT = process.env.PORT || 3030;

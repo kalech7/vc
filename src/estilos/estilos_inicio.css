@@ -53,7 +53,6 @@ body {
   text-decoration: none; /* Quita el subrayado del enlace */
   font-size: 22px; /* Ajusta el tamaño de la fuente */
   font-weight: 500; /* Ajusta el peso de la fuente */
-  margin-right: 350px;
   margin-bottom: 0px;
 }
 
@@ -355,6 +354,7 @@ ul {
   color: #ffffff;
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
   justify-content: space-between;
   padding: 20px;
 }
@@ -384,7 +384,6 @@ ul {
   position: absolute;
   left: 0;
   bottom: -5px;
-  margin-left: 50px;
   background-color: rgb(165, 201, 202);
   height: 2px;
   width: 50px;
@@ -486,7 +485,7 @@ ul {
   transform: translateX(0);
 }
 
-/* Estilos para esconder el sidebar cuando no está activo en dispositivos móviles */
+/* Estilos para esconder el vefo cuando no está activo en dispositivos móviles */
 .nav_list.sidebar {
   display: none;
   position: fixed;

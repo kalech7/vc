@@ -320,10 +320,18 @@ body {
 
 .actions-container button {
   padding: 10px;
-  background: #007bff;
+  background: #24262b;
+  transition: background-color 0.3s;
   color: #fff;
+  font-size: 15px;
   border: none;
+  border-radius: 8px;
+  margin-right: 290px;
   cursor: pointer;
+}
+
+.actions-container button:hover {
+  background: #484a4c;
 }
 
 /* Estilos para el footer */

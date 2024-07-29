@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import tarjeta3 from '../img2/tarejta3.jpg';
-import prestamo3 from '../img2/prestamo3.jpg';
-import inversion2 from '../img2/inversion2.jpg';
-import Ahorro1 from '../img2/Ahorro1.jpg';
+import tarjeta3 from '../img/tarejta3.jpg';
+import prestamo3 from '../img/prestamo3.jpg';
+import inversion2 from '../img/inversion2.jpg';
+import Ahorro1 from '../img/Ahorro1.jpg';
 import '../estilos/estilos_inicio.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

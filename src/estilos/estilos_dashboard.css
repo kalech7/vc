@@ -36,6 +36,7 @@ body {
   height: 100vh; /* Ocupa toda la altura vertical */
   transition: left 0.3s;
   text-align: center;
+  z-index: 1000;
 }
 
 .menu-open .sidebar {
@@ -278,42 +279,6 @@ ul {
   padding: 0;
 }
 
-.footer {
-  background-color: #24262b;
-  color: #ffffff;
-  padding: 20px; /* Ajusta el padding para una mejor apariencia en pantallas grandes */
-  text-align: center;
-  position: relative;
-  bottom: 0;
-  width: 100%;
-}
-
-.footer .container {
-  max-width: 1200px; /* Ancho máximo del contenedor para el footer */
-  margin: 0 auto; /* Centra el contenedor horizontalmente */
-}
-
-.footer-top {
-  display: flex;
-  flex-direction: column; /* Apila los elementos verticalmente */
-  align-items: center; /* Centra el contenido horizontalmente */
-  gap: 10px; /* Espacio entre los elementos */
-}
-
-.footer-top h2 {
-  margin: 0;
-  font-size: 1.25em; /* Tamaño de fuente para pantallas grandes */
-}
-
-.footer-top a {
-  color: #ffffff; /* Color del texto del enlace */
-  text-decoration: none; /* Elimina el subrayado */
-}
-
-.footer-top a:hover {
-  text-decoration: underline; /* Subraya el enlace al pasar el ratón */
-}
-
 .content-container {
   display: flex;
 }
@@ -485,29 +450,54 @@ ul {
 
 /*responsive footer*/
 @media (max-width: 768px) {
-  .footer-top h2 {
-    font-size: 1em; /* Reduce el tamaño de la fuente */
-  }
-
-  .logo_img {
-    max-width: 80px; /* Reduce el tamaño máximo del logo */
-  }
-
   .footer {
     padding: 15px; /* Ajusta el espaciado interno */
+  }
+
+  .footer .row {
+    flex-direction: column; /* Cambia la dirección del flex a columna */
+    align-items: center; /* Centra los elementos horizontalmente */
+  }
+
+  .footer ul {
+    padding: 0;
   }
 }
 
 @media (max-width: 480px) {
-  .footer-top h2 {
+  .footer {
+    padding: 10px; /* Ajusta el espaciado interno */
+  }
+
+  .footer .row {
+    flex-direction: column; /* Asegura que la dirección del flex sea columna */
+    align-items: center; /* Centra los elementos horizontalmente */
+  }
+
+  .footer h2 {
     font-size: 0.875em; /* Tamaño de fuente más pequeño */
   }
 
-  .logo_img {
+  .footer .logo_img {
     max-width: 60px; /* Tamaño máximo del logo más pequeño */
   }
+}
 
+@media (max-width: 200px) {
   .footer {
     padding: 10px; /* Ajusta el espaciado interno */
+  }
+
+  .footer .row {
+    flex-direction: column; /* Asegura que la dirección del flex sea columna */
+    align-items: center; /* Centra los elementos horizontalmente */
+  }
+
+  .footer h2 {
+    font-size: 0.875em; /* Tamaño de fuente más pequeño */
+  }
+
+  .footer .logo_img {
+    max-width: 60px; /* Tamaño máximo del logo más pequeño */
   }
 }

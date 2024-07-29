@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '../inicio/Header'; // Ruta ajustada a la carpeta correcta
-import Footer from '../inicio/Footer'; // Ruta ajustada a la carpeta correcta
+import Footer from '../inicio/Footer'; // Ruta ajustada a la carpeta correcta verificada
 import  '../estilos/estilos_ayuda.css'; // Asegúrate de crear y definir tus estilos en este archivo
 
 const Ayuda = () => {
@@ -17,6 +17,7 @@ const Ayuda = () => {
               <p>
               Puedes contactar a los Defensores del Cliente, nombrados por la Superintendencia de Bancos, quienes actuarán como mediadores, conciliadores o facilitadores entre los usuarios y la entidad financiera en casos de quejas y reclamos.
               </p>
+              
               <p>
                 Alejandro Chavez.<br />
                 Correo electrónico: <a href="mailto:admin@vertexcapital.today">admin@vertexcapital.today</a><br />

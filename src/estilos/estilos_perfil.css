@@ -119,12 +119,16 @@ body {
 
 /* Estilo para todos los h3 dentro de .info-section */
 .info-container h3 {
-  padding: 20px; /* Relleno interno */
-  border-radius: 10px; /* Bordes redondeados */
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
-  color: #333; /* Color del texto */
-  margin: 0; /* Eliminar márgenes predeterminados */
-  font-size: 20px; /* Tamaño de fuente */
+  font-size: 1.5em; /* Tamaño de fuente más grande */
+  font-weight: 600; /* Negrita moderada */
+  color: #004d40; /* Color verde oscuro para un contraste elegante */
+  background-color: #b2dfdb; /* Fondo verde menta claro para un contraste suave */
+  padding: 15px 20px; /* Padding para darle espacio alrededor del texto */
+  border-radius: 8px; /* Bordes redondeados para suavizar la apariencia */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil para destacar el encabezado */
+  margin: 0 0 20px 0; /* Margen inferior para separar del contenido siguiente */
+  text-align: center; /* Centrar el texto */
+  border-left: 5px solid #004d40; /* Línea vertical verde oscuro */
 }
 
 .dashboard .button-container {

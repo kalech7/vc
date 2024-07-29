@@ -2,10 +2,10 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../inicio/Header'; // Ruta ajustada a la carpeta correcta
 import Footer from '../inicio/Footer'; // Ruta ajustada a la carpeta correcta
-import tarjeta1 from '../img2/tarjeta1.jpg';
-import prestamo1 from '../img2/prestamo1.jpg';
-import inversion2 from '../img2/inversion2.jpg';
-import ahorro2 from '../img2/ahorro2.jpg';
+import tarjeta1 from '../img/tarjeta1.jpg';
+import prestamo1 from '../img/prestamo1.jpg';
+import inversion2 from '../img/inversion2.jpg';
+import ahorro2 from '../img/ahorro2.jpg';
 import '../estilos/estilos_ofertas.css'; // Asegúrate de crear y definir tus estilos en este archivo
 
 const OfertasPage = () => {

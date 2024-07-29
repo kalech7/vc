@@ -27,3 +27,4 @@ yarn-error.log*
 *.lock
 *.log
 backend/node_modules/axios/lib/cancel/CanceledError.js
+yarn.lock
