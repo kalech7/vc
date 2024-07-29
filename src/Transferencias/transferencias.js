@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import '../estilos/estilos_transferencias.css';
 import Header from '../dashboard/HeaderDashboard';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Modal from 'react-modal';
+import QRCode from 'qrcode.react';
 
 const Transferencias = ({ user }) => {
   const [menuOpen, setMenuOpen] = useState(true);
   const [userState, setUserState] = useState(() => {
-    const storedUser = localStorage.getItem(`user_${user.id}`);
+    const storedUser = localStorage.getItem(`user_${user.nodocumento}`);
     return storedUser ? JSON.parse(storedUser) : user;
   });
   const [cuentaDestino, setCuentaDestino] = useState('');
@@ -20,6 +22,10 @@ const Transferencias = ({ user }) => {
   const [fechaTransaccion, setFechaTransaccion] = useState('');
   const [saldoAnterior, setSaldoAnterior] = useState(userState.saldo);
   const [saldoActual, setSaldoActual] = useState(userState.saldo);
+  const [saldoDestino, setSaldoDestino] = useState(0); // Estado para el saldo del destinatario
+  const [cuentas, setCuentas] = useState([]);
+  const [selectedAccount, setSelectedAccount] = useState(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -28,21 +34,48 @@ const Transferencias = ({ user }) => {
     if (!location.hash) {
       window.scrollTo(0, 0);
     }
-  }, [location]);
+
+    const fetchCuentas = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3030/clientes/${userState.nodocumento}/cuentas`
+        );
+        if (!response.ok) {
+          throw new Error('Error al obtener las cuentas del usuario');
+        }
+        const data = await response.json();
+        setCuentas(Object.values(data));
+      } catch (error) {
+        console.error('Error al obtener las cuentas:', error);
+      }
+    };
+
+    fetchCuentas();
+  }, [location, userState.nodocumento]);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
   const consultarDatosCuentaDestino = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3030/consultar-cuenta?cuentaDestino=${cuentaDestino}`
+        `http://localhost:3030/consultar-cuenta?numeroCuenta=${cuentaDestino}`
       );
       if (response.ok) {
         const data = await response.json();
-        setNombre(data.nombre);
-        setCorreo(data.correo);
+        setNombre(data.nombre || '');
+        setCorreo(data.correo || '');
+        setSaldoDestino(data.saldo || 0); // Establecer el saldo del destinatario
+        setMessage('');
       } else {
         setNombre('');
         setCorreo('');
@@ -56,7 +89,8 @@ const Transferencias = ({ user }) => {
 
   const handleVerificarCuenta = async (e) => {
     e.preventDefault();
-    if (!cuentaDestino) {
+
+    if (!cuentaDestino.trim()) {
       setMessage('Por favor ingresa una cuenta destino.');
       return;
     }
@@ -66,23 +100,28 @@ const Transferencias = ({ user }) => {
 
   const handleTransfer = async (e) => {
     e.preventDefault();
-
+  
+    if (!selectedAccount) {
+      setMessage('Por favor selecciona una cuenta para transferir.');
+      return;
+    }
+  
     if (!nombre || !correo || !cuentaDestino || !monto) {
       setMessage('Por favor completa todos los campos requeridos.');
       return;
     }
-
+  
     const montoFloat = parseFloat(monto);
     if (isNaN(montoFloat) || montoFloat <= 0) {
       setErrorMonto('Por favor ingresa un monto válido.');
       return;
     }
-
-    if (montoFloat > saldoActual) {
+  
+    if (montoFloat > selectedAccount.saldo) {
       setMessage('Saldo insuficiente para realizar la transferencia.');
       return;
     }
-
+  
     const CorreoV = userState.correo;
     const fechaActual = new Date();
     const fechaFormateada = `${fechaActual.getFullYear()}-${(
@@ -103,55 +142,77 @@ const Transferencias = ({ user }) => {
       .toString()
       .padStart(2, '0')}`;
     setFechaTransaccion(fechaFormateada);
-
-    const nuevoSaldoActual = saldoActual - montoFloat;
+  
+    const nuevoSaldoActual = selectedAccount.saldo - montoFloat;
     setSaldoActual(nuevoSaldoActual);
-
+  
+    const nuevoSaldoDestino = saldoDestino + montoFloat; // Calcular el nuevo saldo del destinatario
+    setSaldoDestino(nuevoSaldoDestino); // Establecer el saldo destino
+  
     try {
-      const response = await fetch('http://localhost:3030/send-confirmation-link', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          cuentaDestino,
-          nombre,
-          correo,
-          monto,
-          descripcion,
-          cuentaOrigen: userState.numeroCuenta,
-          saldoAnterior,
-          saldoActual: nuevoSaldoActual,
-          fechaTransaccion: fechaFormateada,
-          email: userState.correo 
-        }),
-      });
+      const response = await fetch(
+        'http://localhost:3030/send-confirmation-link',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            cuentaDestino,
+            nombre,
+            correo,
+            monto,
+            descripcion,
+            cuentaOrigen: selectedAccount.numeroCuenta,
+            saldoAnterior,
+            saldoDestino: nuevoSaldoDestino, // Incluir el nuevo saldo destino en la solicitud
+            fechaTransaccion: fechaFormateada,
+            email: userState.correo,
+          }),
+        }
+      );
+  
       if (response.ok) {
         setTransferenciaRealizada(true);
         setMessage('Enlace de confirmación enviado a tu correo electrónico.');
-        
-        // Actualiza el saldo del usuario en el estado y en localStorage
+  
         const updatedUser = {
           ...userState,
           saldo: nuevoSaldoActual,
         };
         setUserState(updatedUser);
-        localStorage.setItem(`user_${user.id}`, JSON.stringify(updatedUser));
-
+        localStorage.setItem(
+          `user_${user.nodocumento}`,
+          JSON.stringify(updatedUser)
+        );
       } else {
-        setMessage('Error al enviar el enlace de confirmación desde transferencias.');
+        setMessage('Error al enviar el enlace de confirmación.');
       }
-
+  
       const data = await response.json();
       console.log('Respuesta del servidor:', data);
-      setTransferenciaRealizada(true);
-      setMessage(`Correo de confirmacion de transferencia enviado a ${CorreoV} revise su bandeja de entrada`)
+      setMessage(
+        `Correo de confirmación de transferencia enviado a ${CorreoV}. Revisa tu bandeja de entrada.`
+      );
     } catch (error) {
       console.error('Error al procesar la transferencia:', error);
       setMessage('Error al procesar la transferencia.');
     }
   };
+  
 
+  const transferData = {
+    selectedAccount,
+    nombre,
+    correo,
+    monto,
+    descripcion,
+  };
+  const transferDataString = JSON.stringify(transferData);
+  const qrData = `https://vertexcapital.today/login?data=${encodeURIComponent(
+    transferDataString
+  )}`;
+  
   return (
     <div>
       <Header user={userState} />
@@ -173,32 +234,51 @@ const Transferencias = ({ user }) => {
           <Link to="/perfil" className="button">
             Mi perfil
           </Link>
+          <Link to="/tickets" className="button">
+            Soporte
+          </Link>
         </div>
 
         <div className="transfer-container">
           <h2 className="transfer-title">Transferencias</h2>
 
           <h2>Mis productos</h2>
+
           <div className="info-container-tran">
-            <div className="info-box">
-              <div className="info-label">Número de Cuenta</div>
-              <div className="info-value">{userState.numeroCuenta}</div>
-            </div>
-            <div className="separator"></div>
-            <div className="info-box">
-              <div className="info-label">Saldo disponible</div>
-              <div className="info-value">{`$${parseFloat(
-                userState.saldo
-              ).toFixed(2)}`}</div>
-            </div>
-            <div className="info-box-dos">
-              <div className="info-label-dos">Saldo contable</div>
-              <div className="info-value-dos">{`$${parseFloat(
-                userState.saldo
-              ).toFixed(2)}`}</div>
-            </div>
+            {selectedAccount ? (
+              <>
+                <div className="info-box">
+                  <div className="info-label">Número de Cuenta</div>
+                  <div className="info-value">
+                    {selectedAccount.numeroCuenta}
+                  </div>
+                </div>
+                <div className="separator"></div>
+                <div className="info-box">
+                  <div className="info-label">Saldo disponible</div>
+                  <div className="info-value">{`$${parseFloat(
+                    selectedAccount.saldo
+                  ).toFixed(2)}`}</div>
+                </div>
+                <div className="info-box-dos">
+                  <div className="info-label-dos">Saldo contable</div>
+                  <div className="info-value-dos">{`$${parseFloat(
+                    selectedAccount.saldo
+                  ).toFixed(2)}`}</div>
+                </div>
+              </>
+            ) : (
+              <p>No has seleccionado una cuenta.</p>
+            )}
           </div>
 
+          <button onClick={openModal} className="btn-abrir-cuenta">
+            Selecciona una cuenta para transferir
+          </button>
+          <h3>Codigo Qr para cobrar</h3>
+          <div className="qr-code">
+            <QRCode value={qrData} size={128} />
+          </div>
           {!transferenciaRealizada ? (
             <form onSubmit={handleTransfer} className="transfer-form">
               <div className="form-group">
@@ -211,34 +291,38 @@ const Transferencias = ({ user }) => {
                     setCuentaDestino(e.target.value);
                     setNombre('');
                     setCorreo('');
+                    setSaldoDestino(0); // Restablecer el saldo del destinatario
                   }}
                   required
                 />
                 <button
-                  type="button-transferencias"
+                  type="button"
                   onClick={handleVerificarCuenta}
+                  className="btn-verificar"
                 >
                   Verificar
                 </button>
               </div>
               <div className="form-group">
-                <label htmlFor="nombre">Nombre</label>
+                <label htmlFor="nombre">Nombre del Destinatario</label>
                 <input
                   type="text"
                   id="nombre"
                   value={nombre}
                   onChange={(e) => setNombre(e.target.value)}
                   required
+                  readOnly
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="correo">Correo</label>
+                <label htmlFor="correo">Correo del Destinatario</label>
                 <input
                   type="email"
                   id="correo"
                   value={correo}
                   onChange={(e) => setCorreo(e.target.value)}
                   required
+                  readOnly
                 />
               </div>
               <div className="form-group">
@@ -247,13 +331,10 @@ const Transferencias = ({ user }) => {
                   type="number"
                   id="monto"
                   value={monto}
-                  onChange={(e) => {
-                    setMonto(e.target.value);
-                    setErrorMonto('');
-                  }}
+                  onChange={(e) => setMonto(e.target.value)}
                   required
                 />
-                {errorMonto && <p className="error-message">{errorMonto}</p>}
+                {errorMonto && <p className="error">{errorMonto}</p>}
               </div>
               <div className="form-group">
                 <label htmlFor="descripcion">Descripción</label>
@@ -264,24 +345,54 @@ const Transferencias = ({ user }) => {
                   onChange={(e) => setDescripcion(e.target.value)}
                 />
               </div>
-
-              <button type="submit-transferencias" id="transfer">
-                Realizar Transferencia
+              <button type="submit" className="btn-transferir">
+                Transferir
               </button>
-              <Link to="/dashboard" className="cancel">
-                Cancelar Transferencia
-              </Link>
             </form>
           ) : (
-            <div className="transfer-success">
-              <p>{message}</p>
+            <div className="transferencia-exitosa">
+              <h3>¡Transferencia realizada con éxito!</h3>
+              <p>
+                Se ha enviado un correo de confirmación con los detalles de la
+                transferencia.
+              </p>
+              <p>Fecha y hora de la transacción: {fechaTransaccion}</p>
             </div>
           )}
-          {message && !transferenciaRealizada && (
-            <p className="error-message">{message}</p>
-          )}
+
+          {message && <p className="message">{message}</p>}
         </div>
       </div>
+
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Seleccionar Cuenta"
+        className="custom-modal"
+        overlayClassName="custom-overlay"
+      >
+        <h2>Selecciona una cuenta para transferir</h2>
+        <div className="cuentas-list">
+          {cuentas.map((cuenta) => (
+            <button
+              key={cuenta.numeroCuenta}
+              onClick={() => {
+                setSelectedAccount(cuenta);
+                closeModal();
+              }}
+              className={`cuenta-button ${
+                selectedAccount === cuenta ? 'selected' : ''
+              }`}
+            >
+              <div>Número de Cuenta: {cuenta.numeroCuenta}</div>
+              <div>Saldo: ${parseFloat(cuenta.saldo).toFixed(2)}</div>
+            </button>
+          ))}
+        </div>
+        <button onClick={closeModal} className="btn-cerrar-modal">
+          Cerrar
+        </button>
+      </Modal>
     </div>
   );
 };

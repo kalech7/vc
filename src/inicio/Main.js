@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import portada from '../img/portadabanco.jpg';
+import inicio0 from '../img2/inicio0.jpg';
 import Carousel from './Carousel';
 import Header from './Header';
 import Footer from './Footer';
@@ -13,30 +13,36 @@ const Main = () => {
       <Header />
 
       <main>
-        <motion.section 
+        <motion.section
           className="container encabezado_main"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
         >
-          <div className="encabezado_textos">
+          <div
+            className="encabezado_textos"
+            data-aos="fade-up"
+            data-aos-delay="100"
+          >
             <h1 className="title">
               Tu dinero disponible{' '}
-              <span className="title--active">en cualquier momento y lugar</span>
+              <span className="title--active">
+                en cualquier momento y lugar
+              </span>
             </h1>
             <p className="copy">
-              El mejor refugio para tus ahorros
-              <span className="copy_active">, aquí, en nuestro banco.</span>
+              El mejor refugio para tus ahorros esta
+              <span className="copy_active"> aquí, en nuestro banco.</span>
             </p>
             <a href="#info" className="cta">
               Conoce más ▼
             </a>
           </div>
-          <img src={portada} className="portada" alt="Portada Banco" />
+          <img src={inicio0} className="portada" alt="Portada Banco" />
         </motion.section>
 
-        <motion.section 
-          id="info" 
+        <motion.section
+          id="info"
           className="info"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1.3, y: 0 }}
@@ -52,7 +58,7 @@ const Main = () => {
           </div>
         </motion.section>
       </main>
-      <Whatsaap/>
+      <Whatsaap />
       <Footer />
     </div>
   );

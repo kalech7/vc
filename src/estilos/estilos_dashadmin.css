@@ -1,0 +1,212 @@
+#app {
+    display: flex;
+    height: 80vh;
+    font-family: Arial, sans-serif;
+}
+
+#sidebar {
+    width: 150px;
+    background-color: #f8f9fa;
+
+    padding: 20px;
+    border-right: 1px solid #e0e0e0;
+}
+
+#user-list {
+    list-style: none;
+    padding: 0;
+}
+
+#user-item {
+    padding: 10px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+}
+
+#user-item:hover,
+#user-item.active {
+    background-color: #e9ecef;
+}
+.user-actions {
+    margin-top: 20px;
+}
+
+.user-actions .btn {
+    margin-right: 10px;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #fff;
+    transition: background-color 0.3s;
+}
+
+.user-actions .btn-block {
+    background-color: #dc3545; /* Red for Block */
+}
+
+.user-actions .btn-block:hover {
+    background-color: #c82333;
+}
+
+.user-actions .btn-review {
+    background-color: #ffc107; /* Yellow for Under Review */
+}
+
+.user-actions .btn-review:hover {
+    background-color: #e0a800;
+}
+
+.user-actions .btn-active {
+    background-color: #37dd82; 
+}
+
+.user-actions .btn-active:hover {
+    background-color: #0f9775;
+}
+/*estilos tickeets*/
+.btn-show-tickets {
+    margin: 10px;
+    margin-left: 25px;
+    padding: 10px 15px;
+    background-color: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.tickets-admin-container {
+    margin-left: 10%;
+    margin-right: 20%;
+}
+
+.btn-show-tickets:hover {
+    background-color: #34495e;
+}
+.ticket-item button {
+    background-color: #2c3e50; /* Color de fondo de los botones */
+    color: #fff; /* Color del texto en los botones */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.ticket-item button:hover {
+    background-color: #34495e; /* Color de fondo cuando se pasa el ratón sobre el botón */
+    transform: scale(1.05); /* Escalar ligeramente el botón al pasar el ratón */
+}
+
+.ticket-item button:last-child {
+    margin-right: 0; /* El último botón no tiene margen derecho */
+}
+.tickets-list {
+    margin: 20px;
+    margin-left: 20%;
+}
+
+.ticket-item {
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid #7c71a9;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.ticket-item h3 {
+    margin-top: 0;
+}
+
+.ticket-item p {
+    margin: 5px 0;
+}
+
+.contact-info-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact-info-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.contact-info-content h2 {
+    margin-top: 0;
+}
+
+.btn-close {
+    margin-top: 15px;
+    padding: 10px 15px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-close:hover {
+    background-color: #c82333;
+}
+
+.contact-info {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #d2e7f0b8;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+}
+
+.comment-form {
+    margin-top: 10px;
+    padding: 10px;
+    
+    padding-right: 35px;
+    border-radius: 5px;
+}
+
+.comment-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+    margin-bottom: 10px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #333;
+}
+
+.comment-form button {
+    background-color: #2c3e50;
+    color: #ebd9d982;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.comment-form button:hover {
+    background-color: #34495e;
+    transform: scale(1.05);
+}

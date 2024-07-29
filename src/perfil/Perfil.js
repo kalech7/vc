@@ -59,11 +59,14 @@ const UserProfile = ({ user }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, newData: { correo: email, celular: phone } }),
+        body: JSON.stringify({
+          email,
+          newData: { correo: email, celular: phone },
+        }),
       });
 
       if (response.status === 200) {
-        setUser(prevState => ({
+        setUser((prevState) => ({
           ...prevState,
           correo: email,
           celular: phone,
@@ -100,6 +103,9 @@ const UserProfile = ({ user }) => {
           <Link to="/perfil" className="button">
             Mi perfil
           </Link>
+          <Link to="/tickets" className="button">
+            Soporte
+          </Link>
         </div>
         <div className="dashboard">
           {userState ? (
@@ -110,7 +116,8 @@ const UserProfile = ({ user }) => {
                 <div className="info-detail">
                   <h3>Datos Personales</h3>
                   <p>
-                    <strong>Número de Documento:</strong> {userState.nodocumento}
+                    <strong>Número de Documento:</strong>{' '}
+                    {userState.nodocumento}
                   </p>
                   <p>
                     <strong>Nombre:</strong> {userState.nombre}
@@ -147,7 +154,7 @@ const UserProfile = ({ user }) => {
                       border: 'none',
                       borderRadius: '5px',
                       cursor: 'pointer',
-                      marginTop: '20px'
+                      marginTop: '20px',
                     }}
                   >
                     Actualizar Datos
@@ -182,7 +189,7 @@ const UserProfile = ({ user }) => {
                           border: 'none',
                           borderRadius: '5px',
                           cursor: 'pointer',
-                          marginTop: '10px'
+                          marginTop: '10px',
                         }}
                       >
                         Confirmar
@@ -206,7 +213,7 @@ const UserProfile = ({ user }) => {
                             border: 'none',
                             borderRadius: '5px',
                             cursor: 'pointer',
-                            marginTop: '10px'
+                            marginTop: '10px',
                           }}
                         >
                           Verificar y Actualizar

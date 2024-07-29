@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import tarjeta from '../img/tarjetas.jpeg';
-import prestamo from '../img/prestamo.jpg';
-import inversion from '../img/inversion.jpg';
-import ahorroFlexible from '../img/ahorroflexible.jpg';
+import tarjeta3 from '../img2/tarejta3.jpg';
+import prestamo3 from '../img2/prestamo3.jpg';
+import inversion2 from '../img2/inversion2.jpg';
+import Ahorro1 from '../img2/Ahorro1.jpg';
 import '../estilos/estilos_inicio.css';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCreditCard, faFileContract, faMoneyBill, faPiggyBank } from '@fortawesome/free-solid-svg-icons';
 
 const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -15,28 +18,28 @@ const Carousel = () => {
   // Array de datos de las tarjetas
   const cardsData = [
     {
-      image: tarjeta,
+      image: tarjeta3,
       title: 'Tarjeta',
       copy: 'Solicita tu nueva tarjeta en pocos pasos y comienza a disfrutar de sus beneficios de inmediato.',
       button: 'Solicitar tarjeta',
       link: '/tarjeta', // Agrega la ruta a la que debería ir este botón
     },
     {
-      image: prestamo,
+      image: prestamo3,
       title: 'Préstamo',
       copy: 'Solicita tu préstamo ahora mismo y obtén una respuesta inmediata para cumplir tus metas financieras.',
       button: 'Solicitar préstamo',
       link: '/prestamo', // Agrega la ruta a la que debería ir este botón
     },
     {
-      image: inversion,
+      image: inversion2,
       title: 'Inversiones',
       copy: 'Simula tu inversión y obtén el mejor interés, todo desde la comodidad de tu hogar con nuestro sitio web.',
       button: 'Simular inversión',
       link: '/calculadora', // Ruta para InterestCalculator
     },
     {
-      image: ahorroFlexible,
+      image: Ahorro1,
       title: 'Ahorro Flexible',
       copy: 'Multiplica tus ahorros aumentando un 5% de interés y accede a tu dinero en cualquier momento.',
       button: 'Abrir cuenta',
@@ -105,7 +108,12 @@ const Carousel = () => {
                 alt={cardsData[dataIndex].title}
               />
               <div className="cards_text">
-                <h3 className="card_title">{cardsData[dataIndex].title}</h3>
+                <h3 className="card_title">
+                {dataIndex === 0 && <FontAwesomeIcon icon={faCreditCard} />} {' '}
+                  {dataIndex === 1 && <FontAwesomeIcon icon={faFileContract} />} {' '}
+                  {dataIndex === 2 && <FontAwesomeIcon icon={faMoneyBill} />} {' '}
+                  {dataIndex === 3 && <FontAwesomeIcon icon={faPiggyBank} />} {' '}
+                  {cardsData[dataIndex].title}</h3>
                 <p className="card_copy">{cardsData[dataIndex].copy}</p>
                 <button
                   className="card_button"

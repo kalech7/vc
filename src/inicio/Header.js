@@ -1,18 +1,21 @@
-import React, { useState, useEffect } from 'react'; // Importar useState desde React
+import React, { useState, useEffect, useContext } from 'react';
 import logo from '../img/logo_vertex.png';
 import '../estilos/estilos_inicio.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { Link, useLocation } from 'react-router-dom';
 import { MagicTabSelect } from 'react-magic-motion';
+import { ThemeContext } from '../context/ThemeContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 
 const Header = () => {
   const [hoveredIndex, setHoveredIndex] = useState(); 
-
   const location = useLocation();
+  const { theme, toggleTheme } = useContext(ThemeContext);
+
   useEffect(() => {
     if (!location.hash) {
-      // Si no hay un hash en la URL (es decir, si se está navegando a una nueva página)
-      window.scrollTo(0, 0); // Desplaza al inicio de la página
+      window.scrollTo(0, 0); 
     }
   }, [location]);
 
@@ -20,6 +23,7 @@ const Header = () => {
     { text: 'Inicio', to: '/' },
     { text: 'Inversiones', to: '/calculadora' },
     { text: 'Servicios', to: '/ofertas' },
+    { text: 'Equipo', to: '/equipo' },
   ];
 
   const linksComponents = navLinks.map((link, i) => (
@@ -34,7 +38,6 @@ const Header = () => {
         border: 0,
         zIndex: 0,
         borderRadius: '999px',
-        
       }}
     >
       {hoveredIndex === i && (
@@ -71,16 +74,32 @@ const Header = () => {
   return (
     <header className="header">
       <nav className="nav container">
-      <Link to="/" className="nav_logo">
+        <Link to="/" className="nav_logo">
           <img src={logo} className="logo_img" alt="VertexCapital Logo" />
           VertexCapital
         </Link>
-        <div >
-          <div style={{ display: 'flex', gap: ' 1.5rem ' }}>
+        <div>
+          <div style={{ display: 'flex', gap: '1.5rem' }}>
             {linksComponents}
             <Link to="/login" className="nav_link_inicio">
               Banca Online
             </Link>
+            <button
+              onClick={toggleTheme}
+              className="theme-toggle-button"
+              style={{
+                backgroundColor: theme === 'light' ? '#1780EB' : '#EBAA76',
+                color: theme === 'light' ? '#FFF' : '#000'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = theme === 'light' ? '#0F6BCB' : '#D68F5E';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = theme === 'light' ? '#1780EB' : '#EBAA76';
+              }}
+            >
+              <FontAwesomeIcon icon={theme === 'light' ? faMoon : faSun} style={{ color: theme === 'light' ? '#FFF' : '#000' }} />
+            </button>
           </div>
         </div>
       </nav>

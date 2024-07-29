@@ -2,10 +2,10 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../inicio/Header'; // Ruta ajustada a la carpeta correcta
 import Footer from '../inicio/Footer'; // Ruta ajustada a la carpeta correcta
-import tarjeta from '../img/tarjetas.jpeg';
-import prestamo from '../img/prestamo.jpg';
-import inversion from '../img/inversion.jpg';
-import ahorroFlexible from '../img/ahorroflexible.jpg';
+import tarjeta1 from '../img2/tarjeta1.jpg';
+import prestamo1 from '../img2/prestamo1.jpg';
+import inversion2 from '../img2/inversion2.jpg';
+import ahorro2 from '../img2/ahorro2.jpg';
 import '../estilos/estilos_ofertas.css'; // Asegúrate de crear y definir tus estilos en este archivo
 
 const OfertasPage = () => {
@@ -13,22 +13,22 @@ const OfertasPage = () => {
 
   const offers = [
     {
-      image: tarjeta,
+      image: tarjeta1,
       title: 'Tarjeta',
       description: 'Obtén tu tarjeta bancaria en pocos pasos y disfruta de múltiples beneficios.',
     },
     {
-      image: prestamo,
+      image: prestamo1,
       title: 'Préstamo',
       description: 'Solicita tu préstamo fácilmente y obtén una respuesta inmediata.',
     },
     {
-      image: inversion,
+      image: inversion2,
       title: 'Inversiones',
       description: 'Realiza inversiones seguras y rentables con la mejor asesoría.',
     },
     {
-      image: ahorroFlexible,
+      image: ahorro2,
       title: 'Ahorro Flexible',
       description: 'Ahorra con flexibilidad y obtén los mejores intereses del mercado.',
       link: '/calculadora', // Link para la redirección

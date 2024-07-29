@@ -12,6 +12,9 @@ const Login = ({ setUser }) => {
   const [blockTime, setBlockTime] = useState(null);
   const navigate = useNavigate();
 
+  const [usernameError, setUsernameError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+
   useEffect(() => {
     let timer;
     if (blockTime) {
@@ -33,6 +36,27 @@ const Login = ({ setUser }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    let valid = true;
+
+    if (!username) {
+      setUsernameError(true);
+      valid = false;
+    } else {
+      setUsernameError(false);
+    }
+
+    if (!password) {
+      setPasswordError(true);
+      valid = false;
+    } else {
+      setPasswordError(false);
+    }
+
+    if (!valid) {
+      setMessage('Por favor complete todos los campos.');
+      return;
+    }
 
     try {
       const response = await fetch('http://localhost:3030/login', {
@@ -56,8 +80,10 @@ const Login = ({ setUser }) => {
         }
       } else if (response.status === 401) {
         setMessage('Contraseña incorrecta.');
+        setPasswordError(true); // Establecer estado de error
       } else if (response.status === 404) {
         setMessage('Usuario no encontrado.');
+        setUsernameError(true); // Establecer estado de error
       } else if (response.status === 403) {
         const retryAfter = 30; // 30 segundos de bloqueo
         setBlockTime(Date.now() + retryAfter * 1000);
@@ -72,64 +98,65 @@ const Login = ({ setUser }) => {
 
   const handleChangeUsername = (event) => {
     setUsername(event.target.value);
+    setUsernameError(false);
   };
 
   const handleChangePassword = (event) => {
     setPassword(event.target.value);
+    setPasswordError(false);
   };
 
   return (
     <div>
-    <div className="login-container">
-      <Header user={null} /> {/* Pasar null inicialmente */}
-      <form onSubmit={handleSubmit} className="login-form">
-        <div className="form-group">
-          <label htmlFor="username">Usuario</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={username}
-            onChange={handleChangeUsername}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Contraseña</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={password}
-            onChange={handleChangePassword}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <button type="submit">Iniciar Sesión</button>
-        </div>
-        {message && (
-          <div className="error-message-container slide-in-from-left">
-            <p className="error-message">{message}</p>
+      <div className="login-container">
+        <Header user={null} /> {/* Pasar null inicialmente */}
+        <form onSubmit={handleSubmit} className="login-form">
+          <div className="form-group">
+            <label htmlFor="username">Usuario</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value={username}
+              onChange={handleChangeUsername}
+              className={usernameError ? 'error' : ''}
+            />
           </div>
-        )}
-        <div className="form-group">
-          <Link to="/recuperar" className="link-button">
-            <span type="button">¿Olvidaste tu Contraseña?</span>
-          </Link>
-        </div>
-        <div className="form-group center-text">
-          <span type="text">¿Aún no eres cliente?</span>
-        </div>
-        <div className="form-group">
-          <Link to="/registro" className="link-button">
-            <button type="button">Regístrate</button>
-          </Link>
-        </div>
-      </form>
-      
-    </div>
-    <Footer />
+          <div className="form-group">
+            <label htmlFor="password">Contraseña</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={password}
+              onChange={handleChangePassword}
+              className={passwordError ? 'error' : ''}
+            />
+          </div>
+          <div className="form-group">
+            <button type="submit">Iniciar Sesión</button>
+          </div>
+          {message && (
+            <div className="error-message-container slide-in-from-left">
+              <p className="error-message">{message}</p>
+            </div>
+          )}
+          <div className="form-group">
+            <Link to="/recuperar" className="link-button">
+              <span type="button">¿Olvidaste tu Contraseña?</span>
+            </Link>
+          </div>
+          <div className="form-group center-text">
+            <span type="text">¿Aún no eres cliente?</span>
+          </div>
+          <div className="form-group">
+            <Link to="/registro" className="link-button">
+              <button type="button">Regístrate</button>
+            </Link>
+          </div>
+        </form>
+      </div>
+      <Footer />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 .transfer-container {
   width: 90%;
-  max-width: 500px;
+  max-width: 515px;
   margin: 5% auto;
   padding: 2rem;
   background-color: #ffffff;
@@ -52,7 +52,7 @@
     rgb(221, 186, 137) 100%
   ); /* Fondo de la caja contenedora */
   padding: 30px;
-  width: 440px;
+  width: 460px;
   border-radius: 8px;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -132,4 +132,85 @@ button[type='submit-transferencias']:hover {
 }
 .cancel:hover {
   background-color: rgb(143, 54, 54);
+}
+/* Estilos para el Modal */
+.custom-modal {
+  width: 90%;
+  max-width: 600px;
+  margin: 180px auto 0; /* Ajusta el margen superior según lo necesites */
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1000; /* Asegúrate de que el modal esté encima */
+  outline: none;
+}
+
+.custom-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed; /* Asegúrate de que el overlay cubra toda la pantalla */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999; /* Asegúrate de que el overlay esté justo detrás del modal */
+}
+
+.cuentas-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.cuenta-button {
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  font-size: 17px;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 10px 0;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.cuenta-button.selected {
+  background: #113e6e;
+  color: #fff;
+  border-color: #113e6e;
+}
+
+.cuenta-button:hover {
+  background: #e9ecef;
+}
+
+.btn-cerrar-modal {
+  background: #be313f;
+  color: #fff;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background 0.3s;
+}
+
+.btn-cerrar-modal:hover {
+  background: #77121c;
+}
+
+.btn-abrir-cuenta {
+  background-color: rgb(65, 161, 167);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 17px;
+}
+
+.btn-abrir-cuenta:hover {
+  background: rgb(37, 121, 126);
 }

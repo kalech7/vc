@@ -4,6 +4,14 @@ import '../estilos/estilos_inicio.css';
 import { Link } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faBuildingColumns,
+  faLink,
+  faUser,
+  faPlus,
+} from '@fortawesome/free-solid-svg-icons';
+
 const Footer = () => {
   return (
     <footer className="footer">
@@ -19,24 +27,36 @@ const Footer = () => {
 
         <div className="row">
           <div className="footer-col">
-            <h4>Mi banco</h4>
+            <h4>
+              <FontAwesomeIcon icon={faBuildingColumns} /> Mi banco
+            </h4>
             <ul>
               <li>
                 <Link to="/Historia">Historia</Link>
+              </li>
+              <li>
+                <Link to="/equipo">Equipo</Link>
               </li>
             </ul>
           </div>
 
           <div className="footer-col">
-            <h4>Enlaces de interés</h4>
+            <h4>
+              <FontAwesomeIcon icon={faLink} /> Enlaces de interés
+            </h4>
             <ul>
               <li>
                 <Link to="/ayuda">Ayuda</Link>
               </li>
+              <li>
+                <Link to="/reclamos">Sugerencias y Reclamos</Link>
+              </li>
             </ul>
           </div>
           <div className="footer-col">
-            <h4>Sobre nosotros</h4>
+            <h4>
+              <FontAwesomeIcon icon={faUser} /> Sobre nosotros
+            </h4>
             <ul>
               <li>
                 <Link to="/informacion">¿Quiénes somos?</Link>
@@ -45,15 +65,15 @@ const Footer = () => {
                 <Link to="/ofertas">Lo que ofrecemos</Link>
               </li>
               <li>
-                <li>
-                  <Link to="/calculadora">Tasas y Tarifas</Link>
-                </li>
+                <Link to="/calculadora">Tasas y Tarifas</Link>
               </li>
             </ul>
           </div>
 
           <div className="footer-col">
-            <h4>Síguenos</h4>
+            <h4>
+              <FontAwesomeIcon icon={faPlus} /> Síguenos
+            </h4>
             <div className="social-links">
               <button>
                 <i className="fab fa-facebook-f"></i>

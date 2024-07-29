@@ -42,19 +42,6 @@ body {
   padding: 0 1rem;
 }
 
-.nav_logo {
-  display: flex;
-  align-items: center;
-  color: var(--title-color);
-  text-decoration: none;
-  font-size: 24px;
-  text-decoration: none;
-  color: var(--title-color);
-  font-weight: var(--font-medium);
-  display: flex;
-  align-items: center; /* Alinea la imagen y el texto verticalmente */
-}
-
 .logo_img {
   height: 40px;
   margin-right: 10px;
@@ -94,33 +81,150 @@ body {
   background-color: rgb(57, 148, 153);
 }
 
-/* Estilos generales del formulario */
-#registroForm {
-  max-width: 600px;
-  margin-top: 50px;
-  margin-bottom: 50px;
-  margin-left: 525px;
-  padding: 20px;
-  background-color: rgb(186, 213, 214);
-  border-radius: 10px;
+.principal-container {
+  background-image: url('../img/montareg.jpg');
+  background-size: cover; /* Ajusta el tamaño de la imagen para cubrir todo el contenedor */
+  background-position: center; /* Centra la imagen de fondo */
+  padding: 5px; /* Ajusta el espaciado interior según sea necesario */
+}
+.registro-container {
+  background-color: rgba(255, 255, 255, 0.4); /* Semi-transparent white */
+  max-width: 975px;
+  margin: 20px auto;
+  padding: 20px 70px;
+  border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  align-items: center;
+  margin-bottom: 100px;
+  position: relative;
 }
 
-#registroForm h1 {
-  font-size: 32px; /* Tamaño del texto */
-  color: #1c2833; /* Color del texto */
-  margin-bottom: 20px; /* Espacio inferior para separar del formulario */
+.form-registro {
+  display: flex;
+  flex-direction: column;
+}
+
+.registro-container h2 {
   text-align: center;
+  color: #333;
+  font-size: 35px;
 }
 
-#registroForm label[for='provincia'] {
-  margin-bottom: 20px;
-  margin-top: 20px;
+.form-registro label {
+  margin: 10px 0 5px;
+  font-weight: bold;
+  color: #333;
 }
 
-#registroForm label[for='ciudad'] {
-  margin-top: 20px;
+.form-registro input,
+.form-registro select {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 100%;
+}
+
+.form-registro button {
+  padding: 10px 20px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.form-registro button:hover {
+  background-color: #1c2833;
+  color: #ffffff;
+}
+
+.form-registro button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.form-registro button[type='submit'] {
+  background-color: #1c2833;
+  width: 200px;
+  color: #ffffff;
+}
+
+.form-registro button[type='button'] {
+  background-color: #6c757d;
+  width: 200px;
+  color: #ffffff;
+}
+
+.form-registro button:hover[type='button'] {
+  background-color: #1c2833;
+  color: #ffffff;
+}
+
+.form-registro button:hover[type='submit'] {
+  background-color: #0f141a;
+  color: #ffffff;
+}
+
+.form-registro button + button {
+  margin-left: 10px;
+}
+
+/* Verification popup */
+.verification-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.verification-popup form {
+  display: flex;
+  flex-direction: column;
+}
+
+.verification-popup label {
+  margin: 10px 0 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.verification-popup input {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.verification-popup button {
+  padding: 10px 20px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: #ffffff;
+  transition: background-color 0.3s;
+}
+
+.verification-popup button:hover {
+  background-color: #0056b3;
+}
+
+.error {
+  border: 1px solid rgb(134, 6, 6);
+}
+
+.error-message {
+  color: rgb(134, 6, 6);
+  font-size: 0.8em;
 }
 
 /* Estilos para los campos de entrada y etiquetas */
@@ -133,7 +237,12 @@ form label {
   margin-bottom: 5px;
   font-weight: bold;
 }
-
+#button-avanza-retro {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-left: 'auto';
+}
 form input[type='text'],
 form input[type='email'],
 form input[type='tel'],
@@ -160,6 +269,7 @@ form select {
   background-size: 5px 5px, 5px 5px;
   background-repeat: no-repeat;
 }
+
 form .submit-container {
   display: flex;
   justify-content: center;
@@ -185,4 +295,113 @@ form a {
 form input[type='submit']:hover,
 form a:hover {
   background-color: #555;
+}
+
+.step-indicators {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.step {
+  padding: 10px 20px;
+  margin: 0 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f5f5f5;
+}
+
+.step.active {
+  background-color: #1c2833;
+  color: white;
+}
+.identificacion_user {
+  display: flex;
+  align-items: center;
+}
+
+.identificacion_user div {
+  margin-right: 20px; /* Espacio entre los grupos de campos */
+}
+
+.identificacion_user label {
+  margin-right: 10px;
+  font-size: 0.9em;
+  margin-left: 20px;
+}
+
+.identificacion_user select {
+  font-size: 0.875rem; /* Tamaño de fuente más pequeño */
+  padding: 3px 5px; /* Ajusta el relleno */
+  width: auto; /* Ajusta el ancho según el contenido */
+}
+.identificacion_user input {
+  margin-left: 10px;
+  padding: 5px; /* Añade espacio dentro de los campos */
+}
+
+/* Estilo de error para el campo de número de documento */
+#nodocumento.error {
+  border: 4px solid #ff0000; /* Rojo intenso oscuro */
+  background-color: #ffe6e6; /* Fondo rojo claro */
+  outline: none;
+  box-shadow: 0 0 10px #ff0000; /* Efecto de sombra para mayor visibilidad */
+}
+
+/* Estilo de error para el campo de contraseña */
+#password.error {
+  border: 4px solid #ff0000; /* Rojo intenso oscuro */
+  background-color: #ffe6e6; /* Fondo rojo claro */
+  outline: none;
+  box-shadow: 0 0 10px #ff0000; /* Efecto de sombra para mayor visibilidad */
+}
+
+/* Ajustes para el mensaje de error */
+.error-message-container {
+  margin-top: 5px;
+  padding: 1px;
+  background-color: #f8d7da; /* Color de fondo rojo claro */
+  border: 1px solid #f5c6cb; /* Borde rojo claro */
+  border-radius: 5px;
+  animation: slideInFromLeft 0.5s ease; /* Animación de deslizamiento desde la izquierda */
+}
+
+.error-message {
+  color: #721c24; /* Color del texto rojo oscuro */
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Animación para deslizarse desde la izquierda */
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+
+
+/* Estilo de error para el campo de No de documento */
+#nodocumento.error,
+#celular.error,
+#username.error,
+#password.error {
+  border: 4px solid #ff0000; /* Rojo intenso oscuro */
+  background-color: #ffe6e6; /* Fondo rojo claro */
+  outline: none;
+  box-shadow: 0 0 10px #ff0000; /* Efecto de sombra para mayor visibilidad */
+}
+
+input.error,
+select.error {
+  border: 4px solid #ff0000; /* Rojo intenso oscuro */
+  background-color: #ffe6e6; /* Fondo rojo claro */
+  outline: none;
+  box-shadow: 0 0 10px #ff0000; /* Efecto de sombra para mayor visibilidad */
 }

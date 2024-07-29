@@ -1,0 +1,295 @@
+.btn-link {
+  display: inline-flex; /* Usa flex para alinear el texto y el ícono */
+  align-items: center; /* Centra verticalmente el texto y el ícono */
+  background-color: #083464; /* Color de fondo del botón */
+  color: #ffffff; /* Color del texto */
+  padding: 10px 20px; /* Espaciado interno */
+  border: none; /* Sin borde */
+  border-radius: 5px; /* Bordes redondeados */
+  text-align: center; /* Centra el texto dentro del botón */
+  text-decoration: none; /* Sin subrayado en el texto */
+  font-size: 16px; /* Tamaño de la fuente */
+  font-weight: bold; /* Fuente en negrita */
+  cursor: pointer; /* Cursor de mano al pasar sobre el botón */
+  transition: background-color 0.3s, transform 0.3s; /* Transición suave para color de fondo y escala */
+  gap: 10px; /* Espaciado entre el texto y el ícono */
+}
+
+.btn-link:hover {
+  background-color: #03274d; /* Color de fondo al pasar el ratón */
+  transform: scale(1.05); /* Efecto de aumento al pasar el ratón */
+}
+
+.btn-link:active {
+  background-color: #004494; /* Color de fondo al hacer clic */
+}
+
+/* Estilos para los botones de siguiente */
+.btn-next {
+  display: inline-block;
+  background-color: #022953; /* Color de fondo del botón */
+  color: #070707; /* Color del texto */
+  padding: 10px 20px; /* Espaciado interno (padding) */
+  border: none; /* Sin borde */
+  border-radius: 5px; /* Bordes redondeados */
+  text-align: center; /* Centra el texto dentro del botón */
+  text-decoration: none; /* Sin subrayado en el texto */
+  font-size: 16px; /* Tamaño de la fuente */
+  font-weight: bold; /* Fuente en negrita */
+  cursor: pointer; /* Cursor de mano al pasar sobre el botón */
+  transition: background-color 0.3s, transform 0.3s; /* Transición suave para color de fondo y escala */
+  margin-top: 1em; /* Espaciado superior */
+}
+
+.btn-next:hover {
+  background-color: #043468; /* Color de fondo al pasar el ratón */
+  transform: scale(1.05); /* Efecto de aumento al pasar el ratón */
+}
+
+.btn-next:active {
+  background-color: #004494; /* Color de fondo al hacer clic */
+}
+
+.tr-page-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.tr-content-wrapper {
+  display: flex;
+  width: 80vw;
+  height: 80vh;
+  position: relative;
+}
+
+#tr-sections-container input {
+  display: none;
+}
+
+#tr-sections-container section {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+#tr-section-1 {
+  opacity: 1;
+  z-index: 6;
+}
+
+#tr-section-2,
+#tr-section-3,
+#tr-section-4,
+#tr-section-5,
+#tr-section-6 {
+  opacity: 0;
+  transform: scale(0.95);
+  z-index: 5;
+}
+
+.tr-image-container {
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(300deg, #4f7da8 20%, rgb(238, 222, 133) 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border: 2px solid #24262b; /* Color y grosor del borde */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para profundidad */
+}
+.tr-info-container h1 {
+  font-size: 3em; /* Aumenta el tamaño de la fuente */
+  font-weight: bold; /* Fuente en negrita */
+  color: #ffffff; /* Color del texto */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Sombra de texto para mayor contraste */
+  margin: 0; /* Elimina el margen por defecto */
+  padding: 0.5em 1em; /* Espaciado interno */
+  text-align: center; /* Centra el texto */
+  background: linear-gradient(
+    45deg,
+    #0f2b49,
+    #0d2d52
+  ); /* Gradiente de fondo para el texto */
+  -webkit-background-clip: text; /* Aplica el gradiente solo al texto en navegadores Webkit */
+  -moz-background-clip: text; /* Aplica el gradiente solo al texto en Firefox */
+  background-clip: text; /* Aplica el gradiente solo al texto */
+  color: transparent; /* Hace que el texto sea transparente para mostrar solo el gradiente */
+}
+
+.tr-info-container p {
+  font-size: 1.1em; /* Tamaño de fuente ligeramente mayor */
+  color: #24262b; /* Color claro para buen contraste */
+  font-style: italic; /* Hace que el texto se vea más elegante */
+  text-shadow: 1px 1px #24262b; /* Añade sombra para resaltar el texto */
+  margin: 0.5em 0; /* Espaciado vertical entre párrafos */
+  line-height: 1.6; /* Mejora la legibilidad con mayor espacio entre líneas */
+}
+
+.tr-info-container {
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(45deg, #699ac9 5%, rgb(238, 198, 143) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2em; /* Espaciado interno para mayor espacio en el contenido */
+  border-radius: 15px; /* Bordes redondeados para un estilo de tarjeta */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidad */
+  border: 2px solid #083464; /* Borde de la tarjeta */
+  position: relative; /* Para manejar el contenido absoluto si es necesario */
+}
+
+#tr-sections-container label {
+  display: block;
+  border: solid 2px black;
+  padding: 1em 2em;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: white;
+  margin-top: 1em;
+}
+
+/* Transiciones entre secciones */
+#tr-toggle1:checked ~ #tr-section-1 {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 6;
+}
+
+#tr-toggle1:checked ~ #tr-section-2,
+#tr-toggle1:checked ~ #tr-section-3,
+#tr-toggle1:checked ~ #tr-section-4,
+#tr-toggle1:checked ~ #tr-section-5,
+#tr-toggle1:checked ~ #tr-section-6 {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+}
+
+#tr-toggle2:checked ~ #tr-section-2 {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 6;
+}
+
+#tr-toggle2:checked ~ #tr-section-1 {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+}
+
+#tr-toggle3:checked ~ #tr-section-3 {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 6;
+}
+
+#tr-toggle3:checked ~ #tr-section-2 {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+}
+
+#tr-toggle4:checked ~ #tr-section-4 {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 6;
+}
+
+#tr-toggle4:checked ~ #tr-section-3 {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+}
+
+#tr-toggle5:checked ~ #tr-section-5 {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 6;
+}
+
+#tr-toggle5:checked ~ #tr-section-4 {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+}
+
+#tr-toggle6:checked ~ #tr-section-6 {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 6;
+}
+
+#tr-toggle6:checked ~ #tr-section-5 {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+}
+
+#alech,
+#cesarines,
+#eli,
+#wilsito,
+#michael {
+  width: 85%;
+  height: auto;
+  object-fit: cover;
+}
+.burndown-container {
+  text-align: center; /* Centra el contenido dentro del contenedor */
+  margin: 2em 0; /* Espaciado superior e inferior */
+}
+
+.burndown-container h2 {
+  color: #333; /* Color del texto del título */
+  margin-bottom: 1em; /* Espaciado debajo del título */
+}
+
+#burndown {
+  margin-bottom: 40px;
+  max-width: 100%; /* Asegura que la imagen no exceda el ancho del contenedor */
+  height: auto; /* Mantiene la proporción de la imagen */
+  border: 2px solid #ddd; /* Añade un borde sutil alrededor de la imagen */
+  border-radius: 8px; /* Bordes redondeados para un estilo más suave */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Añade una sombra suave para profundidad */
+}
+
+.btn-icon {
+  width: 75px; /* Tamaño del ícono */
+  height: auto; /* Mantiene la proporción del ícono */
+}
+
+.btn-container {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espaciado entre los enlaces */
+  margin-top: 1em;
+}
+
+.btn-link-icon {
+  display: flex;
+  align-items: center;
+  background-color: transparent; /* Sin fondo */
+  border: none; /* Sin borde */
+  padding: 0; /* Sin padding */
+}
+
+.btn-link-icon img {
+  width: 24px; /* Tamaño del ícono */
+  height: auto; /* Mantiene la proporción del ícono */
+  transition: transform 0.3s; /* Transición suave para el ícono */
+}
+
+.btn-link-icon:hover img {
+  transform: scale(1.1); /* Aumenta el tamaño del ícono al pasar el ratón */
+}
