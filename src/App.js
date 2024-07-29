@@ -55,7 +55,7 @@ const App = () => {
             <Route path="/tickets" element={<Tickets user={user}/>} />
             <Route path="/equipo" element={<Equipo />}  />
             <Route path="/reclamos" element={<Reclamos />} /> {/* Agrega esta línea */}
-            <Route path="/confirmacion-transferencias" component={ConfirmacionTransferencias} />
+            <Route path="/confirmacion-transferencias" element={<ConfirmacionTransferencias/>} />
           </Routes>
         </main>
       </div>
