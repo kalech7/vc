@@ -21,7 +21,7 @@ const Tickets = ({ user }) => {
     const fetchTickets = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3030/tickets?usuario=${userState.username}`
+          `https://vc-su7z.onrender.com/tickets?usuario=${userState.username}`
         );
         if (!response.ok) {
           throw new Error('Error al obtener los tickets');
@@ -63,7 +63,7 @@ const Tickets = ({ user }) => {
     setFechaTransaccion(fechaFormateada);
 
     try {
-      const response = await fetch('http://localhost:3030/creartickets', {
+      const response = await fetch('https://vc-su7z.onrender.com/creartickets', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
