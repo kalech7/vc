@@ -82,8 +82,18 @@ const Registro = () => {
   const validatePassword = (password) => {
     const minLength = 8;
     const symbolRegex = /[!@#$%^&*(),.?":{}|<>]/;
-    return password.length >= minLength && symbolRegex.test(password);
-  };
+    const uppercaseRegex = /[A-Z]/;
+    const lowercaseRegex = /[a-z]/;
+    const sequentialLettersRegex = /abc|bcd|cde|def|efg|fgh|ghi|hij|ijk|jkl|klm|lmn|mno|nop|opq|pqr|qrs|rst|stu|tuv|uvw|vwx|wxy|xyz/;
+    const sequentialNumbersRegex = /012|123|234|345|456|567|678|789/;
+    return password.length >= minLength &&
+           symbolRegex.test(password) &&
+           uppercaseRegex.test(password) &&
+           lowercaseRegex.test(password) &&
+           !sequentialLettersRegex.test(password.toLowerCase()) &&
+           !sequentialNumbersRegex.test(password);
+};
+
 
   const validateStep = () => {
     const newErrors = {};
@@ -109,7 +119,7 @@ const Registro = () => {
           newErrors.password = '*Campo obligatorio';
         } else if (!validatePassword(formData.password)) {
           newErrors.password =
-            'La contraseña debe tener al menos 8 caracteres y un símbolo.';
+            'La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un símbolo y  no debe seguir un patrón consecutivo de letras o números.';
         }
         break;
       default:
