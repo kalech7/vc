@@ -15,7 +15,7 @@ const DashAdmin = ({ admin }) => {
     useEffect(() => {
         const fetchClientes = async () => {
             try {
-                const response = await fetch('http://localhost:3030/clientes');
+                const response = await fetch('https://vc-su7z.onrender.com/clientes');
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -29,7 +29,7 @@ const DashAdmin = ({ admin }) => {
 
         const fetchTransacciones = async () => {
             try {
-                const response = await fetch('http://localhost:3030/transacciones');
+                const response = await fetch('https://vc-su7z.onrender.com/transacciones');
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }

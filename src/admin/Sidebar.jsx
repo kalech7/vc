@@ -6,7 +6,7 @@ const Sidebar = ({ onSelectUser }) => {
     useEffect(() => {
         const fetchClientes = async () => {
             try {
-                const response = await fetch('http://localhost:3030/clientes');
+                const response = await fetch('https://vc-su7z.onrender.com/clientes');
                 if (!response.ok) throw new Error('Error fetching clients');
                 const data = await response.json();
                 setUsers(data);
@@ -20,7 +20,7 @@ const Sidebar = ({ onSelectUser }) => {
 
     const handleUserClick = async (user) => {
         try {
-            const response = await fetch(`http://localhost:3030/clientes/${user.nombre}/${user.apellido}/cuentas`);
+            const response = await fetch(`https://vc-su7z.onrender.com/clientes/${user.nombre}/${user.apellido}/cuentas`);
             if (!response.ok) throw new Error('Error fetching accounts');
             const accounts = await response.json();
             onSelectUser({ ...user, accounts });

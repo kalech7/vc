@@ -15,7 +15,7 @@ const TicketList = () => {
     useEffect(() => {
         const fetchTickets = async () => {
             try {
-                const response = await fetch('http://localhost:3030/tickets');
+                const response = await fetch('https://vc-su7z.onrender.com/tickets');
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -34,7 +34,7 @@ const TicketList = () => {
 
     const handleResolve = async (ticketId) => {
         try {
-            const response = await fetch(`http://localhost:3030/tickets/${ticketId}/resolver`, {
+            const response = await fetch(`https://vc-su7z.onrender.com/tickets/${ticketId}/resolver`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ const TicketList = () => {
 
         if (selectedUser !== usuario) {
             try {
-                const response = await fetch(`http://localhost:3030/contacto/${usuario}`);
+                const response = await fetch(`https://vc-su7z.onrender.com/contacto/${usuario}`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }

@@ -13,7 +13,7 @@ const UserDetails = ({ user }) => {
   // Función para obtener transacciones
   const fetchTransactions = async (accountNumber) => {
     try {
-      const response = await fetch(`http://localhost:3030/transacciones/${accountNumber}`);
+      const response = await fetch(`https://vc-su7z.onrender.com/transacciones/${accountNumber}`);
       if (response.ok) {
         const data = await response.json();
         setTransactions(data);
@@ -29,7 +29,7 @@ const UserDetails = ({ user }) => {
   // Función para obtener recargas
   const fetchRecargas = async (accountNumber) => {
     try {
-      const response = await fetch(`http://localhost:3030/recargas/${accountNumber}`);
+      const response = await fetch(`https://vc-su7z.onrender.com/recargas/${accountNumber}`);
       if (response.ok) {
         const data = await response.json();
         setRecargas(data);
@@ -50,7 +50,7 @@ const UserDetails = ({ user }) => {
 
   const handleAddAccount = async () => {
     try {
-      const response = await fetch(`http://localhost:3030/clientes/${user.nombre}/${user.apellido}/cuentas`, {
+      const response = await fetch(`https://vc-su7z.onrender.com/clientes/${user.nombre}/${user.apellido}/cuentas`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ const UserDetails = ({ user }) => {
     }
 
     try {
-      const response = await fetch(`http://localhost:3030/clientes/${user.nombre}/${user.apellido}/cuentas/${selectedAccount.numeroCuenta}`, {
+      const response = await fetch(`https://vc-su7z.onrender.com/clientes/${user.nombre}/${user.apellido}/cuentas/${selectedAccount.numeroCuenta}`, {
         method: 'DELETE',
       });
 
@@ -109,7 +109,7 @@ const UserDetails = ({ user }) => {
     }
 
     try {
-      const response = await fetch(`http://localhost:3030/clientes/${user.nombre}/${user.apellido}`, {
+      const response = await fetch(`https://vc-su7z.onrender.com/clientes/${user.nombre}/${user.apellido}`, {
         method: 'DELETE',
       });
 
@@ -135,7 +135,7 @@ const UserDetails = ({ user }) => {
     }
 
     try {
-      const response = await fetch(`http://localhost:3030/clientes/${encodeURIComponent(user.nombre)}/${encodeURIComponent(user.apellido)}/cuentas/${selectedAccount.numeroCuenta}`, {
+      const response = await fetch(`https://vc-su7z.onrender.com/clientes/${encodeURIComponent(user.nombre)}/${encodeURIComponent(user.apellido)}/cuentas/${selectedAccount.numeroCuenta}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
