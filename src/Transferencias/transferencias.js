@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import '../estilos/estilos_transferencias.css';
 import Header from '../dashboard/HeaderDashboard';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from 'react-modal';
 import QRCode from 'qrcode.react';
 
@@ -30,6 +32,11 @@ const Transferencias = ({ user }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [isSaldoVisible, setIsSaldoVisible] = useState(true);
+
+  const toggleSaldoVisibility = () => {
+    setIsSaldoVisible(!isSaldoVisible);
+  };
 
   useEffect(() => {
     const handleResize = () => setScreenWidth(window.innerWidth);
@@ -272,16 +279,27 @@ const Transferencias = ({ user }) => {
                 </div>
                 <div className="separator"></div>
                 <div className="info-box">
-                  <div className="info-label">Saldo disponible</div>
-                  <div className="info-value">{`$${parseFloat(
-                    selectedAccount.saldo
-                  ).toFixed(2)}`}</div>
+                  <div className="info-label">
+                    Saldo disponible{' '}
+                    <FontAwesomeIcon
+                      icon={isSaldoVisible ? faEye : faEyeSlash}
+                      onClick={toggleSaldoVisibility}
+                      style={{ cursor: 'pointer', marginLeft: '10px' }}
+                    />
+                  </div>
+                  <div className="info-value">
+                    {isSaldoVisible
+                      ? `$${parseFloat(selectedAccount.saldo).toFixed(2)}`
+                      : '****'}
+                  </div>
                 </div>
                 <div className="info-box-dos">
                   <div className="info-label-dos">Saldo contable</div>
-                  <div className="info-value-dos">{`$${parseFloat(
-                    selectedAccount.saldo
-                  ).toFixed(2)}`}</div>
+                  <div className="info-value-dos">
+                    {isSaldoVisible
+                      ? `$${parseFloat(selectedAccount.saldo).toFixed(2)}`
+                      : '****'}
+                  </div>
                 </div>
               </>
             ) : (
