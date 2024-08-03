@@ -3,7 +3,7 @@
   align-items: center;
   position: relative;
   overflow: hidden;
-  width: 80%;
+  width: 100%;
   margin: auto;
 }
 
@@ -67,7 +67,7 @@
   justify-content: center;
   font-size: 24px; /* Tamaño del ícono */
   cursor: pointer; /* Cursor apuntador al pasar el ratón */
-  z-index: 1000; /* Asegúrate de que el botón esté sobre otros elementos */
+  z-index: 900; /* Asegúrate de que el botón esté sobre otros elementos */
   transition: background-color 0.3s, transform 0.3s; /* Transición suave */
 }
 
@@ -114,7 +114,7 @@
 
 /* Estilo del título en cada card */
 .carouseld-card h3 {
-  margin-left: 260px;
+  margin-left: 660px;
   margin-top: 20px;
   margin-bottom: 30px;
   font-size: 1.4em; /* Aumenta el tamaño del texto */
@@ -131,4 +131,53 @@
   font-size: 17px;
   color: #333;
   margin: 10px 0;
+}
+
+/* Para pantallas móviles */
+/* Para pantallas móviles */
+@media (max-width: 768px) {
+  .carouseld-container {
+    width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
+    padding: 0 10px; /* Agrega un poco de padding para evitar que los bordes toquen el borde de la pantalla */
+    margin-left: -30px; /* Mueve un poco a la izquierda */
+  }
+
+  .carouseld-item {
+    min-width: 100%; /* Asegura que cada elemento ocupe todo el ancho del contenedor */
+    padding: 10px; /* Ajusta el padding para pantallas móviles */
+  }
+
+  .carouseld-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra los elementos horizontalmente */
+    justify-content: center; /* Centra los elementos verticalmente */
+    background: #f8f9fa; /* Color de fondo */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    font-size: 0.9em;
+    color: #333; /* Color del texto */
+  }
+
+  .carouseld-card img {
+    width: 100%; /* Asegura que la imagen ocupe todo el ancho del contenedor */
+    height: auto; /* Mantiene la proporción de la imagen */
+    border-radius: 4px; /* Bordes redondeados */
+  }
+
+  /* Estilo del título en cada card */
+  .carouseld-card h3 {
+    margin: 20px 0 10px; /* Espacio superior e inferior */
+    font-size: 1.4em; /* Tamaño del texto */
+    font-weight: 700; /* Peso de la fuente */
+    color: #31023f; /* Color del texto */
+    text-transform: uppercase; /* Texto en mayúsculas */
+    letter-spacing: 1px; /* Espacio entre letras */
+  }
+
+  .carouseld-card p {
+    font-size: 1.1em; /* Ajusta el tamaño del texto */
+  }
 }

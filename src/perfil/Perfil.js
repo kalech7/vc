@@ -17,6 +17,14 @@ const UserProfile = ({ user }) => {
   const [message, setMessage] = useState('');
 
   const location = useLocation();
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setScreenWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     if (!location.hash) {
@@ -85,11 +93,21 @@ const UserProfile = ({ user }) => {
   return (
     <>
       <HeaderD user={userState} />
-      <div className={`content-container ${menuOpen ? 'menu-open' : ''}`}>
+      <div
+        className={`content-container ${menuOpen ? 'menu-open' : ''}`}
+        style={{ display: 'flex', flexDirection: 'column', width: '100%' }}
+      >
         <button className="menu-toggle" onClick={toggleMenu}>
           <i className="fas fa-bars"></i>
         </button>
-        <div className="sidebar">
+        <div
+          className="sidebar"
+          style={{
+            width: menuOpen ? '250px' : '0',
+            transition: '0.3s',
+            flexShrink: 0,
+          }}
+        >
           <h2>Menú</h2>
           <Link to="/dashboard" className="button">
             Mis productos
@@ -107,7 +125,19 @@ const UserProfile = ({ user }) => {
             Soporte
           </Link>
         </div>
-        <div className="dashboard">
+        <div
+          className="dashboard"
+          style={{
+            flex: 1,
+            padding: '20px',
+            marginLeft: menuOpen
+              ? screenWidth >= 769
+                ? '350px'
+                : '250px'
+              : '0',
+            transition: 'margin-left 0.3s',
+          }}
+        >
           {userState ? (
             <>
               <h1>{`Perfil de ${userState.nombre}`}</h1>
@@ -148,13 +178,20 @@ const UserProfile = ({ user }) => {
                   <button
                     onClick={() => setIsEditing(true)}
                     style={{
-                      backgroundColor: '#007bff', // Cambia esto al color de tu página
-                      color: '#fff',
-                      padding: '10px 20px',
-                      border: 'none',
-                      borderRadius: '5px',
+                      marginTop: '30px',
+                      backgroundColor: 'rgb(66, 162, 165)', // Color de fondo del botón
+                      color: 'white', // Color del texto del botón
+                      border: 'none', // Sin borde
+                      padding: '10px',
+                      textAlign: 'center',
+                      textDecoration: 'none',
+                      display: 'inline-block',
+                      fontSize: '16px',
                       cursor: 'pointer',
-                      marginTop: '20px',
+                      transition: 'background-color 0.3s',
+                      outline: 'none', // Elimina el contorno al enfocar
+                      width: '100%', // Ocupa todo el ancho del contenedor
+                      borderRadius: '12px',
                     }}
                   >
                     Actualizar Datos
@@ -183,13 +220,20 @@ const UserProfile = ({ user }) => {
                         type="button"
                         onClick={sendVerificationCode}
                         style={{
-                          backgroundColor: '#007bff', // Cambia esto al color de tu página
-                          color: '#fff',
-                          padding: '10px 20px',
-                          border: 'none',
-                          borderRadius: '5px',
+                          marginTop: '30px',
+                          backgroundColor: 'rgb(66, 162, 165)', // Color de fondo del botón
+                          color: 'white', // Color del texto del botón
+                          border: 'none', // Sin borde
+                          padding: '10px',
+                          textAlign: 'center',
+                          textDecoration: 'none',
+                          display: 'inline-block',
+                          fontSize: '16px',
                           cursor: 'pointer',
-                          marginTop: '10px',
+                          transition: 'background-color 0.3s',
+                          outline: 'none', // Elimina el contorno al enfocar
+                          width: '100%', // Ocupa todo el ancho del contenedor
+                          borderRadius: '12px',
                         }}
                       >
                         Confirmar
@@ -207,13 +251,20 @@ const UserProfile = ({ user }) => {
                           type="button"
                           onClick={handleUpdate}
                           style={{
-                            backgroundColor: '#007bff', // Cambia esto al color de tu página
-                            color: '#fff',
-                            padding: '10px 20px',
-                            border: 'none',
-                            borderRadius: '5px',
+                            marginTop: '30px',
+                            backgroundColor: 'rgb(66, 162, 165)', // Color de fondo del botón
+                            color: 'white', // Color del texto del botón
+                            border: 'none', // Sin borde
+                            padding: '10px',
+                            textAlign: 'center',
+                            textDecoration: 'none',
+                            display: 'inline-block',
+                            fontSize: '16px',
                             cursor: 'pointer',
-                            marginTop: '10px',
+                            transition: 'background-color 0.3s',
+                            outline: 'none', // Elimina el contorno al enfocar
+                            width: '100%', // Ocupa todo el ancho del contenedor
+                            borderRadius: '12px',
                           }}
                         >
                           Verificar y Actualizar

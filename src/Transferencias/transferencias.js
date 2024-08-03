@@ -29,6 +29,14 @@ const Transferencias = ({ user }) => {
 
   const location = useLocation();
   const navigate = useNavigate();
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setScreenWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     if (!location.hash) {
@@ -100,28 +108,28 @@ const Transferencias = ({ user }) => {
 
   const handleTransfer = async (e) => {
     e.preventDefault();
-  
+
     if (!selectedAccount) {
       setMessage('Por favor selecciona una cuenta para transferir.');
       return;
     }
-  
+
     if (!nombre || !correo || !cuentaDestino || !monto) {
       setMessage('Por favor completa todos los campos requeridos.');
       return;
     }
-  
+
     const montoFloat = parseFloat(monto);
     if (isNaN(montoFloat) || montoFloat <= 0) {
       setErrorMonto('Por favor ingresa un monto válido.');
       return;
     }
-  
+
     if (montoFloat > selectedAccount.saldo) {
       setMessage('Saldo insuficiente para realizar la transferencia.');
       return;
     }
-  
+
     const CorreoV = userState.correo;
     const fechaActual = new Date();
     const fechaFormateada = `${fechaActual.getFullYear()}-${(
@@ -142,13 +150,13 @@ const Transferencias = ({ user }) => {
       .toString()
       .padStart(2, '0')}`;
     setFechaTransaccion(fechaFormateada);
-  
+
     const nuevoSaldoActual = selectedAccount.saldo - montoFloat;
     setSaldoActual(nuevoSaldoActual);
-  
+
     const nuevoSaldoDestino = saldoDestino + montoFloat; // Calcular el nuevo saldo del destinatario
     setSaldoDestino(nuevoSaldoDestino); // Establecer el saldo destino
-  
+
     try {
       const response = await fetch(
         'https://vc-su7z.onrender.com/send-confirmation-link',
@@ -171,11 +179,11 @@ const Transferencias = ({ user }) => {
           }),
         }
       );
-  
+
       if (response.ok) {
         setTransferenciaRealizada(true);
         setMessage('Enlace de confirmación enviado a tu correo electrónico.');
-  
+
         const updatedUser = {
           ...userState,
           saldo: nuevoSaldoActual,
@@ -188,7 +196,7 @@ const Transferencias = ({ user }) => {
       } else {
         setMessage('Error al enviar el enlace de confirmación.');
       }
-  
+
       const data = await response.json();
       console.log('Respuesta del servidor:', data);
       setMessage(
@@ -199,7 +207,6 @@ const Transferencias = ({ user }) => {
       setMessage('Error al procesar la transferencia.');
     }
   };
-  
 
   const transferData = {
     selectedAccount,
@@ -212,15 +219,25 @@ const Transferencias = ({ user }) => {
   const qrData = `https://vertexcapital.today/login?data=${encodeURIComponent(
     transferDataString
   )}`;
-  
+
   return (
     <div>
       <Header user={userState} />
-      <div className={`content-container ${menuOpen ? 'menu-open' : ''}`}>
+      <div
+        className={`content-container ${menuOpen ? 'menu-open' : ''}`}
+        style={{ display: 'flex', flexDirection: 'column', width: '100%' }}
+      >
         <button className="menu-toggle" onClick={toggleMenu}>
           <i className="fas fa-bars"></i>
         </button>
-        <div className="sidebar">
+        <div
+          className="sidebar"
+          style={{
+            width: menuOpen ? '250px' : '0',
+            transition: '0.3s',
+            flexShrink: 0,
+          }}
+        >
           <h2>Menú</h2>
           <Link to="/dashboard" className="button">
             Mis productos

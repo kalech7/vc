@@ -67,7 +67,7 @@ const CarouselD = () => {
             key={index}
             className="carouseld-item"
             style={{
-              transform: `translateX(-${currentIndex * cardWidth}px)`,
+              transform: `translateX(-${currentIndex * 100}%)`,
             }}
           >
             <div className="carouseld-card">

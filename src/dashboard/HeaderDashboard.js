@@ -25,9 +25,15 @@ const Header = ({ user, setUserState }) => {
               {user ? `${user.nombre} ${user.apellido}` : 'Usuario'}
             </Link>
             <Link to="/" className="nav_link_inicio" onClick={handleLogout}>
-              Cerrar Sesión
+              <span className="nav_text">Cerrar Sesión </span>
+              <i className="fas fa-sign-out-alt nav_icon"></i>
             </Link>
           </div>
+        </div>
+        <div className="mobile_logout">
+          <Link to="/" onClick={handleLogout}>
+            <i className="fas fa-sign-out-alt"></i>
+          </Link>
         </div>
       </nav>
     </header>
