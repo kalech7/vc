@@ -4,10 +4,14 @@
   padding: 20px;
   margin-top: 70px;
   margin-bottom: 190px;
+  flex-direction: column; /* Ajuste para pantallas pequeñas */
+  align-items: center; /* Centrar los elementos en pantallas pequeñas */
 }
 
 .input-section {
-  width: 45%;
+  width: 100%; /* Ajuste para pantallas pequeñas */
+  max-width: 600px; /* Limitar el ancho máximo */
+  margin-bottom: 20px; /* Espacio entre las secciones */
 }
 
 .result-section {
@@ -17,7 +21,8 @@
     rgb(221, 186, 137) 100%
   ); /* Fondo de la caja contenedora */
   padding: 30px;
-  width: 500px;
+  width: 100%; /* Ajuste para pantallas pequeñas */
+  max-width: 600px; /* Limitar el ancho máximo */
   border-radius: 8px;
   margin-top: 20px; /* Espacio superior para separar del título */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
@@ -27,18 +32,33 @@
 
 h3 {
   margin: 10px 0;
+  font-size: 18px; /* Tamaño de fuente más grande */
+  color: #1c2833; /* Color de texto */
 }
 
 input,
 select {
   width: 100%;
-  padding: 8px;
+  padding: 12px;
   margin: 10px 0;
+  border: 1px solid #ccc; /* Borde ligero */
+  border-radius: 4px; /* Bordes redondeados */
+  font-size: 16px; /* Tamaño de fuente */
+  font-family: 'Roboto', sans-serif; /* Tipografía atractiva */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  transition: border-color 0.3s ease-in-out; /* Transición para el color del borde */
+}
+
+input:focus,
+select:focus {
+  border-color: #007bff; /* Color del borde al enfocar */
+  outline: none; /* Elimina el contorno al enfocar */
 }
 
 .simular {
   border-radius: 10px;
-  width: 250px;
+  width: 100%; /* Ajuste para pantallas pequeñas */
+  max-width: 250px; /* Limitar el ancho máximo */
   margin-top: 25px;
   margin-bottom: 20px;
   background-color: #24262b; /* Color de fondo del botón */
@@ -56,4 +76,52 @@ select {
 
 .simular:hover {
   background-color: rgb(79, 81, 82);
+}
+
+.input-group {
+  position: relative;
+}
+
+.input-dollar::before,
+.input-months::after {
+  content: '$';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #333;
+}
+
+.input-dollar::before {
+  left: 10px;
+}
+
+.input-months::after {
+  content: 'meses';
+  right: 10px;
+}
+
+.input-dollar,
+.input-months {
+  padding-left: 20px;
+  padding-right: 50px; /* Espacio para la palabra "meses" */
+}
+
+/* Media queries para pantallas pequeñas */
+@media (max-width: 768px) {
+  .calculator-container {
+    flex-direction: column; /* Apilar las secciones verticalmente */
+    align-items: center; /* Centrar las secciones */
+    padding: 10px; /* Reducir el padding */
+  }
+
+  .input-section,
+  .result-section {
+    width: 100%; /* Hacer que las secciones ocupen el 100% del ancho */
+    max-width: none; /* Eliminar el límite de ancho máximo */
+  }
+
+  .result-section {
+    padding: 20px; /* Reducir el padding para pantallas pequeñas */
+  }
 }

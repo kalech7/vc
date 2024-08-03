@@ -6,16 +6,17 @@ import { Link, useLocation } from 'react-router-dom';
 import { MagicTabSelect } from 'react-magic-motion';
 import { ThemeContext } from '../context/ThemeContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
+import { faMoon, faSun, faBars } from '@fortawesome/free-solid-svg-icons';
 
 const Header = () => {
-  const [hoveredIndex, setHoveredIndex] = useState(); 
+  const [hoveredIndex, setHoveredIndex] = useState();
+  const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   useEffect(() => {
     if (!location.hash) {
-      window.scrollTo(0, 0); 
+      window.scrollTo(0, 0);
     }
   }, [location]);
 
@@ -43,7 +44,7 @@ const Header = () => {
       {hoveredIndex === i && (
         <MagicTabSelect
           id="navLinks"
-          transition={{ type: "spring", bounce: 0.4}}
+          transition={{ type: 'spring', bounce: 0.4 }}
         >
           <span
             style={{
@@ -78,30 +79,40 @@ const Header = () => {
           <img src={logo} className="logo_img" alt="VertexCapital Logo" />
           VertexCapital
         </Link>
-        <div>
-          <div style={{ display: 'flex', gap: '1.5rem' }}>
-            {linksComponents}
+        <div className="nav_toggle" onClick={() => setMenuOpen(!menuOpen)}>
+          <FontAwesomeIcon icon={faBars} />
+        </div>
+        <ul className={`nav_list ${menuOpen ? 'active' : ''}`}>
+          {linksComponents}
+          <li>
             <Link to="/login" className="nav_link_inicio">
               Banca Online
             </Link>
+          </li>
+          <li>
             <button
               onClick={toggleTheme}
               className="theme-toggle-button"
               style={{
                 backgroundColor: theme === 'light' ? '#1780EB' : '#EBAA76',
-                color: theme === 'light' ? '#FFF' : '#000'
+                color: theme === 'light' ? '#FFF' : '#000',
               }}
               onMouseEnter={(e) => {
-                e.target.style.backgroundColor = theme === 'light' ? '#0F6BCB' : '#D68F5E';
+                e.target.style.backgroundColor =
+                  theme === 'light' ? '#0F6BCB' : '#D68F5E';
               }}
               onMouseLeave={(e) => {
-                e.target.style.backgroundColor = theme === 'light' ? '#1780EB' : '#EBAA76';
+                e.target.style.backgroundColor =
+                  theme === 'light' ? '#1780EB' : '#EBAA76';
               }}
             >
-              <FontAwesomeIcon icon={theme === 'light' ? faMoon : faSun} style={{ color: theme === 'light' ? '#FFF' : '#000' }} />
+              <FontAwesomeIcon
+                icon={theme === 'light' ? faMoon : faSun}
+                style={{ color: theme === 'light' ? '#FFF' : '#000' }}
+              />
             </button>
-          </div>
-        </div>
+          </li>
+        </ul>
       </nav>
     </header>
   );

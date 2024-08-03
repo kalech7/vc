@@ -86,14 +86,13 @@ body {
 .info-container {
   background: linear-gradient(180deg, #b6cde2 0%, rgb(221, 186, 137) 100%);
   padding: 30px;
-  width: 500px;
+  width: 100%;
+  max-width: 600px;
   border-radius: 15px; /* Bordes más redondeados */
   margin-top: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
   font-family: 'Roboto', sans-serif; /* Tipografía atractiva */
   color: #333; /* Color de texto */
-  display: flex; /* Para alinear los íconos y el texto */
-  flex-direction: column; /* Alineación vertical */
 }
 
 .info-box {
@@ -115,20 +114,31 @@ body {
   border-radius: 4px;
 }
 
-/* estilos_perfil.css */
+.info-detail h3 {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #004d40;
+  margin-bottom: 15px;
+}
 
-/* Estilo para todos los h3 dentro de .info-section */
+.info-detail p {
+  font-size: 1.1em;
+  margin: 10px 0;
+}
+
+.info-detail p strong {
+  font-weight: bold;
+  color: #000;
+}
+
 .info-container h3 {
   font-size: 1.5em; /* Tamaño de fuente más grande */
-  font-weight: 600; /* Negrita moderada */
+  font-weight: 300; /* Negrita moderada */
   color: #004d40; /* Color verde oscuro para un contraste elegante */
-  background-color: #b2dfdb; /* Fondo verde menta claro para un contraste suave */
-  padding: 15px 20px; /* Padding para darle espacio alrededor del texto */
-  border-radius: 8px; /* Bordes redondeados para suavizar la apariencia */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil para destacar el encabezado */
-  margin: 0 0 20px 0; /* Margen inferior para separar del contenido siguiente */
-  text-align: center; /* Centrar el texto */
-  border-left: 5px solid #004d40; /* Línea vertical verde oscuro */
+  padding: 15px 5px; /* Padding para darle espacio alrededor del texto */
+  border: none;
+  box-shadow: none;
+  text-align: left;
 }
 
 .dashboard .button-container {

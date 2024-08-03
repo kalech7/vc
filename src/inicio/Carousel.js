@@ -7,12 +7,17 @@ import Ahorro1 from '../img/Ahorro1.jpg';
 import '../estilos/estilos_inicio.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCreditCard, faFileContract, faMoneyBill, faPiggyBank } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCreditCard,
+  faFileContract,
+  faMoneyBill,
+  faPiggyBank,
+} from '@fortawesome/free-solid-svg-icons';
 
 const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [cardWidth, setCardWidth] = useState(0);
-  const [initialLoad, setInitialLoad] = useState(true); // Estado para controlar la carga inicial
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const navigate = useNavigate();
 
   // Array de datos de las tarjetas
@@ -50,6 +55,17 @@ const Carousel = () => {
   useEffect(() => {
     // Calcular el ancho inicial de las tarjetas al cargar
     setCardWidth(calculateCardWidth());
+
+    // Agregar un listener para cambiar el estado cuando el tamaño de la ventana cambie
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   // Función para calcular el ancho de cada tarjeta
@@ -67,14 +83,11 @@ const Carousel = () => {
   // Función para avanzar a la siguiente tarjeta
   const nextCard = () => {
     setCurrentIndex((prevIndex) => prevIndex + 1);
-    setInitialLoad(false); // Indicar que la carga inicial ha terminado al avanzar
   };
 
   // Función para retroceder a la tarjeta anterior
   const prevCard = () => {
-    if (initialLoad || currentIndex === 0) return; // Evitar retroceso si todavía estamos en la carga inicial o ya estamos en el inicio
-
-    setCurrentIndex((prevIndex) => prevIndex - 1);
+    setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : 0));
   };
 
   // Función para manejar el click en el botón de cada tarjeta
@@ -84,15 +97,20 @@ const Carousel = () => {
 
   return (
     <article className="carousel">
-      <button
-        id="prevButton"
-        className="carousel-button prev-button"
-        onClick={prevCard}
-      >
-        <i className="fas fa-chevron-left"></i>
-      </button>
+      {!isMobile && (
+        <button
+          id="prevButton"
+          className="carousel-button prev-button"
+          onClick={prevCard}
+        >
+          <i className="fas fa-chevron-left"></i>
+        </button>
+      )}
       <div className="cards">
-        {Array.from({ length: cardsData.length * 100 }).map((_, index) => {
+        {(isMobile
+          ? cardsData
+          : Array.from({ length: cardsData.length * 100 })
+        ).map((_, index) => {
           const dataIndex = index % cardsData.length;
           return (
             <div
@@ -109,11 +127,12 @@ const Carousel = () => {
               />
               <div className="cards_text">
                 <h3 className="card_title">
-                {dataIndex === 0 && <FontAwesomeIcon icon={faCreditCard} />} {' '}
-                  {dataIndex === 1 && <FontAwesomeIcon icon={faFileContract} />} {' '}
-                  {dataIndex === 2 && <FontAwesomeIcon icon={faMoneyBill} />} {' '}
-                  {dataIndex === 3 && <FontAwesomeIcon icon={faPiggyBank} />} {' '}
-                  {cardsData[dataIndex].title}</h3>
+                  {dataIndex === 0 && <FontAwesomeIcon icon={faCreditCard} />}{' '}
+                  {dataIndex === 1 && <FontAwesomeIcon icon={faFileContract} />}{' '}
+                  {dataIndex === 2 && <FontAwesomeIcon icon={faMoneyBill} />}{' '}
+                  {dataIndex === 3 && <FontAwesomeIcon icon={faPiggyBank} />}{' '}
+                  {cardsData[dataIndex].title}
+                </h3>
                 <p className="card_copy">{cardsData[dataIndex].copy}</p>
                 <button
                   className="card_button"
@@ -126,13 +145,15 @@ const Carousel = () => {
           );
         })}
       </div>
-      <button
-        id="nextButton"
-        className="carousel-button next-button"
-        onClick={nextCard}
-      >
-        <i className="fas fa-chevron-right"></i>
-      </button>
+      {!isMobile && (
+        <button
+          id="nextButton"
+          className="carousel-button next-button"
+          onClick={nextCard}
+        >
+          <i className="fas fa-chevron-right"></i>
+        </button>
+      )}
     </article>
   );
 };

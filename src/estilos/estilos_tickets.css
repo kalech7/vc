@@ -159,3 +159,11 @@ button[type='submit'] {
 .ticket-item button:hover {
   background-color: #34495e;
 }
+@media (max-width: 768px) {
+  button[type='submit'] {
+    padding: 8px 16px; /* Reduce el relleno */
+    font-size: 16px; /* Reduce el tamaño de la fuente */
+    width: 90%; /* Ajusta el ancho del botón según sea necesario */
+    max-width: 250px; /* Establece un ancho máximo para evitar que sea demasiado grande */
+  }
+}

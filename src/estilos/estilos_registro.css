@@ -385,8 +385,6 @@ form a:hover {
   }
 }
 
-
-
 /* Estilo de error para el campo de No de documento */
 #nodocumento.error,
 #celular.error,
@@ -404,4 +402,69 @@ select.error {
   background-color: #ffe6e6; /* Fondo rojo claro */
   outline: none;
   box-shadow: 0 0 10px #ff0000; /* Efecto de sombra para mayor visibilidad */
+}
+
+@media (max-width: 768px) {
+  .registro-container {
+    padding: 20px;
+    width: 90%; /* Reducir el ancho del contenedor */
+    margin: 0 auto; /* Centramos el contenedor */
+  }
+
+  .form-registro label {
+    margin-bottom: 5px;
+    text-align: left; /* Alineamos las etiquetas a la izquierda */
+  }
+
+  .form-registro input,
+  .form-registro select {
+    width: 100%; /* Ajustar ancho de los inputs */
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+
+  .identificacion_user {
+    display: flex;
+    flex-direction: column; /* Apilar verticalmente en pantallas pequeñas */
+    margin-bottom: 15px;
+  }
+
+  .identificacion_user div {
+    margin-right: 0; /* Eliminar el espacio entre los campos */
+  }
+
+  .identificacion_user label {
+    margin-left: 0; /* Eliminar margen izquierdo */
+  }
+
+  #button-avanza-retro {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #button-avanza-retro button {
+    width: 100%; /* Ajustar el ancho de los botones */
+    margin-bottom: 10px; /* Añadir espacio entre los botones */
+  }
+
+  .step-indicators {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .step {
+    margin-bottom: 10px;
+    text-align: center; /* Centrar texto de los pasos */
+  }
+
+  #button-avanza-retro {
+    flex-direction: column;
+    align-items: center;
+    margin: 20px auto;
+  }
+
+  #button-avanza-retro button {
+    width: 80%; /* Ajustar el ancho de los botones */
+    margin-bottom: 10px; /* Añadir espacio entre los botones */
+  }
 }

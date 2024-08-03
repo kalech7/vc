@@ -222,10 +222,21 @@ button[type='button']:focus {
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 /*responsive footer*/
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .footer-col {
     width: 50%;
     margin-bottom: 30px;
+  }
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    width: 300px; /* Ajusta el ancho según sea necesario */
+    margin-left: -10px;
+    background: linear-gradient(142deg, #8cb9e5 0%, rgb(241, 184, 103) 100%);
+    border-radius: 30px;
+    padding: 34px;
+    box-shadow: 10px 10px rgba(17, 17, 17, 0.1);
+    position: relative;
   }
 }
 @media (max-width: 574px) {

@@ -24,6 +24,14 @@ const UserDashboard = ({ user }) => {
 
   const location = useLocation();
   const navigate = useNavigate();
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setScreenWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     if (!location.hash) {
@@ -190,11 +198,21 @@ const UserDashboard = ({ user }) => {
   return (
     <>
       <Header user={userState} />
-      <div className={`content-container ${menuOpen ? 'menu-open' : ''}`}>
+      <div
+        className={`content-container ${menuOpen ? 'menu-open' : ''}`}
+        style={{ display: 'flex', flexDirection: 'column', width: '100%' }}
+      >
         <button className="menu-toggle" onClick={toggleMenu}>
           <i className="fas fa-bars"></i>
         </button>
-        <div className="sidebar">
+        <div
+          className="sidebar"
+          style={{
+            width: menuOpen ? '250px' : '0',
+            transition: '0.3s',
+            flexShrink: 0,
+          }}
+        >
           <h2>Menú</h2>
           <Link to="/dashboard" className="button">
             Mis productos
@@ -212,7 +230,19 @@ const UserDashboard = ({ user }) => {
             Soporte
           </Link>
         </div>
-        <div className="dashboard">
+        <div
+          className="dashboard"
+          style={{
+            flex: 1,
+            padding: '20px',
+            marginLeft: menuOpen
+              ? screenWidth >= 769
+                ? '350px'
+                : '250px'
+              : '0',
+            transition: 'margin-left 0.3s',
+          }}
+        >
           {userState ? (
             <>
               <h1>Historial de Transacciones</h1>
@@ -286,7 +316,10 @@ const UserDashboard = ({ user }) => {
                           {mov.tipo === 'Enviado' ? '-' : '+'}${mov.monto}
                         </div>
                         <div className="movimiento-saldo">
-                          Saldo después de la transacción: ${mov.tipo === 'Enviado' ? mov.saldoActual : mov.saldoDestino}
+                          Saldo después de la transacción: $
+                          {mov.tipo === 'Enviado'
+                            ? mov.saldoActual
+                            : mov.saldoDestino}
                         </div>
                       </div>
                     </div>

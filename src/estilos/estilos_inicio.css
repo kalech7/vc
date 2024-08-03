@@ -350,13 +350,14 @@ ul {
 }
 
 .footer {
+  width: 100%;
   background-color: #24262b;
   color: #ffffff;
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
   justify-content: space-between;
   padding: 20px;
+  box-sizing: border-box; /* Asegura que el padding no aumente el ancho del footer */
 }
 
 .footer-top {
@@ -540,13 +541,16 @@ ul {
 @media (max-width: 768px) {
   .nav_toggle {
     display: block;
+    position: fixed; /* Asegura que el botón de toggle esté siempre visible */
+    top: 20px; /* Ajusta según sea necesario */
+    right: 20px; /* Ajusta según sea necesario */
+    z-index: 1001; /* Asegura que el botón de toggle esté por encima del menú */
   }
 
   .nav_list {
     display: none;
     flex-direction: column;
-    align-items: center; /* Centrar los elementos del menú */
-    justify-content: center; /* Centrar los elementos del menú */
+    align-items: center;
     position: fixed;
     top: 0;
     right: -100%;
@@ -557,25 +561,88 @@ ul {
     padding-top: var(--header-height);
     transition: right 0.3s ease;
   }
+
   .nav_list.active {
     right: 0;
   }
 
   .nav_link {
     margin: 1rem 0; /* Añadir margen entre los elementos del menú */
+    padding: 10px 0; /* Añadir padding a los enlaces del menú */
+    width: 100%; /* Asegurar que los enlaces ocupen todo el ancho */
+    text-align: center; /* Centrar el texto */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Línea de separación */
   }
+
+  .nav_link:last-child {
+    border-bottom: none; /* Eliminar la línea de separación del último elemento */
+  }
+
+  .nav_link_inicio {
+    font-weight: 700;
+    font-size: 17px;
+    text-decoration: none;
+    color: #24262b;
+    background-color: rgb(165, 201, 202);
+    padding: 0.5rem 1rem; /* Ajuste de relleno para el cuadro */
+    border-radius: 4px; /* Bordes redondeados para el cuadro */
+    display: inline-block; /* Convertir enlace en un elemento en línea */
+    margin: 10px 0; /* Espacio adicional para este enlace */
+  }
+
+  .nav_link_inicio:hover {
+    background-color: rgb(57, 148, 153);
+  }
+
   .nav_list.sidebar {
     display: block;
   }
 }
 
-:root {
-  --button-background-light: #a5c9ca; /* Color claro del botón */
-  --button-background-dark: #42a2a5; /* Color oscuro del botón */
-  --button-text-color: #24262b; /* Color del texto en estado normal */
-  --button-hover-text-color: #ffffff; /* Color del texto en estado hover */
-}
+/* Estilos para pantallas pequeñas */
+@media (max-width: 768px) {
+  .encabezado_main {
+    flex-direction: column;
+    padding: 20px;
+  }
 
+  .encabezado_textos {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .portada {
+    width: 100%;
+    height: auto;
+    max-height: none;
+  }
+
+  .cta {
+    display: inline-block;
+    margin-top: 20px;
+  }
+
+  .carousel {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cards {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .card {
+    width: 80%; /* Ajusta el ancho de las tarjetas en dispositivos móviles */
+    max-width: none; /* Elimina el límite de ancho máximo */
+  }
+
+  .carousel-button {
+    display: none; /* Oculta los botones de navegación en dispositivos móviles */
+  }
+}
 /* Estilo del botón */
 .theme-toggle-button {
   border: 1px solid var(--text-color);

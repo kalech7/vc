@@ -50,9 +50,15 @@ body {
   background: none;
   border: none;
   cursor: pointer;
-  z-index: 1001;
+  z-index: 1000;
   color: #ffffff;
   font-size: 18px;
+}
+
+.header .nav_logo {
+  display: flex;
+  align-items: center;
+  padding-left: 60px; /* Ajusta según sea necesario */
 }
 
 .dashboard {
@@ -156,8 +162,6 @@ body {
 
 .dashboard .button {
   display: block;
-  margin: 10px auto;
-  padding: 10px 20px;
   background-color: rgb(165, 201, 202);
   color: black;
   border: none;
@@ -220,7 +224,7 @@ button.paypal-button-container:hover {
   padding: 20px;
   box-sizing: border-box;
   text-align: center;
-  z-index: 1000;
+  z-index: 999;
 }
 
 .modal h2 {
@@ -362,7 +366,7 @@ ul {
 
 .modal {
   position: absolute;
-  top: 50%;
+  top: 20%;
   left: 50%;
   right: auto;
   bottom: auto;
@@ -437,7 +441,7 @@ ul {
   align-items: center;
   justify-content: center;
   font-size: 18px;
-  z-index: 999; /* Asegúrate de que las flechas estén por encima del contenido */
+  z-index: 911; /* Asegúrate de que las flechas estén por encima del contenido */
 }
 
 .carousel-button.left {
@@ -448,8 +452,39 @@ ul {
   right: 2px;
 }
 
+.mobile_logout {
+  display: none;
+}
+
 /*responsive footer*/
 @media (max-width: 768px) {
+  .nav_menu {
+    display: none;
+  }
+
+  .nav_text {
+    display: none;
+  }
+
+  .nav_icon {
+    display: inline-block;
+  }
+
+  .mobile_logout {
+    display: block;
+    color: #ffffff;
+    font-size: 20px;
+  }
+
+  .mobile_logout a {
+    color: #ffffff;
+    text-decoration: none;
+  }
+
+  .mobile_logout a:hover {
+    color: #dcdcdc;
+  }
+
   .footer {
     padding: 15px; /* Ajusta el espaciado interno */
   }
@@ -461,6 +496,69 @@ ul {
 
   .footer ul {
     padding: 0;
+  }
+
+  .sidebar {
+    width: 50%; /* Ajusta el ancho del sidebar al 50% */
+    max-width: 25%; /* Asegura que el sidebar no se extienda más allá del 50% */
+    min-width: 45%; /* Asegura que el sidebar ocupe al menos el 50% */
+    left: -50%; /* Asegúrate de que el menú esté fuera de la vista cuando esté cerrado */
+    z-index: 1000;
+    transition: left 0.3s ease; /* Agrega una transición suave */
+  }
+
+  .menu-open .sidebar {
+    left: 0; /* Trae el menú a la vista cuando está abierto */
+  }
+
+  .content-container {
+    flex-direction: column;
+  }
+
+  .menu-open .content-container {
+    transform: translateX(0);
+  }
+
+  .dashboard {
+    margin-left: 0;
+    padding: 20px;
+    display: block; /* Asegúrate de que el dashboard sea visible */
+    width: 100%;
+  }
+
+  .menu-toggle {
+    left: 20px;
+    z-index: 1003;
+  }
+
+  .dashboard .info-box,
+  .dashboard .info-box-dos {
+    align-items: flex-start;
+  }
+
+  .dashboard .info-value,
+  .dashboard .info-value-dos {
+    width: 100%;
+    font-size: 19px;
+    text-align: right;
+  }
+
+  .sidebar {
+    padding-top: 60px; /* Reducir el padding superior */
+    padding-left: 10px; /* Reducir el padding izquierdo */
+    padding-right: 10px; /* Reducir el padding derecho */
+  }
+
+  .button {
+    background-color: rgb(57, 148, 153);
+    color: rgb(255, 255, 255); /* Color del texto */
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-align: center; /* Asegurar que el texto esté centrado */
   }
 }
 
@@ -499,5 +597,30 @@ ul {
 
   .footer .logo_img {
     max-width: 60px; /* Tamaño máximo del logo más pequeño */
+  }
+}
+
+@media (min-width: 769px) {
+  .menu-open .content-container {
+    transform: translateX(
+      250px
+    ); /* Mueve el contenido principal hacia la derecha */
+  }
+
+  .sidebar {
+    width: 250px;
+    left: 0;
+    transition: none;
+  }
+
+  .dashboard {
+    margin-left: 250px;
+    padding: 20px;
+    transition: margin-left 0.3s ease-in-out;
+  }
+
+  .menu-toggle {
+    left: 20px;
+    z-index: 1003;
   }
 }

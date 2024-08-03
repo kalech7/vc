@@ -11,9 +11,9 @@ import CarouselD from './caruselD.jsx';
 Modal.setAppElement('#root');
 
 const UserDashboard = ({ user }) => {
-  const [menuOpen, setMenuOpen] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [amount, setAmount] = useState('');
-  const [selectedAccount, setSelectedAccount] = useState(null); // Estado para la cuenta seleccionada
+  const [selectedAccount, setSelectedAccount] = useState(null);
   const [userState, setUserState] = useState(() => {
     const storedUser = localStorage.getItem(`user_${user.nodocumento}`);
     return storedUser ? JSON.parse(storedUser) : user;
@@ -21,10 +21,18 @@ const UserDashboard = ({ user }) => {
   const [isLoading, setLoading] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [cuentas, setCuentas] = useState([]);
-  const [modalRecargaIsOpen, setModalRecargaIsOpen] = useState(false); // Estado para el modal de recarga
+  const [modalRecargaIsOpen, setModalRecargaIsOpen] = useState(false);
   const carouselRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const location = useLocation();
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setScreenWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     if (!location.hash) {
@@ -56,40 +64,32 @@ const UserDashboard = ({ user }) => {
   const handleAmountChange = (e) => {
     const value = e.target.value;
     setAmount(value);
-    console.log('Monto ingresado:', value);
   };
 
   const handlePaymentSuccess = async (details) => {
     const newAmount = parseFloat(amount);
     if (newAmount >= 1) {
       alert(`Transacción completada por ${details.payer.name.given_name}`);
-  
-      const updatedSaldo = parseFloat(selectedAccount.saldo) + newAmount; // Actualiza el saldo de la cuenta seleccionada
-  
-      // Imprimir el valor y tipo de userState.cuentas para depuración
-      console.log('userState.cuentas:', userState.cuentas);
-      console.log('Tipo de userState.cuentas:', typeof userState.cuentas);
-  
-      // Verificar si cuentas es un array antes de usar map
+
+      const updatedSaldo = parseFloat(selectedAccount.saldo) + newAmount;
+
       const updatedUser = {
         ...userState,
-        cuentas: Array.isArray(userState.cuentas) 
-          ? userState.cuentas.map((cuenta) =>
-              cuenta.numeroCuenta === selectedAccount.numeroCuenta
-                ? { ...cuenta, saldo: updatedSaldo }
-                : cuenta
-            )
-          : [],
+        cuentas: userState.cuentas.map((cuenta) =>
+          cuenta.numeroCuenta === selectedAccount.numeroCuenta
+            ? { ...cuenta, saldo: updatedSaldo }
+            : cuenta
+        ),
       };
-  
+
       setUserState(updatedUser);
       localStorage.setItem(
         `user_${user.nodocumento}`,
         JSON.stringify(updatedUser)
       );
-  
+
       setLoading(true);
-  
+
       const date = new Date();
       const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1)
         .toString()
@@ -100,7 +100,7 @@ const UserDashboard = ({ user }) => {
         .getMinutes()
         .toString()
         .padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
-  
+
       try {
         const response = await fetch(
           'https://vc-su7z.onrender.com/transacciones/recarga',
@@ -110,28 +110,30 @@ const UserDashboard = ({ user }) => {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              numeroCuenta: selectedAccount.numeroCuenta, // Usar la cuenta seleccionada
+              numeroCuenta: selectedAccount.numeroCuenta,
               monto: newAmount,
               saldo: updatedSaldo,
               fecha: formattedDate,
             }),
           }
         );
-  
+
         if (!response.ok) {
           throw new Error('Error al registrar la recarga');
         }
-  
+
         const userDataResponse = await fetch(
           `https://vc-su7z.onrender.com/clientes/${userState.nodocumento}`
         );
         if (!userDataResponse.ok) {
-          throw new Error('Error al obtener los datos actualizados del usuario');
+          throw new Error(
+            'Error al obtener los datos actualizados del usuario'
+          );
         }
-  
+
         const userData = await userDataResponse.json();
         setUserState(userData);
-        setCuentas(userData.cuentas); // Actualiza las cuentas con los datos actualizados
+        setCuentas(userData.cuentas);
         localStorage.setItem(
           `user_${user.nodocumento}`,
           JSON.stringify(userData)
@@ -140,13 +142,12 @@ const UserDashboard = ({ user }) => {
         console.error('Error al registrar la recarga:', error);
       } finally {
         setLoading(false);
-        setModalRecargaIsOpen(false); // Cierra el modal de recarga después de completar la transacción
+        setModalRecargaIsOpen(false);
       }
     } else {
       alert('El monto debe ser mayor a 100 para recargar.');
     }
   };
-  
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -185,8 +186,6 @@ const UserDashboard = ({ user }) => {
       }
 
       const nodocumento = userState.nodocumento;
-      console.log('UserDocument:', nodocumento);
-
       const response = await fetch(
         `https://vc-su7z.onrender.com/clientes/${nodocumento}/cuentas`,
         {
@@ -220,8 +219,6 @@ const UserDashboard = ({ user }) => {
         `user_${user.nodocumento}`,
         JSON.stringify(updatedUser)
       );
-
-      console.log('Nueva cuenta creada:', cuentaCreada);
     } catch (error) {
       console.error('Error al crear la nueva cuenta:', error.message);
       alert(`Hubo un error creando la nueva cuenta: ${error.message}`);
@@ -257,32 +254,55 @@ const UserDashboard = ({ user }) => {
       }px)`;
     }
   };
+
   return (
     <>
       <HeaderD user={userState} setUserState={setUserState} />
-      <div className={`content-container ${menuOpen ? 'menu-open' : ''}`}>
+      <div
+        className={`content-container ${menuOpen ? 'menu-open' : ''}`}
+        style={{ display: 'flex', flexDirection: 'column', width: '100%' }}
+      >
         <button className="menu-toggle" onClick={toggleMenu}>
           <i className="fas fa-bars"></i>
         </button>
-        <div className="sidebar">
+        <div
+          className="sidebar"
+          style={{
+            width: menuOpen ? '300px' : '0',
+            transition: '0.3s',
+            flexShrink: 0,
+          }}
+        >
           <h2>Menú</h2>
           <Link to="/dashboard" className="button">
             Mis productos
           </Link>
-          <Link to="/transferencias" className="button">
+          <Link to="/transferencias" className="button" onClick={toggleMenu}>
             Transferencias
           </Link>
-          <Link to="/movCuenta" className="button">
+          <Link to="/movCuenta" className="button" onClick={toggleMenu}>
             Tus Movimientos
           </Link>
-          <Link to="/perfil" className="button">
+          <Link to="/perfil" className="button" onClick={toggleMenu}>
             Mi perfil
           </Link>
-          <Link to="/tickets" className="button">
+          <Link to="/tickets" className="button" onClick={toggleMenu}>
             Soporte
           </Link>
         </div>
-        <div className="dashboard">
+        <div
+          className="dashboard"
+          style={{
+            flex: 1,
+            padding: '20px',
+            marginLeft: menuOpen
+              ? screenWidth >= 769
+                ? '350px'
+                : '250px'
+              : '0',
+            transition: 'margin-left 0.3s',
+          }}
+        >
           {isLoading ? (
             <p>Cargando...</p>
           ) : userState ? (

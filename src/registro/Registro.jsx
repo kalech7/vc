@@ -84,16 +84,18 @@ const Registro = () => {
     const symbolRegex = /[!@#$%^&*(),.?":{}|<>]/;
     const uppercaseRegex = /[A-Z]/;
     const lowercaseRegex = /[a-z]/;
-    const sequentialLettersRegex = /abc|bcd|cde|def|efg|fgh|ghi|hij|ijk|jkl|klm|lmn|mno|nop|opq|pqr|qrs|rst|stu|tuv|uvw|vwx|wxy|xyz/;
+    const sequentialLettersRegex =
+      /abc|bcd|cde|def|efg|fgh|ghi|hij|ijk|jkl|klm|lmn|mno|nop|opq|pqr|qrs|rst|stu|tuv|uvw|vwx|wxy|xyz/;
     const sequentialNumbersRegex = /012|123|234|345|456|567|678|789/;
-    return password.length >= minLength &&
-           symbolRegex.test(password) &&
-           uppercaseRegex.test(password) &&
-           lowercaseRegex.test(password) &&
-           !sequentialLettersRegex.test(password.toLowerCase()) &&
-           !sequentialNumbersRegex.test(password);
-};
-
+    return (
+      password.length >= minLength &&
+      symbolRegex.test(password) &&
+      uppercaseRegex.test(password) &&
+      lowercaseRegex.test(password) &&
+      !sequentialLettersRegex.test(password.toLowerCase()) &&
+      !sequentialNumbersRegex.test(password)
+    );
+  };
 
   const validateStep = () => {
     const newErrors = {};
@@ -160,13 +162,21 @@ const Registro = () => {
     } = formData;
 
     try {
-      const checkResponse = await fetch('https://vc-su7z.onrender.com/check-client', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, email: correo, nodocumento, celular }),
-      });
+      const checkResponse = await fetch(
+        'https://vc-su7z.onrender.com/check-client',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username,
+            email: correo,
+            nodocumento,
+            celular,
+          }),
+        }
+      );
 
       if (!checkResponse.ok) {
         const errorData = await checkResponse.json();
