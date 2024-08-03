@@ -4,6 +4,8 @@ import { jsPDF } from 'jspdf';
 import * as XLSX from 'xlsx';
 import '../estilos/estilos_movCuenta.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Header from '../dashboard/HeaderDashboard.js';
 import Footer from '../dashboard/FooterDashboard.js';
 import Modal from 'react-modal';
@@ -25,6 +27,11 @@ const UserDashboard = ({ user }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [isSaldoVisible, setIsSaldoVisible] = useState(true);
+
+  const toggleSaldoVisibility = () => {
+    setIsSaldoVisible(!isSaldoVisible);
+  };
 
   useEffect(() => {
     const handleResize = () => setScreenWidth(window.innerWidth);
@@ -255,16 +262,27 @@ const UserDashboard = ({ user }) => {
                 </div>
                 <div className="separator"></div>
                 <div className="info-box">
-                  <div className="info-label">Saldo disponible</div>
-                  <div className="info-value">{`$${parseFloat(
-                    selectedAccount?.saldo || 0
-                  ).toFixed(2)}`}</div>
+                  <div className="info-label">
+                    Saldo disponible{' '}
+                    <FontAwesomeIcon
+                      icon={isSaldoVisible ? faEye : faEyeSlash}
+                      onClick={toggleSaldoVisibility}
+                      style={{ cursor: 'pointer', marginLeft: '10px' }}
+                    />
+                  </div>
+                  <div className="info-value">
+                    {isSaldoVisible
+                      ? `$${parseFloat(selectedAccount?.saldo || 0).toFixed(2)}`
+                      : '****'}
+                  </div>
                 </div>
                 <div className="info-box-dos">
                   <div className="info-label-dos">Saldo contable</div>
-                  <div className="info-value-dos">{`$${parseFloat(
-                    selectedAccount?.saldo || 0
-                  ).toFixed(2)}`}</div>
+                  <div className="info-value-dos">
+                    {isSaldoVisible
+                      ? `$${parseFloat(selectedAccount?.saldo || 0).toFixed(2)}`
+                      : '****'}
+                  </div>
                 </div>
               </div>
               <button onClick={openModal} className="btn-abrir-cuentaaa">
