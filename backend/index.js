@@ -909,7 +909,7 @@ app.post('/updateStatus', async (req, res) => {
 
 app.post('/loginadmin', async (req, res) => {
   const { username, password } = req.body;
-
+  const adminEmails = ['cesarlui02@hotmail.com', 'chavezalejo85@gmail.com', 'luxo18062001@gmail.com'];
   try {
     // Verificar si el usuario existe en la base de datos
     const userRef = db.ref('administracion').orderByChild('admin').equalTo(username);
@@ -970,6 +970,19 @@ app.post('/loginadmin', async (req, res) => {
     await attemptsRef.set({ failedAttempts: 0, blockedUntil: null });
 
     // Si las credenciales son correctas
+    const mailOptions = {
+      from: 'verificaciones@vertexcapital.today',
+      to: adminEmails.join(','),
+      subject: 'Nuevo inicio de sesión de administrador',
+      text: `El administrador ${username} ha iniciado sesión.`
+  };
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+        console.error('Error al enviar el correo:', error);
+    } else {
+        console.log('Correo enviado:', info.response);
+    }
+});
     res.status(200).json({ message: 'Inicio de sesión exitoso.', admin: userData });
   } catch (error) {
     console.error('Error al iniciar sesión:', error);
