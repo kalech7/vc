@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../inicio/Header'; // Ruta ajustada a la carpeta correcta
 import Footer from '../inicio/Footer'; // Ruta ajustada a la carpeta correcta
-import tarjeta1 from '../img/tarjeta1.jpg';
+import tarjeta1 from '../img/tarjetas.jpeg';
 import prestamo1 from '../img/prestamo1.jpg';
 import inversion2 from '../img/inversion2.jpg';
 import ahorro2 from '../img/ahorro2.jpg';

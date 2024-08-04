@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import tarjeta3 from '../img/tarejta3.jpg';
+import tarjeta3 from '../img/tarjetas.jpeg';
 import prestamo3 from '../img/prestamo3.jpg';
 import inversion2 from '../img/inversion2.jpg';
 import Ahorro1 from '../img/Ahorro1.jpg';

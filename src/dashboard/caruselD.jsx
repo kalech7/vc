@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import prestamoImg from '../img/inversion1.jpg';
+import movil from '../img/movil.jpg';
 import '../estilos/estilos_carouselD.css';
 
 const CarouselD = () => {
@@ -11,9 +11,9 @@ const CarouselD = () => {
 
   const cardsData = [
     {
-      image: prestamoImg,
-      title: 'Préstamos',
-      copy: '¡Próximamente disponible! Prepárate para obtener el mejor préstamo para tus necesidades.',
+      image: movil,
+      title: 'App Movil',
+      copy: '¡Próximamente disponible! Prepárate para obtener el mejor banco en tus manos.',
       button: 'Más información',
       link: '/ofertas',
     },

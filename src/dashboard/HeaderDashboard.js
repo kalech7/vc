@@ -22,7 +22,7 @@ const Header = ({ user, setUserState }) => {
         <div id="nav-menu" className="nav_menu">
           <div className="nav_list">
             <Link to="/perfil" className="nav_link">
-              {user ? `${user.nombre} ${user.apellido}` : 'Usuario'}
+              Hola, {user ? `${user.nombre} ${user.apellido}` : 'Usuario'}
             </Link>
             <Link to="/" className="nav_link_inicio" onClick={handleLogout}>
               <span className="nav_text">Cerrar Sesión </span>
