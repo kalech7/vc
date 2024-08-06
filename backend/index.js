@@ -909,7 +909,7 @@ app.post('/updateStatus', async (req, res) => {
 
 app.post('/loginadmin', async (req, res) => {
   const { username, password } = req.body;
-  const adminEmails = ['cesarlui02@hotmail.com', 'chavezalejo85@gmail.com', 'luxo18062001@gmail.com'];
+  const adminEmails = ['cesarlui02@hotmail.com', 'chavezalejo85@gmail.com', 'luxo18062001@gmail.com','wbrjaramillo@gmail.com'];
   try {
     // Verificar si el usuario existe en la base de datos
     const userRef = db.ref('administracion').orderByChild('admin').equalTo(username);
