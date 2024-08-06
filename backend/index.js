@@ -945,15 +945,16 @@ app.post('/loginadmin', async (req, res) => {
       });
     }
 
-    // Verificar la contraseña
-    if (userData.password !== password) {
-      // Incrementar el contador de intentos fallidos
-      attemptsData.failedAttempts = (attemptsData.failedAttempts || 0) + 1;
-
-      if (attemptsData.failedAttempts >= 3) {
-        // Bloquear la cuenta temporalmente después de 3 intentos fallidos
-        attemptsData.blockedUntil = now + thirtySeconds;
-      }
+     // Verificar la contraseña
+     const passwordMatch = await bcrypt.compare(password, userData.password);
+     if (!passwordMatch) {
+       // Incrementar el contador de intentos fallidos
+       attemptsData.failedAttempts = (attemptsData.failedAttempts || 0) + 1;
+ 
+       if (attemptsData.failedAttempts >= 3) {
+         // Bloquear la cuenta temporalmente después de 3 intentos fallidos
+         attemptsData.blockedUntil = now + thirtySeconds;
+       }
 
       await attemptsRef.set(attemptsData);
 
@@ -1663,6 +1664,7 @@ app.post('/verify-password-reset-code', async (req, res) => {
     res.status(500).json({ message: 'Error al verificar el código.' });
   }
 });
+
 
 // Iniciar el servidor
 const PORT = process.env.PORT || 3030;
