@@ -53,12 +53,13 @@
     background-color: #c82333;
 }
 
-.user-actions .btn-review {
-    background-color: #ffc107; /* Yellow for Under Review */
+.account-status-buttons .btn-revision {
+    background-color: #6c757d; /* Gris para revisión */
+    color: white;
 }
 
-.user-actions .btn-review:hover {
-    background-color: #e0a800;
+.account-status-buttons .btn-revision:hover {
+    background-color: #5a6268; /* Gris oscuro en hover */
 }
 
 .user-actions .btn-active {
@@ -211,3 +212,38 @@
     background-color: #34495e;
     transform: scale(1.05);
 }
+.account-container {
+    display: flex;
+    align-items: center; /* Alinea verticalmente en el centro */
+    gap: 10px; /* Ajusta el espacio entre la lista y el botón */
+  }
+  
+  .account-list {
+    display: flex;
+    flex-direction: column; /* Alinea el título verticalmente */
+  }
+  
+  .account-buttons {
+    display: flex;
+    flex-direction: row; /* Cambia la dirección de los elementos a fila */
+    overflow-x: auto; /* Permite el desplazamiento horizontal */
+    gap: 10px; /* Espacio entre los botones */
+  }
+  
+  .account-button {
+    white-space: nowrap; /* Asegura que el texto no se rompa en múltiples líneas */
+    padding: 8px 12px; /* Ajusta el padding según sea necesario */
+  }
+  
+  .btn-active {
+    background-color: #37dd82; /* Verde para el botón de añadir cuenta */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-top: 25px; /* Ajusta el margen superior para bajar el botón */
+  }
+  
+  .btn-active:hover {
+    background-color: #0f9775; /* Verde oscuro en hover */
+  }

@@ -42,7 +42,8 @@ const Header = ({ userName, onLogout, users = [], onSelectUser }) => {
                             </ul>
                         </div>
                         <Link to="/perfil" className="nav_link">
-                            {userName || 'admin'}
+                        Hola, 
+                             {userName || 'admin'}
                         </Link>
                         <Link to="/" className="nav_link_inicio" onClick={onLogout}>
                             Cerrar Sesión

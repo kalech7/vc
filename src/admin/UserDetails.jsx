@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../estilos/UserDetails.css'; // Asegúrate de tener un archivo CSS para los estilos
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faTrashAlt, faUserMinus } from '@fortawesome/free-solid-svg-icons';
 const UserDetails = ({ user }) => {
   const [selectedAccount, setSelectedAccount] = useState(null);
   const [transactions, setTransactions] = useState([]);
@@ -161,34 +162,38 @@ const UserDetails = ({ user }) => {
     <div className="user-details">
       <h2>{user.nombre} {user.apellido}</h2>
       <div className="user-actions">
-        <button onClick={handleAddAccount} className="btn btn-active">
-          Añadir cuenta
-        </button>
-        {selectedAccount && (
-          <button onClick={handleDeleteAccount} className="btn btn-block">
-            Eliminar cuenta
-          </button>
-        )}
         <button onClick={handleDeleteClient} className="btn btn-block">
-          Eliminar cliente
+          <FontAwesomeIcon icon={faUserMinus} /> {/* Ícono para eliminar cliente */}
         </button>
       </div>
-      <p>Cuentas:</p>
-      <div className="account-buttons">
-        {user.accounts ? Object.entries(user.accounts).map(([key, account]) => (
-          <button key={key} onClick={() => handleAccountClick(account)} className="account-button">
-            {account.numeroCuenta}
-          </button>
-        )) : <p>No hay cuentas disponibles.</p>}
+          <div className="account-container">
+      <div className="account-list">
+        <p>Cuentas:</p>
+        <div className="account-buttons">
+          {user.accounts ? Object.entries(user.accounts).map(([key, account]) => (
+            <button key={key} onClick={() => handleAccountClick(account)} className="account-button">
+              {account.numeroCuenta}
+            </button>
+          )) : <p>No hay cuentas disponibles.</p>}
+        </div>
       </div>
+      <button onClick={handleAddAccount} className="btn btn-active">
+        <FontAwesomeIcon icon={faPlus} /> {/* Ícono para añadir cuenta */}
+      </button>
+    </div>
       {selectedAccount && (
         <>
           <div className="transactions-container">
+          <span className="account-status">Estado de la cuenta: {selectedAccount.estado}</span>
             <div className="account-status-buttons">
               <button className="btn btn-status btn-activar" onClick={() => handleChangeAccountStatus('Activada')}>Activar</button>
               <button className="btn btn-status btn-revision" onClick={() => handleChangeAccountStatus('En Revisión')}>Revisión</button>
               <button className="btn btn-status btn-bloquear" onClick={() => handleChangeAccountStatus('Bloqueada')}>Bloquear</button>
-              <span className="account-status">Estado de la cuenta: {selectedAccount.estado}</span>
+              {selectedAccount && (
+                <button onClick={handleDeleteAccount} className="btn btn-block">
+                  <FontAwesomeIcon icon={faTrashAlt} /> {/* Ícono para eliminar cuenta */}
+                </button>
+              )}
             </div>
             <h3>Lista de Transacciones</h3>
             <table className="transaction-table">
