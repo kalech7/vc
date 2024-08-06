@@ -22,6 +22,7 @@ const Registro = () => {
     celular: '',
     username: '',
     password: '',
+    confirmPassword: '' 
   });
 
   const [errors, setErrors] = useState({});
@@ -121,7 +122,12 @@ const Registro = () => {
           newErrors.password = '*Campo obligatorio';
         } else if (!validatePassword(formData.password)) {
           newErrors.password =
-            'La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un símbolo y  no debe seguir un patrón consecutivo de letras o números.';
+            'La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un símbolo y no debe seguir un patrón consecutivo de letras o números.';
+        }
+        if (!formData.confirmPassword) {
+          newErrors.confirmPassword = '*Campo obligatorio';
+        } else if (formData.password !== formData.confirmPassword) {
+          newErrors.confirmPassword = 'Las contraseñas no coinciden';
         }
         break;
       default:
@@ -519,6 +525,21 @@ const Registro = () => {
                 <span className="error-message">{errors.password}</span>
               )}
             </div>
+            <div>
+                  <label htmlFor="confirmPassword">Confirmar Contraseña:</label>
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    className={errors.confirmPassword ? 'error' : ''}
+                    required
+                  />
+                  {errors.confirmPassword && (
+                    <span className="error-message">{errors.confirmPassword}</span>
+                  )}
+                </div>
             <div id="button-avanza-retro">
               <button type="button" onClick={handlePrevStep}>
                 Anterior
