@@ -1,11 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShareAlt } from '@fortawesome/free-solid-svg-icons';
+import {
+  faFacebook,
+  faTwitter,
+  faLinkedin,
+  faWhatsapp,
+} from '@fortawesome/free-brands-svg-icons';
 
 function ConfirmacionTransferencias() {
   const query = new URLSearchParams(useLocation().search);
   const monto = query.get('monto');
   const nombre = query.get('nombre');
   const fecha = query.get('fecha');
+
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  const socialLinks = [
+    { icon: faFacebook, url: 'https://www.facebook.com/sharer/sharer.php?u=https://vertexcapital.today' },
+    { icon: faTwitter, url: `https://twitter.com/intent/tweet?url=https://vertexcapital.today&text=Transferencia%20de%20${monto}%20realizada%20a%20${nombre}%20el%20${fecha}` },
+    { icon: faLinkedin, url: 'https://www.linkedin.com/shareArticle?mini=true&url=https://vertexcapital.today' },
+    { icon: faWhatsapp, url: `https://api.whatsapp.com/send?text=Transferencia%20de%20${monto}%20realizada%20a%20${nombre}%20el%20${fecha}%20https://vertexcapital.today` },
+  ];
 
   return (
     <div>
@@ -30,6 +51,21 @@ function ConfirmacionTransferencias() {
             <div className="info-value">{fecha}</div>
           </div>
           <p>Gracias por utilizar nuestros servicios.</p>
+        </div>
+
+        <div className="share-container">
+          <button className="share-button" onClick={toggleMenu}>
+            <FontAwesomeIcon icon={faShareAlt} /> Compartir
+          </button>
+          {menuOpen && (
+            <div className="share-menu">
+              {socialLinks.map((link, index) => (
+                <a key={index} href={link.url} target="_blank" rel="noopener noreferrer">
+                  <FontAwesomeIcon icon={link.icon} size="2x" />
+                </a>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
@@ -97,6 +133,34 @@ function ConfirmacionTransferencias() {
         .info-value {
           font-size: 18px;
           color: #34495e;
+        }
+
+        .share-container {
+          text-align: center;
+          margin-top: 2rem;
+        }
+
+        .share-button {
+          background-color: #1c2833;
+          color: white;
+          padding: 0.5rem 1rem;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .share-button:hover {
+          background-color: #34495e;
+        }
+
+        .share-menu {
+          margin-top: 1rem;
+          display: flex;
+          justify-content: center;
+          gap: 1rem;
         }
 
         .footer {
