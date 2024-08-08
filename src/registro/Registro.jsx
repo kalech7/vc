@@ -180,8 +180,11 @@ const Registro = () => {
 
       if (!checkResponse.ok) {
         const errorData = await checkResponse.json();
-        alert(errorData.message);
-        return;
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        general: errorData.message,
+      }));
+      return;
       }
 
       const numeroCuenta =
@@ -553,7 +556,10 @@ const Registro = () => {
             </div>
           </div>
           <form className="form-registro" onSubmit={handleSubmit}>
-            {renderStep()}
+          {renderStep()}
+  {errors.general && (
+    <div className="error-message">{errors.general}</div>
+  )}
           </form>
         </div>
 
