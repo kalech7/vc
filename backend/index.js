@@ -318,7 +318,7 @@ const procesarPlantilla = (templatePath, variables) => {
 app.post('/send-verification-email', async (req, res) => {
   const { email, code } = req.body;
   // Procesar la plantilla HTML, reemplazando {{code}} con el código de verificación
-  const htmlContent = procesarPlantilla('', { code });
+  const htmlContent = procesarPlantilla('./plantillas/confirmacion_cuenta.html', { code });
 
   const mailOptions = {
     from: 'verificaciones@vertexcapital.today',
