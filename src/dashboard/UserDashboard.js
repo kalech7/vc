@@ -76,10 +76,7 @@ const UserDashboard = ({ user }) => {
   const handlePaymentSuccess = async (details) => {
     const newAmount = parseFloat(amount);
     if (newAmount >= 1) {
-      alert(`Transacción completada por ${details.payer.name.given_name}`);
-
       const updatedSaldo = parseFloat(selectedAccount.saldo) + newAmount;
-
       const updatedUser = {
         ...userState,
         cuentas: userState.cuentas.map((cuenta) =>
@@ -152,7 +149,7 @@ const UserDashboard = ({ user }) => {
         setModalRecargaIsOpen(false);
       }
     } else {
-      alert('El monto debe ser mayor a 100 para recargar.');
+      alert('El monto debe ser mayor a 1 para recargar.');
     }
   };
 

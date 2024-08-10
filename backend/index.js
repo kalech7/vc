@@ -221,6 +221,7 @@ app.get('/confirm-transfer', async (req, res) => {
 app.post('/send-confirmation-link', async (req, res) => {
   const {
     email,
+    nombre,
     cuentaOrigen,
     cuentaDestino,
     monto,
