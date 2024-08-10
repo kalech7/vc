@@ -147,6 +147,7 @@ app.get('/confirm-transfer', async (req, res) => {
     let cuentaOrigenKey, cuentaDestinoKey;
     let cuentaOrigenClienteKey, cuentaDestinoClienteKey;
     let correoDestino, nombreDestino;
+    let nombreOrigen;
 
     clientesSnapshot.forEach(clienteSnapshot => {
       const cuentasRef = clienteSnapshot.child('cuentas');
@@ -155,6 +156,7 @@ app.get('/confirm-transfer', async (req, res) => {
           cuentaOrigenData = cuentaSnapshot.val();
           cuentaOrigenKey = cuentaSnapshot.key;
           cuentaOrigenClienteKey = clienteSnapshot.key;
+          nombreOrigen = clienteSnapshot.child('nombreOrigen').val();
         }
         if (cuentaSnapshot.child('numeroCuenta').val() === cuentaDestino) {
           cuentaDestinoData = cuentaSnapshot.val();
@@ -192,6 +194,7 @@ app.get('/confirm-transfer', async (req, res) => {
       cuentaOrigen,
       nombreDestino,
       cuentaDestino,
+      nombreOrigen,
       monto: montoNumerico,
       descripcion,
       fecha: fechaTransaccion,
