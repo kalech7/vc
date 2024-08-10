@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmación de Transferencia</title>
+    <title>Verificación de Cuenta</title>
     <style>
         :root {
             --header-height: 70px;
@@ -57,20 +57,19 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <img src="./logo_vertex.png" alt="Logo de Vertex Capital">
-            <h1>Confirmación de Transferencia</h1>
-        </div>
-        <h2>Transferencia Exitosa</h2>
-        <p>Estimado(a) {{nombre}},</p>
-        <p>Has recibido una transferencia por el monto de {{monto}}.</p>
-        <p>Descripción: {{descripcion}}</p>
-        <p>Fecha de transferencia: {{fecha}}</p>
-        <p>Saludos,</p>
-        <p>El equipo de VertexCapital</p>
-        <div class="footer">
-            <p>&copy; 2024 VertexCapital. Todos los derechos reservados.</p>
-        </div>
+    <div class="header">
+        <img src="./logo_vertex.png" alt="Logo de Vertex Capital"> 
+        <h2>Tu código de verificación</h2>
     </div>
+    <div class="content">
+    <p>Tu código de verificación es: <strong>{{code}}</strong></p>
+    <p>Este código es válido por 10 minutos.</p>
+    <br>
+    <p>Gracias por confiar en nosotros.</p>
+</div>
+<div class="footer">
+    <p>Saludos,<br>El equipo de Vertex Capital</p>
+</div>
+</div>
 </body>
 </html>

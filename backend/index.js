@@ -317,12 +317,14 @@ const procesarPlantilla = (templatePath, variables) => {
 // Ruta para enviar el correo de verificación (sin guardar en la base de datos)
 app.post('/send-verification-email', async (req, res) => {
   const { email, code } = req.body;
+  // Procesar la plantilla HTML, reemplazando {{code}} con el código de verificación
+  const htmlContent = procesarPlantilla('', { code });
 
   const mailOptions = {
     from: 'verificaciones@vertexcapital.today',
     to: email,
     subject: 'Código de verificación',
-    text: `Tu código de verificación es: ${code}`,
+    html: htmlContent, // Utiliza el contenido HTML cargado y procesado
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
