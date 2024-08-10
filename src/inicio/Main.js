@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import inicio0 from '../img/portadabanco.jpg';
+import inicio0 from '../img/inicio.jpg';
 import Carousel from './Carousel';
 import Header from './Header';
 import Footer from './Footer';
