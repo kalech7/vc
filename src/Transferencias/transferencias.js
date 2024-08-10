@@ -183,6 +183,7 @@ const Transferencias = ({ user }) => {
             saldoDestino: nuevoSaldoDestino, // Incluir el nuevo saldo destino en la solicitud
             fechaTransaccion: fechaFormateada,
             email: userState.correo,
+            nombreOrigen: userState.nombre
           }),
         }
       );

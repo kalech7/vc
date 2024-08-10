@@ -229,7 +229,8 @@ app.post('/send-confirmation-link', async (req, res) => {
     descripcion,
     saldoAnterior,
     saldoDestino, // Asegúrate de recibir saldoDestino
-    fechaTransaccion
+    fechaTransaccion,
+    nombreOrigen
   } = req.body;
 
   try {
@@ -240,6 +241,7 @@ app.post('/send-confirmation-link', async (req, res) => {
       token,
       nombre,
       cuentaOrigen,
+      nombreOrigen,
       cuentaDestino,
       monto,
       descripcion,
