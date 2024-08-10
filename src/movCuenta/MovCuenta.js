@@ -13,7 +13,6 @@ import Footer from '../dashboard/FooterDashboard.js';
 import Modal from 'react-modal';
 import Grafico from './grafico.jsx';
 
-// Componentes personalizados para los botones de navegación
 const NextArrow = (props) => {
   const { className, style, onClick } = props;
   return (
@@ -292,149 +291,147 @@ const UserDashboard = ({ user }) => {
         >
           {userState ? (
             <>
-              <Slider {...settings}>
-                <div>
-                  <h1>
-                    <FontAwesomeIcon icon={faHistory} style={{ marginRight: '10px' }} />
-                    Historial de Transacciones
-                  </h1>
-                  <div className="info-container">
-                    <div className="info-box">
-                      <div className="info-label">Número de Cuenta</div>
-                      <div className="info-value">
-                        {selectedAccount?.numeroCuenta || 'N/A'}
-                      </div>
-                    </div>
-                    <div className="separator"></div>
-                    <div className="info-box">
-                      <div className="info-label">
-                        Saldo disponible{' '}
-                        <FontAwesomeIcon
-                          icon={isSaldoVisible ? faEye : faEyeSlash}
-                          onClick={toggleSaldoVisibility}
-                          style={{ cursor: 'pointer', marginLeft: '10px' }}
-                        />
-                      </div>
-                      <div className="info-value">
-                        {isSaldoVisible
-                          ? `$${parseFloat(selectedAccount?.saldo || 0).toFixed(2)}`
-                          : '****'}
-                      </div>
-                    </div>
-                    <div className="info-box-dos">
-                      <div className="info-label-dos">Saldo contable</div>
-                      <div className="info-value-dos">
-                        {isSaldoVisible
-                          ? `$${parseFloat(selectedAccount?.saldo || 0).toFixed(2)}`
-                          : '****'}
-                      </div>
-                    </div>
+              <h1>
+                <FontAwesomeIcon icon={faHistory} style={{ marginRight: '10px' }} />
+                Historial de Transacciones
+              </h1>
+              <div className="info-container">
+                <div className="info-box">
+                  <div className="info-label">Número de Cuenta</div>
+                  <div className="info-value">
+                    {selectedAccount?.numeroCuenta || 'N/A'}
                   </div>
                 </div>
-                <div>
-                  <h1>
-                    <FontAwesomeIcon icon={faListAlt} style={{ marginRight: '10px' }} />
-                    Movimientos
-                  </h1>
-                  <Grafico movimientos={movimientos} recargas={recargas} />
-                  <div className="actions-container">
-                    <button onClick={exportToPDF}>
-                      <FontAwesomeIcon icon={faFilePdf} style={{ marginRight: '10px' }} />
-                      Descargar PDF
-                    </button>
-                    <button onClick={exportToCSV}>
-                      <FontAwesomeIcon icon={faFileCsv} style={{ marginRight: '10px' }} />
-                      Descargar CSV
-                    </button>
-                    <button onClick={exportToExcel}>
-                      <FontAwesomeIcon icon={faFileExcel} style={{ marginRight: '10px' }} />
-                      Descargar Excel
-                    </button>
-                  </div>
-                  <div>
-                    <label htmlFor="date-filter">Filtrar por fecha: </label>
-                    <input
-                      type="date"
-                      id="date-filter"
-                      value={selectedDate}
-                      onChange={handleDateChange}
+                <div className="separator"></div>
+                <div className="info-box">
+                  <div className="info-label">
+                    Saldo disponible{' '}
+                    <FontAwesomeIcon
+                      icon={isSaldoVisible ? faEye : faEyeSlash}
+                      onClick={toggleSaldoVisibility}
+                      style={{ cursor: 'pointer', marginLeft: '10px' }}
                     />
                   </div>
-                </div>
-                <div>
-                  <h2>
-                    <FontAwesomeIcon icon={faExchangeAlt} style={{ marginRight: '10px' }} />
-                    Transferencias
-                  </h2>
-                  <div className="movimientos-container">
-                    {filteredMovimientos.length > 0 ? (
-                      filteredMovimientos.map((mov, index) => (
-                        <div key={index}>
-                          <div className="movimiento-fecha">{mov.fecha}</div>
-                          <div className="movimiento-box">
-                            <div className="movimiento-tipo">
-                              {mov.tipo === 'Enviado'
-                                ? 'Transferencia enviada a'
-                                : 'Transferencia recibida por'}{' '}
-                              {mov.tipo === 'Enviado'
-                                ? mov.cuentaDestino
-                                : mov.cuentaOrigen}
-                            </div>
-                            <div
-                              className={`movimiento-monto ${
-                                mov.tipo === 'Enviado'
-                                  ? 'movimiento-monto-envio'
-                                  : 'movimiento-monto-recibido'
-                              }`}
-                            >
-                              <span className="monto-label">
-                                Monto de transferencia:{' '}
-                              </span>
-                              {mov.tipo === 'Enviado' ? '-' : '+'}${mov.monto}
-                            </div>
-                            <div className="movimiento-saldo">
-                              Saldo después de la transacción: $
-                              {mov.tipo === 'Enviado'
-                                ? mov.saldoActual
-                                : mov.saldoDestino}
-                            </div>
-                          </div>
-                        </div>
-                      ))
-                    ) : (
-                      <p>No se encontraron movimientos.</p>
-                    )}
+                  <div className="info-value">
+                    {isSaldoVisible
+                      ? `$${parseFloat(selectedAccount?.saldo || 0).toFixed(2)}`
+                      : '****'}
                   </div>
                 </div>
-                <div>
-                  <h2>
-                    <FontAwesomeIcon icon={faWallet} style={{ marginRight: '10px' }} />
-                    Recargas
-                  </h2>
-                  <div className="movimientos-container">
-                    {filteredRecargas.length > 0 ? (
-                      filteredRecargas.map((rec, index) => (
-                        <div key={index}>
-                          <div className="movimiento-fecha">{rec.fecha}</div>
-                          <div className="movimiento-box">
-                            <div className="movimiento-tipo">Recargaste</div>
-                            <div
-                              className={`movimiento-monto recarga-monto-recibido`}
-                            >
-                              +${rec.monto}
-                            </div>
-                            <div className="movimiento-saldo">
-                              Saldo después de la recarga: ${rec.saldo}
-                            </div>
-                          </div>
-                        </div>
-                      ))
-                    ) : (
-                      <p>No se encontraron recargas.</p>
-                    )}
+                <div className="info-box-dos">
+                  <div className="info-label-dos">Saldo contable</div>
+                  <div className="info-value-dos">
+                    {isSaldoVisible
+                      ? `$${parseFloat(selectedAccount?.saldo || 0).toFixed(2)}`
+                      : '****'}
                   </div>
                 </div>
-              </Slider>
+              </div>
+              <h2>
+                <FontAwesomeIcon icon={faListAlt} style={{ marginRight: '10px' }} />
+                Movimientos
+              </h2>
+              <Grafico movimientos={movimientos} recargas={recargas} />
+              <div className="actions-container">
+                <button onClick={exportToPDF}>
+                  <FontAwesomeIcon icon={faFilePdf} style={{ marginRight: '10px' }} />
+                  Descargar PDF
+                </button>
+                <button onClick={exportToCSV}>
+                  <FontAwesomeIcon icon={faFileCsv} style={{ marginRight: '10px' }} />
+                  Descargar CSV
+                </button>
+                <button onClick={exportToExcel}>
+                  <FontAwesomeIcon icon={faFileExcel} style={{ marginRight: '10px' }} />
+                  Descargar Excel
+                </button>
+              </div>
+              <div>
+                <label htmlFor="date-filter">Filtrar por fecha: </label>
+                <input
+                  type="date"
+                  id="date-filter"
+                  value={selectedDate}
+                  onChange={handleDateChange}
+                />
+              </div>
+              <div className="carousel-container">
+                <Slider {...settings}>
+                  <div>
+                    <h2>
+                      <FontAwesomeIcon icon={faExchangeAlt} style={{ marginRight: '10px' }} />
+                      Transferencias
+                    </h2>
+                    <div className="carousel-section">
+                      {filteredMovimientos.length > 0 ? (
+                        filteredMovimientos.map((mov, index) => (
+                          <div key={index} className="carousel-item">
+                            <div className="movimiento-fecha">{mov.fecha}</div>
+                            <div className="movimiento-box">
+                              <div className="movimiento-tipo">
+                                {mov.tipo === 'Enviado'
+                                  ? 'Transferencia enviada a'
+                                  : 'Transferencia recibida por'}{' '}
+                                {mov.tipo === 'Enviado'
+                                  ? mov.cuentaDestino
+                                  : mov.cuentaOrigen}
+                              </div>
+                              <div
+                                className={`movimiento-monto ${
+                                  mov.tipo === 'Enviado'
+                                    ? 'movimiento-monto-envio'
+                                    : 'movimiento-monto-recibido'
+                                }`}
+                              >
+                                <span className="monto-label">
+                                  Monto de transferencia:{' '}
+                                </span>
+                                {mov.tipo === 'Enviado' ? '-' : '+'}${mov.monto}
+                              </div>
+                              <div className="movimiento-saldo">
+                                Saldo después de la transacción: $
+                                {mov.tipo === 'Enviado'
+                                  ? mov.saldoActual
+                                  : mov.saldoDestino}
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <p>No se encontraron movimientos.</p>
+                      )}
+                    </div>
+                  </div>
+                  <div>
+                    <h2>
+                      <FontAwesomeIcon icon={faWallet} style={{ marginRight: '10px' }} />
+                      Recargas
+                    </h2>
+                    <div className="carousel-section">
+                      {filteredRecargas.length > 0 ? (
+                        filteredRecargas.map((rec, index) => (
+                          <div key={index} className="carousel-item">
+                            <div className="movimiento-fecha">{rec.fecha}</div>
+                            <div className="movimiento-box">
+                              <div className="movimiento-tipo">Recargaste</div>
+                              <div
+                                className={`movimiento-monto recarga-monto-recibido`}
+                              >
+                                +${rec.monto}
+                              </div>
+                              <div className="movimiento-saldo">
+                                Saldo después de la recarga: ${rec.saldo}
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <p>No se encontraron recargas.</p>
+                      )}
+                    </div>
+                  </div>
+                </Slider>
+              </div>
             </>
           ) : (
             <p>Cargando datos del usuario...</p>
