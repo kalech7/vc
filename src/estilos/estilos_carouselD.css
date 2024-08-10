@@ -51,7 +51,9 @@
 .carouseld-card button:hover {
   background-color: #184563;
 }
-
+.carouseld-card h3{
+  background-color: rgb(185, 225, 248);
+}
 /* Estilo para los botones del carrusel */
 .carouseld-button {
   position: absolute;

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import movil from '../img/movil.jpg';
 import '../estilos/estilos_carouselD.css';
-
+import cripto from '../img/criptos.jpg'
 const CarouselD = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [cardWidth, setCardWidth] = useState(0);
@@ -14,6 +14,13 @@ const CarouselD = () => {
       image: movil,
       title: 'App Movil',
       copy: '¡Próximamente disponible! Prepárate para obtener el mejor banco en tus manos.',
+      button: 'Más información',
+      link: '/ofertas',
+    },
+    {
+      image: cripto,
+      title: 'Criptomonedas',
+      copy: '¡Próximamente disponible! Prepárate para transferir criptos',
       button: 'Más información',
       link: '/ofertas',
     },
