@@ -156,7 +156,7 @@ app.get('/confirm-transfer', async (req, res) => {
           cuentaOrigenData = cuentaSnapshot.val();
           cuentaOrigenKey = cuentaSnapshot.key;
           cuentaOrigenClienteKey = clienteSnapshot.key;
-          nombreOrigen = clienteSnapshot.child('nombreOrigen').val();
+          nombreOrigen = clienteSnapshot.child('nombre').val();
         }
         if (cuentaSnapshot.child('numeroCuenta').val() === cuentaDestino) {
           cuentaDestinoData = cuentaSnapshot.val();
