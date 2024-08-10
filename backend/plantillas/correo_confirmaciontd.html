@@ -8,7 +8,7 @@
         :root {
             --header-height: 70px;
             --body-color: #1c2833;
-            --title-color: #ffffff;
+            --title-color: #000000;
             --title-color-dark: #000;
             --font-medium: 500;
         }
@@ -27,19 +27,13 @@
             height: auto;
         }
         .header {
-            height: var(--header-height);
-            width: 100%;
-            color: white;
-            position: fixed;
-            top: 0;
-            left: 0;
-            text-align: center;
-            background-color: var(--body-color);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
             display: flex;
             align-items: center;
             justify-content: center;
+            background-color: #0e0e0f;
+            color: #ffffff;
+            padding: 10px;
+            text-align: center;
         }
         .header img {
             width: 50px; /* ajusta el tamaño del logo según sea necesario */
@@ -64,8 +58,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <img src="/public/logo_vertex.ico" alt="Logo de Vertex Capital"> 
-            <h1>VertexCapital</h1>
+            <img src="./public/logo_vertex.png" alt="Logo de Vertex Capital">
+            <h1>Confirmación de Transferencia</h1>
         </div>
         <h2>Transferencia Exitosa</h2>
         <p>Estimado(a) {{nombre}},</p>
