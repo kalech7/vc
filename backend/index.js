@@ -360,7 +360,7 @@ app.post('/save-data', async (req, res) => {
 
     // Enviar correo de confirmación
     const asunto = 'Confirmación de Registro';
-    const cuerpoHtml = procesarPlantilla('./plantillas/correoregistro.html', { nombre: cliente.nombre, numeroCuenta: cliente.numeroCuenta });
+    const cuerpoHtml = procesarPlantilla('./plantillas/correoregistro.html', { nombre: cliente.nombre });
     await enviarCorreo(cliente.correo, asunto, cuerpoHtml);
 
     res.status(200).send('Datos guardados exitosamente y correo enviado.');
