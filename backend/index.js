@@ -190,6 +190,7 @@ app.get('/confirm-transfer', async (req, res) => {
     const newTransactionRef = db.ref('transacciones').push();
     await newTransactionRef.set({
       cuentaOrigen,
+      nombreDestino,
       cuentaDestino,
       monto: montoNumerico,
       descripcion,
