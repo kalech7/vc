@@ -1,15 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Slider from "react-slick";
 import { jsPDF } from 'jspdf';
 import * as XLSX from 'xlsx';
 import '../estilos/estilos_movCuenta.css';
-import '@fortawesome/fontawesome-free/css/all.min.css';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash, faHistory, faExchangeAlt, faWallet, faListAlt, faFilePdf, faFileCsv, faFileExcel } from '@fortawesome/free-solid-svg-icons';
 import Header from '../dashboard/HeaderDashboard.js';
 import Footer from '../dashboard/FooterDashboard.js';
 import Modal from 'react-modal';
 import Grafico from './grafico.jsx';
+
+// Componentes personalizados para los botones de navegación
+const NextArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "block", bottom: "-50px" }} // Ajusta la posición
+      onClick={onClick}
+    >
+      Siguiente
+    </div>
+  );
+};
+
+const PrevArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "block", bottom: "-50px" }} // Ajusta la posición
+      onClick={onClick}
+    >
+      Anterior
+    </div>
+  );
+};
 
 const UserDashboard = ({ user }) => {
   const [menuOpen, setMenuOpen] = useState(true);
@@ -202,6 +231,17 @@ const UserDashboard = ({ user }) => {
     ? recargas.filter((rec) => rec.fecha.startsWith(selectedDate))
     : recargas;
 
+  const settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    adaptiveHeight: true,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />
+  };
+
   return (
     <>
       <Header user={userState} />
@@ -252,123 +292,149 @@ const UserDashboard = ({ user }) => {
         >
           {userState ? (
             <>
-              <h1>Historial de Transacciones</h1>
-              <div className="info-container">
-                <div className="info-box">
-                  <div className="info-label">Número de Cuenta</div>
-                  <div className="info-value">
-                    {selectedAccount?.numeroCuenta || 'N/A'}
+              <Slider {...settings}>
+                <div>
+                  <h1>
+                    <FontAwesomeIcon icon={faHistory} style={{ marginRight: '10px' }} />
+                    Historial de Transacciones
+                  </h1>
+                  <div className="info-container">
+                    <div className="info-box">
+                      <div className="info-label">Número de Cuenta</div>
+                      <div className="info-value">
+                        {selectedAccount?.numeroCuenta || 'N/A'}
+                      </div>
+                    </div>
+                    <div className="separator"></div>
+                    <div className="info-box">
+                      <div className="info-label">
+                        Saldo disponible{' '}
+                        <FontAwesomeIcon
+                          icon={isSaldoVisible ? faEye : faEyeSlash}
+                          onClick={toggleSaldoVisibility}
+                          style={{ cursor: 'pointer', marginLeft: '10px' }}
+                        />
+                      </div>
+                      <div className="info-value">
+                        {isSaldoVisible
+                          ? `$${parseFloat(selectedAccount?.saldo || 0).toFixed(2)}`
+                          : '****'}
+                      </div>
+                    </div>
+                    <div className="info-box-dos">
+                      <div className="info-label-dos">Saldo contable</div>
+                      <div className="info-value-dos">
+                        {isSaldoVisible
+                          ? `$${parseFloat(selectedAccount?.saldo || 0).toFixed(2)}`
+                          : '****'}
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div className="separator"></div>
-                <div className="info-box">
-                  <div className="info-label">
-                    Saldo disponible{' '}
-                    <FontAwesomeIcon
-                      icon={isSaldoVisible ? faEye : faEyeSlash}
-                      onClick={toggleSaldoVisibility}
-                      style={{ cursor: 'pointer', marginLeft: '10px' }}
+                <div>
+                  <h1>
+                    <FontAwesomeIcon icon={faListAlt} style={{ marginRight: '10px' }} />
+                    Movimientos
+                  </h1>
+                  <Grafico movimientos={movimientos} recargas={recargas} />
+                  <div className="actions-container">
+                    <button onClick={exportToPDF}>
+                      <FontAwesomeIcon icon={faFilePdf} style={{ marginRight: '10px' }} />
+                      Descargar PDF
+                    </button>
+                    <button onClick={exportToCSV}>
+                      <FontAwesomeIcon icon={faFileCsv} style={{ marginRight: '10px' }} />
+                      Descargar CSV
+                    </button>
+                    <button onClick={exportToExcel}>
+                      <FontAwesomeIcon icon={faFileExcel} style={{ marginRight: '10px' }} />
+                      Descargar Excel
+                    </button>
+                  </div>
+                  <div>
+                    <label htmlFor="date-filter">Filtrar por fecha: </label>
+                    <input
+                      type="date"
+                      id="date-filter"
+                      value={selectedDate}
+                      onChange={handleDateChange}
                     />
                   </div>
-                  <div className="info-value">
-                    {isSaldoVisible
-                      ? `$${parseFloat(selectedAccount?.saldo || 0).toFixed(2)}`
-                      : '****'}
+                </div>
+                <div>
+                  <h2>
+                    <FontAwesomeIcon icon={faExchangeAlt} style={{ marginRight: '10px' }} />
+                    Transferencias
+                  </h2>
+                  <div className="movimientos-container">
+                    {filteredMovimientos.length > 0 ? (
+                      filteredMovimientos.map((mov, index) => (
+                        <div key={index}>
+                          <div className="movimiento-fecha">{mov.fecha}</div>
+                          <div className="movimiento-box">
+                            <div className="movimiento-tipo">
+                              {mov.tipo === 'Enviado'
+                                ? 'Transferencia enviada a'
+                                : 'Transferencia recibida por'}{' '}
+                              {mov.tipo === 'Enviado'
+                                ? mov.cuentaDestino
+                                : mov.cuentaOrigen}
+                            </div>
+                            <div
+                              className={`movimiento-monto ${
+                                mov.tipo === 'Enviado'
+                                  ? 'movimiento-monto-envio'
+                                  : 'movimiento-monto-recibido'
+                              }`}
+                            >
+                              <span className="monto-label">
+                                Monto de transferencia:{' '}
+                              </span>
+                              {mov.tipo === 'Enviado' ? '-' : '+'}${mov.monto}
+                            </div>
+                            <div className="movimiento-saldo">
+                              Saldo después de la transacción: $
+                              {mov.tipo === 'Enviado'
+                                ? mov.saldoActual
+                                : mov.saldoDestino}
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <p>No se encontraron movimientos.</p>
+                    )}
                   </div>
                 </div>
-                <div className="info-box-dos">
-                  <div className="info-label-dos">Saldo contable</div>
-                  <div className="info-value-dos">
-                    {isSaldoVisible
-                      ? `$${parseFloat(selectedAccount?.saldo || 0).toFixed(2)}`
-                      : '****'}
+                <div>
+                  <h2>
+                    <FontAwesomeIcon icon={faWallet} style={{ marginRight: '10px' }} />
+                    Recargas
+                  </h2>
+                  <div className="movimientos-container">
+                    {filteredRecargas.length > 0 ? (
+                      filteredRecargas.map((rec, index) => (
+                        <div key={index}>
+                          <div className="movimiento-fecha">{rec.fecha}</div>
+                          <div className="movimiento-box">
+                            <div className="movimiento-tipo">Recargaste</div>
+                            <div
+                              className={`movimiento-monto recarga-monto-recibido`}
+                            >
+                              +${rec.monto}
+                            </div>
+                            <div className="movimiento-saldo">
+                              Saldo después de la recarga: ${rec.saldo}
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <p>No se encontraron recargas.</p>
+                    )}
                   </div>
                 </div>
-              </div>
-              <button onClick={openModal} className="btn-abrir-cuentaaa">
-                {selectedAccount
-                  ? 'Seleccionaste la cuenta'
-                  : 'Selecciona una cuenta'}
-              </button>
-              <h1>Movimientos</h1>
-              <Grafico movimientos={movimientos} recargas={recargas} />
-              <div className="actions-container">
-                <button onClick={exportToPDF}>Descargar PDF</button>
-                <button onClick={exportToCSV}>Descargar CSV</button>
-                <button onClick={exportToExcel}>Descargar Excel</button>
-              </div>
-              <div>
-                <label htmlFor="date-filter">Filtrar por fecha: </label>
-                <input
-                  type="date"
-                  id="date-filter"
-                  value={selectedDate}
-                  onChange={handleDateChange}
-                />
-              </div>
-              <h2>Transferencias</h2>
-              <div className="movimientos-container">
-                {filteredMovimientos.length > 0 ? (
-                  filteredMovimientos.map((mov, index) => (
-                    <div key={index}>
-                      <div className="movimiento-fecha">{mov.fecha}</div>
-                      <div className="movimiento-box">
-                        <div className="movimiento-tipo">
-                          {mov.tipo === 'Enviado'
-                            ? 'Transferencia enviada a'
-                            : 'Transferencia recibida por'}{' '}
-                          {mov.tipo === 'Enviado'
-                            ? mov.cuentaDestino
-                            : mov.cuentaOrigen}
-                        </div>
-                        <div
-                          className={`movimiento-monto ${
-                            mov.tipo === 'Enviado'
-                              ? 'movimiento-monto-envio'
-                              : 'movimiento-monto-recibido'
-                          }`}
-                        >
-                          <span className="monto-label">
-                            Monto de transferencia:{' '}
-                          </span>
-                          {mov.tipo === 'Enviado' ? '-' : '+'}${mov.monto}
-                        </div>
-                        <div className="movimiento-saldo">
-                          Saldo después de la transacción: $
-                          {mov.tipo === 'Enviado'
-                            ? mov.saldoActual
-                            : mov.saldoDestino}
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p>No se encontraron movimientos.</p>
-                )}
-              </div>
-              <h2>Recargas</h2>
-              <div className="movimientos-container">
-                {filteredRecargas.length > 0 ? (
-                  filteredRecargas.map((rec, index) => (
-                    <div key={index}>
-                      <div className="movimiento-fecha">{rec.fecha}</div>
-                      <div className="movimiento-box">
-                        <div className="movimiento-tipo">Recargaste</div>
-                        <div
-                          className={`movimiento-monto recarga-monto-recibido`}
-                        >
-                          +${rec.monto}
-                        </div>
-                        <div className="movimiento-saldo">
-                          Saldo después de la recarga: ${rec.saldo}
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p>No se encontraron recargas.</p>
-                )}
-              </div>
+              </Slider>
             </>
           ) : (
             <p>Cargando datos del usuario...</p>

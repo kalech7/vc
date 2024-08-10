@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const Sidebar = ({ onSelectUser }) => {
+const Sidebar = ({ onSelectUser, selectedUser }) => {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
@@ -34,8 +34,8 @@ const Sidebar = ({ onSelectUser }) => {
             <ul id="user-list">
                 {users.map(user => (
                     <li
-                        key={user.id} // Usar el ID proporcionado por Firebase
-                        id="user-item"
+                        key={user.id}
+                        className={`user-item ${selectedUser && selectedUser.id === user.id ? 'active' : ''}`}
                         onClick={() => handleUserClick(user)}
                     >
                         <div>

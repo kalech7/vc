@@ -379,3 +379,39 @@ body {
     margin-right: 0;
   }
 }
+
+.slick-prev, .slick-next {
+  position: absolute;
+  bottom: -50px; /* Mueve los botones más abajo */
+  font-size: 18px;
+  color: #1c2833;
+  z-index: 1000;
+  background-color: #f0f2f5;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.slick-prev {
+  left: 10%; /* Ajusta según el espacio que necesites */
+}
+
+.slick-next {
+  right: 10%; /* Ajusta según el espacio que necesites */
+}
+
+.slick-prev:hover, .slick-next:hover {
+  color: #333;
+}
+
+.slick-dots {
+  bottom: -50px; /* Asegura que los puntos estén en la misma línea que los botones */
+}
+
+.slick-dots li button:before {
+  font-size: 12px;
+  color: #1c2833;
+}
+
+.slick-dots li.slick-active button:before {
+  color: #333;
+}

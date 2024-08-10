@@ -247,3 +247,23 @@
   .btn-active:hover {
     background-color: #0f9775; /* Verde oscuro en hover */
   }
+
+  .user-item {
+    padding: 10px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+    background-color: #aae7ea; /* Color para usuarios no seleccionados */
+}
+
+/* Resalta el usuario seleccionado */
+
+.user-item.active {
+    background-color: #25676a; /* Cambia este color al que prefieras */
+    color: white;
+}
+
+.user-item:hover {
+    background-color: #e9ecef;
+}

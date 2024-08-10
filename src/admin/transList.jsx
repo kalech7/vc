@@ -1,18 +1,20 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarAlt, faFileAlt, faDollarSign, faExchangeAlt, faBalanceScale, faMoneyBillWave, faList } from '@fortawesome/free-solid-svg-icons';
 
 const TransList = ({ transacciones }) => {
     return (
         <div>
-            <h2>Lista de Transacciones</h2>
+            <h2><FontAwesomeIcon icon={faList} /> Lista de Transacciones</h2>
             <table>
                 <thead>
                     <tr>
-                        <th>Fecha</th>
-                        <th>Descripción</th>
-                        <th>Monto</th>
-                        <th>Cuenta Destino</th>
-                        <th>Saldo Anterior</th>
-                        <th>Saldo Actual</th>
+                        <th><FontAwesomeIcon icon={faCalendarAlt} /> Fecha</th>
+                        <th><FontAwesomeIcon icon={faFileAlt} /> Descripción</th>
+                        <th><FontAwesomeIcon icon={faDollarSign} /> Monto</th>
+                        <th><FontAwesomeIcon icon={faExchangeAlt} /> Cuenta Destino</th>
+                        <th><FontAwesomeIcon icon={faBalanceScale} /> Saldo Anterior</th>
+                        <th><FontAwesomeIcon icon={faMoneyBillWave} /> Saldo Actual</th>
                     </tr>
                 </thead>
                 <tbody>

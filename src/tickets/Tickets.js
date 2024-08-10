@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import HeaderD from '../dashboard/HeaderDashboard.js';
 import { Link } from 'react-router-dom';
 import '../estilos/estilos_tickets.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlusCircle, faListAlt, faTicketAlt } from '@fortawesome/free-solid-svg-icons';
 
 const Tickets = ({ user }) => {
   const [menuOpen, setMenuOpen] = useState(true);
@@ -124,12 +126,14 @@ const Tickets = ({ user }) => {
           className={`tab ${activeTab === 'create' ? 'active' : ''}`}
           onClick={() => setActiveTab('create')}
         >
+          <FontAwesomeIcon icon={faPlusCircle} style={{ marginRight: '10px' }} />
           Crear Ticket
         </button>
         <button
           className={`tab ${activeTab === 'view' ? 'active' : ''}`}
           onClick={() => setActiveTab('view')}
         >
+          <FontAwesomeIcon icon={faListAlt} style={{ marginRight: '10px' }} />
           Mis Tickets
         </button>
       </div>
@@ -168,7 +172,10 @@ const Tickets = ({ user }) => {
                 required
               />
             </label>
-            <button type="submit">Crear Ticket</button>
+            <button type="submit">
+              <FontAwesomeIcon icon={faTicketAlt} style={{ marginRight: '10px' }} />
+              Crear Ticket
+            </button>
           </form>
         </div>
       )}
