@@ -236,6 +236,7 @@ app.post('/send-confirmation-link', async (req, res) => {
     await confirmationRef.set({
       email,
       token,
+      nombre,
       cuentaOrigen,
       cuentaDestino,
       monto,
