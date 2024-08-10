@@ -32,6 +32,9 @@ const Registro = () => {
   const [provinces, setProvinces] = useState([]);
   const [disableProvinceSelect, setDisableProvinceSelect] = useState(true);
   const [step, setStep] = useState(1);
+  const [generalMessage, setGeneralMessage] = useState(''); // Para mensajes generales
+  const [verificationMessage, setVerificationMessage] = useState(''); // Nuevo estado para el mensaje
+
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -226,22 +229,21 @@ const Registro = () => {
       );
 
       if (emailResponse.ok) {
-        alert(
-          'Correo de verificación enviado. Por favor, revisa tu bandeja de entrada.'
-        );
-        setShowVerificationPopup(true);
-      } else {
-        alert('Error al enviar el correo de verificación.');
-      }
-    } catch (error) {
-      console.error('Error:', error);
+        setGeneralMessage('Codigo de verificación enviado al correo.');
+      setShowVerificationPopup(true);
+    } else {
+      setGeneralMessage('Error al enviar el correo de verificación.');
     }
+  } catch (error) {
+    console.error('Error:', error);
+    setGeneralMessage('Error al enviar los datos.');
+  }
   };
 
   const handleVerificationSubmit = async (event) => {
     event.preventDefault();
     if (verificationCode === generatedCode) {
-      alert('Verificación exitosa.');
+     setVerificationMessage('Verificación exitosa.'); 
 
       const {
         nombre,
@@ -289,16 +291,19 @@ const Registro = () => {
       })
         .then((response) => response.text())
         .then((data) => {
-          alert(data);
+          setGeneralMessage('Registro exitoso. Redirigiendo al inicio de sesión...');
+        setTimeout(() => {
           navigate('/login');
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-    } else {
-      alert('Código de verificación incorrecto.');
-    }
-  };
+        }, 3000); // Esperar 3 segundos antes de redirigir
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        setGeneralMessage('Error al guardar los datos.');
+      });
+  } else {
+    setVerificationMessage('Código de verificación incorrecto.');
+  }
+};
 
   const renderStep = () => {
     switch (step) {
@@ -466,7 +471,7 @@ const Registro = () => {
             </div>
             <div>
               <label htmlFor="celular">Celular:</label>
-              <input
+              <input  
                 type="tel"
                 id="celular"
                 name="celular"
@@ -557,28 +562,39 @@ const Registro = () => {
           </div>
           <form className="form-registro" onSubmit={handleSubmit}>
           {renderStep()}
-  {errors.general && (
-    <div className="error-message">{errors.general}</div>
-  )}
+          {errors.general && (
+            <div className="error-message">{errors.general}</div>
+          )}
+          {generalMessage && (
+            <div className="general-message">{generalMessage}</div>
+          )}
           </form>
         </div>
 
         {showVerificationPopup && (
-          <div className="verification-popup">
-            <form onSubmit={handleVerificationSubmit}>
-              <label htmlFor="verificationCode">Código de Verificación:</label>
-              <input
-                type="text"
-                id="verificationCode"
-                name="verificationCode"
-                value={verificationCode}
-                onChange={(e) => setVerificationCode(e.target.value)}
-                required
-              />
-              <button type="submit">Verificar</button>
-            </form>
-          </div>
-        )}
+  <div className="verification-popup">
+    {generalMessage && (
+      <div className="general-message">{generalMessage}</div>
+    )}
+    <form onSubmit={handleVerificationSubmit}>
+      <label htmlFor="verificationCode">Código de Verificación:</label>
+      <input
+        type="text"
+        id="verificationCode"
+        name="verificationCode"
+        value={verificationCode}
+        onChange={(e) => setVerificationCode(e.target.value)}
+        required
+      />
+      <button type="submit">Verificar</button>
+    </form>
+    {verificationMessage && ( // Mostrar el mensaje debajo del formulario
+      <div className="verification-message">
+        {verificationMessage}
+      </div>
+    )}
+  </div>
+)}
       </div>
       <Footer />
     </div>

@@ -468,3 +468,18 @@ select.error {
     margin-bottom: 10px; /* Añadir espacio entre los botones */
   }
 }
+.general-message {
+  margin-top: 20px;
+  color: green;
+  font-weight: bold;
+}
+
+.error-message {
+  color: red;
+  font-weight: bold;
+}
+.verification-message {
+  margin-top: 10px;
+  color: red; /* Cambia a green si es un mensaje de éxito */
+  text-align: center;
+}
