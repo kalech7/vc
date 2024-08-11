@@ -1829,7 +1829,32 @@ app.post('/verify-password-reset-code', async (req, res) => {
     res.status(500).json({ message: 'Error al verificar el código.' });
   }
 });
+// Ruta para cambiar la contraseña
+app.post('/change-password', async (req, res) => {
+  const { email, newPassword } = req.body;
 
+  try {
+    const clientRef = db.ref('clientes').orderByChild('correo').equalTo(email);
+    const snapshot = await clientRef.once('value');
+
+    if (!snapshot.exists()) {
+      return res.status(404).send('Correo electrónico no encontrado.');
+    }
+// Hashear la nueva contraseña
+const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    const updates = {};
+    snapshot.forEach((childSnapshot) => {
+      updates[childSnapshot.key] = { ...childSnapshot.val(), password: hashedPassword };
+    });
+
+    await db.ref('clientes').update(updates);
+    res.status(200).send('Contraseña cambiada exitosamente.');
+  } catch (error) {
+    console.error('Error al cambiar la contraseña:', error);
+    res.status(500).send('Error al cambiar la contraseña.');
+  }
+});
 // Iniciar el servidor
 const PORT = process.env.PORT || 3030;
 app.listen(PORT, () => {
