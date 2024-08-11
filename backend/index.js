@@ -1809,11 +1809,17 @@ app.post('/send-password-reset-code', async (req, res) => {
       timestamp: Date.now(),
     });
 
+    // Procesar la plantilla HTML, reemplazando {{code}} con el código de verificación
+    const htmlContent = procesarPlantilla(
+      './plantillas/correo_cambiopass.html', // Ruta a la plantilla que has creado
+      { code } // Las variables a reemplazar en la plantilla
+    );
+
     const mailOptions = {
       from: 'verificaciones@vertexcapital.today',
       to: email,
       subject: 'Código de verificación para cambio de contraseña',
-      text: `Tu código de verificación es: ${code}`,
+      html: htmlContent, // Utiliza la plantilla HTML procesada
     };
 
     transporter.sendMail(mailOptions, (error, info) => {

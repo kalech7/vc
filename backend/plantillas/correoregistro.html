@@ -1,72 +1,115 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Confirmación de Registro</title>
-    <style>
-        :root {
-            --header-height: 70px;
-            --body-color: #1c2833;
-            --title-color: #000000;
-            --title-color-dark: #000;
-            --font-medium: 500;
-        }
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #ffffff;
-            margin: 0;
-            padding-top: var(--header-height); /* espacio para el header fijo */
-        }
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            overflow: hidden;
-            padding: 100px 0;
-            height: auto;
-        }
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #0e0e0f;
+  </head>
+  <body
+    style="
+      font-family: 'Roboto', Arial, sans-serif;
+      background-color: #f4f4f7;
+      margin: 0;
+      padding: 0;
+      color: #333333;
+    "
+  >
+    <div
+      style="
+        width: 100%;
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #ffffff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+      "
+    >
+      <!-- Cabecera -->
+      <div
+        style="
+          background-color: #1c1e21;
+          color: #ffffff;
+          padding: 20px;
+          text-align: center;
+          border-top-left-radius: 8px;
+          border-top-right-radius: 8px;
+        "
+      >
+        <img
+          src="https://vc-su7z.onrender.com/logo_vertex.png"
+          alt="Logo de Vertex Capital"
+          style="width: 50px; margin-bottom: 10px"
+        />
+        <h1 style="margin: 0; font-size: 24px; font-weight: bold">
+          ¡Bienvenido a Vertex Capital!
+        </h1>
+      </div>
+      <!-- Banner de Bienvenida -->
+      <div
+        style="
+          background-color: rgb(57, 148, 153);
+          color: #ffffff;
+          padding: 10px;
+          text-align: center;
+          font-size: 18px;
+          font-weight: bold;
+        "
+      >
+        Tu viaje financiero empieza aquí 🚀
+      </div>
+      <!-- Contenido -->
+      <div style="padding: 30px; font-size: 16px; line-height: 1.6">
+        <p style="margin: 20px 0">Hola {{nombre}},</p>
+        <p style="margin: 20px 0">
+          Nos complace informarte que tu cuenta ha sido creada exitosamente. Tu
+          número de cuenta es:
+        </p>
+        <p style="font-size: 20px; color: rgb(57, 148, 153); margin-top: 10px">
+          <strong>{{numeroCuenta}}</strong>
+        </p>
+        <p style="margin: 20px 0">
+          Para ver tu cuenta y comenzar a explorar nuestros servicios, haz clic
+          en el siguiente botón:
+        </p>
+        <a
+          href="https://vertexcapital.today"
+          style="
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background-color: rgb(57, 148, 153);
             color: #ffffff;
-            padding: 10px;
-            text-align: center;
-        }
-        .header img {
-            width: 50px; /* ajusta el tamaño del logo según sea necesario */
-            margin-right: 10px; /* espacio entre el logo y el título */
-        }
-        .header h1 {
-            margin: 0;
-            font-size: 1.5rem;
-            font-weight: var(--font-medium);
-        }
-        .content {
-            margin: 20px 0;
-        }
-        .footer {
-            background-color: #24262b;
-            color: #ffffff;
-            padding: 10px;
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <img src="https://vc-su7z.onrender.com/logo_vertex.png" alt="Logo de Vertex Capital">
-            <h1>Confirmación de Registro</h1>
-        </div>
-        <div class="content">
-            <p>Hola {{nombre}},</p>
-            <p>Tu cuenta ha sido creada exitosamente.</p>
-            <p>Saludos,<br>El equipo de Vertex Capital</p>
-        </div>
-        <div class="footer">
-            <p>&copy; 2024 Vertex Capital. Todos los derechos reservados.</p>
-        </div>
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+          "
+          >Visita nuestro sitio web</a
+        >
+        <br /><br />
+        <p>
+          Gracias por confiar en nosotros. Si tienes alguna pregunta, no dudes
+          en contactarnos.
+        </p>
+        <p style="margin: 0">Saludos,<br />El equipo de Vertex Capital</p>
+      </div>
+      <!-- Footer -->
+      <div
+        style="
+          background-color: #24262b;
+          color: #ffffff;
+          padding: 20px;
+          text-align: center;
+          font-size: 14px;
+          border-bottom-left-radius: 8px;
+          border-bottom-right-radius: 8px;
+        "
+      >
+        <p style="margin-top: 10px">
+          &copy; 2024 Vertex Capital. Todos los derechos reservados.
+        </p>
+      </div>
     </div>
-</body>
+  </body>
 </html>

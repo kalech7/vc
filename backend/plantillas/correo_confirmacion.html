@@ -1,93 +1,114 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Confirmación de Transferencia</title>
-    <style>
-        :root {
-            --header-height: 70px;
-            --body-color: #1c2833;
-            --title-color: #000000;
-            --title-color-dark: #000;
-            --font-medium: 500;
-            --button-bg-color: #465180;
-            --button-text-color: #fef7f7;
-            --button-hover-bg-color: #6899ce;
-        }
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #ffffff;
-            margin: 0;
-            padding-top: var(--header-height); /* espacio para el header fijo */
-        }
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            overflow: hidden;
-            padding: 100px 0;
-            height: auto;
-        }
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #0e0e0f;
-            color: #ffffff;
-            padding: 10px;
-            text-align: center;
-        }
-        .header img {
-            width: 50px; /* ajusta el tamaño del logo según sea necesario */
-            margin-right: 10px; /* espacio entre el logo y el título */
-        }
-        .header h1 {
-            margin: 0;
-            font-size: 1.5rem;
-            font-weight: var(--font-medium);
-        }
-        .content {
-            margin: 20px 0;
-        }
-        .footer {
-            background-color: #24262b;
-            color: #ffffff;
-            padding: 10px;
-            text-align: center;
-        }
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 1rem;
-            color: var(--button-text-color);
-            background-color: var(--button-bg-color);
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        .button:hover {
-            background-color: var(--button-hover-bg-color);
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <img src="https://vc-su7z.onrender.com/logo_vertex.png" alt="Logo de Vertex Capital">
-            <h1>Confirma la transferencia</h1>
-        </div>
-        <div class="content">
-            <p>Estimado(a) cliente,</p>
-            <p>Para confirmar tu transferencia, por favor haz clic en el siguiente enlace:</p>
-            <p><a href="{{url}}" class="button">Confirmar Transferencia</a></p>
-            <p>Si no has solicitado esta transferencia, por favor ignora este mensaje.</p>
-            <p>Saludos,</p>
-            <p>El equipo de VertexCapital</p>
-        </div>
-        <div class="footer">
-            <p>&copy; 2024 VertexCapital. Todos los derechos reservados.</p>
-        </div>
+  </head>
+  <body
+    style="
+      font-family: 'Roboto', Arial, sans-serif;
+      background-color: #f4f4f7;
+      margin: 0;
+      padding: 0;
+      color: #333333;
+    "
+  >
+    <div
+      style="
+        width: 100%;
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #ffffff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+      "
+    >
+      <!-- Cabecera -->
+      <div
+        style="
+          background-color: #1c1e21;
+          color: #ffffff;
+          padding: 20px;
+          text-align: center;
+          border-top-left-radius: 8px;
+          border-top-right-radius: 8px;
+        "
+      >
+        <img
+          src="https://vc-su7z.onrender.com/logo_vertex.png"
+          alt="Logo de Vertex Capital"
+          style="width: 50px; margin-bottom: 10px"
+        />
+        <h1 style="margin: 0; font-size: 24px; font-weight: bold">
+          Confirma la transferencia
+        </h1>
+      </div>
+      <!-- Contenido -->
+      <div style="padding: 30px; font-size: 16px; line-height: 1.6">
+        <p>Estimado(a) cliente,</p>
+        <p>
+          Para confirmar tu transferencia, por favor haz clic en el siguiente
+          enlace:
+        </p>
+        <p style="text-align: center">
+          <a
+            href="{{url}}"
+            style="
+              display: inline-block;
+              padding: 12px 24px;
+              font-size: 16px;
+              color: #ffffff;
+              background-color: rgb(57, 148, 153);
+              text-decoration: none;
+              border-radius: 5px;
+              font-weight: bold;
+              transition: background-color 0.3s ease;
+            "
+            >Confirmar Transferencia</a
+          >
+        </p>
+        <p style="font-weight: bold; color: #b1291a">
+          Importante: No confirmes esta transferencia si no estás seguro de
+          haberla iniciado.
+        </p>
+        <p>
+          Si no has solicitado esta transferencia, por favor ignora este
+          mensaje.
+        </p>
+        <hr style="border: 0; border-top: 1px solid #ddd; margin: 20px 0" />
+        <p style="margin-top: 20px; font-size: 16px">
+          Si tienes alguna pregunta o necesitas asistencia, por favor
+          <a
+            href="mailto:soporte@vertexcapital.com"
+            style="color: rgb(57, 148, 153)"
+            >contáctanos</a
+          >.
+        </p>
+        <p>Saludos,<br />El equipo de Vertex Capital</p>
+        <p style="color: #888; font-size: 14px; margin-top: 20px">
+          Nota: Para tu seguridad, si no reconoces esta transferencia o crees
+          que alguien más está intentando acceder a tu cuenta, por favor,
+          contacta a nuestro soporte inmediatamente.
+        </p>
+      </div>
+      <!-- Footer -->
+      <div
+        style="
+          background-color: #24262b;
+          color: #ffffff;
+          padding: 20px;
+          text-align: center;
+          font-size: 14px;
+          border-bottom-left-radius: 8px;
+          border-bottom-right-radius: 8px;
+        "
+      >
+        <p style="margin: 0">
+          &copy; 2024 Vertex Capital. Todos los derechos reservados.
+        </p>
+      </div>
     </div>
-</body>
+  </body>
 </html>
