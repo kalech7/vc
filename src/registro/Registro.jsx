@@ -35,6 +35,7 @@ const Registro = () => {
   const [step, setStep] = useState(1);
   const [generalMessage, setGeneralMessage] = useState(''); // Para mensajes generales
   const [verificationMessage, setVerificationMessage] = useState(''); // Nuevo estado para el mensaje
+  const [isSubmitting, setIsSubmitting] = useState(false); // Nuevo estado para el envío del formulario
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -155,6 +156,8 @@ const Registro = () => {
     event.preventDefault();
     if (!validateStep()) return;
 
+    setIsSubmitting(true); // Activa la ruedita de carga
+
     const {
       nombre,
       apellido,
@@ -192,6 +195,7 @@ const Registro = () => {
           ...prevErrors,
           general: errorData.message,
         }));
+        setIsSubmitting(false); // Desactiva la ruedita de carga si hay un error
         return;
       }
 
@@ -242,6 +246,8 @@ const Registro = () => {
     } catch (error) {
       console.error('Error:', error);
       setGeneralMessage('Error al enviar los datos.');
+    } finally {
+      setIsSubmitting(false); // Desactiva la ruedita de carga después de finalizar la solicitud
     }
   };
 
@@ -553,7 +559,11 @@ const Registro = () => {
               <button type="button" onClick={handlePrevStep}>
                 Anterior
               </button>
-              <button type="submit">Registrar</button>
+              {isSubmitting ? (
+                <div className="loader"></div> // Aquí se muestra la ruedita de carga
+              ) : (
+                <button type="submit">Registrar</button>
+              )}
             </div>
           </div>
         );
