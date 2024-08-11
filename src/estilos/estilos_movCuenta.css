@@ -334,6 +334,74 @@ body {
   background: #484a4c;
 }
 
+/* Estilos para el carousel de Transferencias y Recargas */
+.carousel-container {
+  margin-top: 40px;
+}
+
+.carousel-title {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+  color: #1c2833;
+}
+
+.carousel-section {
+  display: flex;
+  overflow-x: scroll;
+  padding: 10px;
+}
+
+.carousel-item {
+  min-width: 300px;
+  margin-right: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-item .movimiento-fecha,
+.carousel-item .movimiento-box {
+  margin-bottom: 10px;
+}
+
+.slick-prev, .slick-next {
+  position: absolute;
+  bottom: -50px; /* Mueve los botones más abajo */
+  font-size: 18px;
+  color: #1c2833;
+  z-index: 1000;
+  background-color: #f0f2f5;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.slick-prev {
+  left: 10%; /* Ajusta según el espacio que necesites */
+}
+
+.slick-next {
+  right: 10%; /* Ajusta según el espacio que necesites */
+}
+
+.slick-prev:hover, .slick-next:hover {
+  color: #333;
+}
+
+.slick-dots {
+  bottom: -50px; /* Asegura que los puntos estén en la misma línea que los botones */
+}
+
+.slick-dots li button:before {
+  font-size: 12px;
+  color: #1c2833;
+}
+
+.slick-dots li.slick-active button:before {
+  color: #333;
+}
+
 @media (max-width: 768px) {
   .info-container {
     width: 90%; /* Ajusta el ancho para pantallas pequeñas */

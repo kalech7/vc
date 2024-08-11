@@ -4,6 +4,8 @@ import '../estilos/estilos_perfil.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import HeaderD from '../dashboard/HeaderDashboard.js';
 import FooterD from '../dashboard/FooterDashboard.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faInfoCircle, faIdCard, faEnvelope, faMapMarkerAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
 
 const UserProfile = ({ user }) => {
   const [menuOpen, setMenuOpen] = useState(true);
@@ -140,11 +142,20 @@ const UserProfile = ({ user }) => {
         >
           {userState ? (
             <>
-              <h1>{`Perfil de ${userState.nombre}`}</h1>
+              <h1>
+                <FontAwesomeIcon icon={faUser} style={{ marginRight: '10px' }} />
+                {`Perfil de ${userState.nombre}`}
+              </h1>
               <div className="info-container">
-                <h2>Detalle</h2>
+                <h2>
+                  <FontAwesomeIcon icon={faInfoCircle} style={{ marginRight: '10px' }} />
+                  Detalle
+                </h2>
                 <div className="info-detail">
-                  <h3>Datos Personales</h3>
+                  <h3>
+                    <FontAwesomeIcon icon={faIdCard} style={{ marginRight: '10px' }} />
+                    Datos Personales
+                  </h3>
                   <p>
                     <strong>Número de Documento:</strong>{' '}
                     {userState.nodocumento}
@@ -157,7 +168,10 @@ const UserProfile = ({ user }) => {
                   </p>
                 </div>
                 <div className="info-detail">
-                  <h3>Datos de Contacto</h3>
+                  <h3>
+                    <FontAwesomeIcon icon={faEnvelope} style={{ marginRight: '10px' }} />
+                    Datos de Contacto
+                  </h3>
                   <p>
                     <strong>Celular:</strong> {userState.celular}
                   </p>
@@ -166,7 +180,10 @@ const UserProfile = ({ user }) => {
                   </p>
                 </div>
                 <div className="info-detail">
-                  <h3>Direcciones</h3>
+                  <h3>
+                    <FontAwesomeIcon icon={faMapMarkerAlt} style={{ marginRight: '10px' }} />
+                    Direcciones
+                  </h3>
                   <p>
                     <strong>País:</strong> {userState.pais}
                   </p>
@@ -179,9 +196,9 @@ const UserProfile = ({ user }) => {
                     onClick={() => setIsEditing(true)}
                     style={{
                       marginTop: '30px',
-                      backgroundColor: 'rgb(66, 162, 165)', // Color de fondo del botón
-                      color: 'white', // Color del texto del botón
-                      border: 'none', // Sin borde
+                      backgroundColor: 'rgb(66, 162, 165)',
+                      color: 'white',
+                      border: 'none',
                       padding: '10px',
                       textAlign: 'center',
                       textDecoration: 'none',
@@ -189,16 +206,20 @@ const UserProfile = ({ user }) => {
                       fontSize: '16px',
                       cursor: 'pointer',
                       transition: 'background-color 0.3s',
-                      outline: 'none', // Elimina el contorno al enfocar
-                      width: '100%', // Ocupa todo el ancho del contenedor
+                      outline: 'none',
+                      width: '100%',
                       borderRadius: '12px',
                     }}
                   >
+                    <FontAwesomeIcon icon={faEdit} style={{ marginRight: '10px' }} />
                     Actualizar Datos
                   </button>
                 ) : (
                   <div>
-                    <h2>Actualizar Datos</h2>
+                    <h2>
+                      <FontAwesomeIcon icon={faEdit} style={{ marginRight: '10px' }} />
+                      Actualizar Datos
+                    </h2>
                     <form>
                       <div className="form-group">
                         <label>Email:</label>
@@ -221,9 +242,9 @@ const UserProfile = ({ user }) => {
                         onClick={sendVerificationCode}
                         style={{
                           marginTop: '30px',
-                          backgroundColor: 'rgb(66, 162, 165)', // Color de fondo del botón
-                          color: 'white', // Color del texto del botón
-                          border: 'none', // Sin borde
+                          backgroundColor: 'rgb(66, 162, 165)',
+                          color: 'white',
+                          border: 'none',
                           padding: '10px',
                           textAlign: 'center',
                           textDecoration: 'none',
@@ -231,8 +252,8 @@ const UserProfile = ({ user }) => {
                           fontSize: '16px',
                           cursor: 'pointer',
                           transition: 'background-color 0.3s',
-                          outline: 'none', // Elimina el contorno al enfocar
-                          width: '100%', // Ocupa todo el ancho del contenedor
+                          outline: 'none',
+                          width: '100%',
                           borderRadius: '12px',
                         }}
                       >
@@ -252,9 +273,9 @@ const UserProfile = ({ user }) => {
                           onClick={handleUpdate}
                           style={{
                             marginTop: '30px',
-                            backgroundColor: 'rgb(66, 162, 165)', // Color de fondo del botón
-                            color: 'white', // Color del texto del botón
-                            border: 'none', // Sin borde
+                            backgroundColor: 'rgb(66, 162, 165)',
+                            color: 'white',
+                            border: 'none',
                             padding: '10px',
                             textAlign: 'center',
                             textDecoration: 'none',
@@ -262,8 +283,8 @@ const UserProfile = ({ user }) => {
                             fontSize: '16px',
                             cursor: 'pointer',
                             transition: 'background-color 0.3s',
-                            outline: 'none', // Elimina el contorno al enfocar
-                            width: '100%', // Ocupa todo el ancho del contenedor
+                            outline: 'none',
+                            width: '100%',
                             borderRadius: '12px',
                           }}
                         >

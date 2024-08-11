@@ -29,6 +29,7 @@ const UserDashboard = ({ user }) => {
   const location = useLocation();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [isSaldoVisible, setIsSaldoVisible] = useState(true);
+  const [notification, setNotification] = useState({ message: '', type: '' });
 
   const toggleSaldoVisibility = () => {
     setIsSaldoVisible(!isSaldoVisible);
@@ -73,9 +74,18 @@ const UserDashboard = ({ user }) => {
     setAmount(value);
   };
 
+  const showNotification = (message, type) => {
+    setNotification({ message, type });
+    setTimeout(() => {
+      setNotification({ message: '', type: '' });
+    }, 3000); // La notificación desaparecerá después de 3 segundos
+  };
+
   const handlePaymentSuccess = async (details) => {
     const newAmount = parseFloat(amount);
     if (newAmount >= 1) {
+      showNotification(`Transacción completada por ${details.payer.name.given_name}`, 'success');
+
       const updatedSaldo = parseFloat(selectedAccount.saldo) + newAmount;
       const updatedUser = {
         ...userState,
@@ -149,7 +159,7 @@ const UserDashboard = ({ user }) => {
         setModalRecargaIsOpen(false);
       }
     } else {
-      alert('El monto debe ser mayor a 1 para recargar.');
+      showNotification('El monto debe ser mayor a 100 para recargar.', 'error');
     }
   };
 
@@ -266,6 +276,13 @@ const UserDashboard = ({ user }) => {
         className={`content-container ${menuOpen ? 'menu-open' : ''}`}
         style={{ display: 'flex', flexDirection: 'column', width: '100%' }}
       >
+        {/* Mostrar la notificación si hay un mensaje */}
+        {notification.message && (
+          <div className={`notification ${notification.type}`}>
+            {notification.message}
+          </div>
+        )}
+
         <button className="menu-toggle" onClick={toggleMenu}>
           <i className="fas fa-bars"></i>
         </button>

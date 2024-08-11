@@ -4,6 +4,8 @@ import UserDetails from './UserDetails';
 import TransList from './transList';
 import Header from './headeradmin'; // Asegúrate de que el nombre del archivo y la importación coincidan
 import TicketListAdmin from './TicketList';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faListAlt, faTicketAlt } from '@fortawesome/free-solid-svg-icons';
 import '../estilos/estilos_dashadmin.css';
 
 const DashAdmin = ({ admin }) => {
@@ -69,16 +71,16 @@ const DashAdmin = ({ admin }) => {
         <div>
             <Header admin={admin} />
             <div id="app">
-                <Sidebar onSelectUser={setSelectedUser} />
+                <Sidebar onSelectUser={setSelectedUser} selectedUser={selectedUser}/>
+                
                 <UserDetails user={selectedUser} />
                 {/* Mostrar TransList solo si hay un cliente seleccionado */}
                 
                 
             </div>
+            
             <TicketListAdmin />
 
-               
-           
         </div>
     );
 };

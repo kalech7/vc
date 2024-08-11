@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import '../estilos/estilos_transferencias.css';
 import Header from '../dashboard/HeaderDashboard';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from 'react-modal';
 import QRCode from 'qrcode.react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash, faExchangeAlt, faBoxOpen, faQrcode, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 const Transferencias = ({ user }) => {
   const [menuOpen, setMenuOpen] = useState(true);
@@ -24,7 +24,7 @@ const Transferencias = ({ user }) => {
   const [fechaTransaccion, setFechaTransaccion] = useState('');
   const [saldoAnterior, setSaldoAnterior] = useState(userState.saldo);
   const [saldoActual, setSaldoActual] = useState(userState.saldo);
-  const [saldoDestino, setSaldoDestino] = useState(0); // Estado para el saldo del destinatario
+  const [saldoDestino, setSaldoDestino] = useState(0);
   const [cuentas, setCuentas] = useState([]);
   const [selectedAccount, setSelectedAccount] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -89,7 +89,7 @@ const Transferencias = ({ user }) => {
         const data = await response.json();
         setNombre(data.nombre || '');
         setCorreo(data.correo || '');
-        setSaldoDestino(data.saldo || 0); // Establecer el saldo del destinatario
+        setSaldoDestino(data.saldo || 0);
         setMessage('');
       } else {
         setNombre('');
@@ -152,17 +152,14 @@ const Transferencias = ({ user }) => {
       .padStart(2, '0')}:${fechaActual
       .getMinutes()
       .toString()
-      .padStart(2, '0')}:${fechaActual
-      .getSeconds()
-      .toString()
-      .padStart(2, '0')}`;
+      .padStart(2, '0')}:${fechaActual.getSeconds().toString().padStart(2, '0')}`;
     setFechaTransaccion(fechaFormateada);
 
     const nuevoSaldoActual = selectedAccount.saldo - montoFloat;
     setSaldoActual(nuevoSaldoActual);
 
-    const nuevoSaldoDestino = saldoDestino + montoFloat; // Calcular el nuevo saldo del destinatario
-    setSaldoDestino(nuevoSaldoDestino); // Establecer el saldo destino
+    const nuevoSaldoDestino = saldoDestino + montoFloat;
+    setSaldoDestino(nuevoSaldoDestino);
 
     try {
       const response = await fetch(
@@ -180,7 +177,7 @@ const Transferencias = ({ user }) => {
             descripcion,
             cuentaOrigen: selectedAccount.numeroCuenta,
             saldoAnterior,
-            saldoDestino: nuevoSaldoDestino, // Incluir el nuevo saldo destino en la solicitud
+            saldoDestino: nuevoSaldoDestino,
             fechaTransaccion: fechaFormateada,
             email: userState.correo,
             nombreOrigen: userState.nombre
@@ -265,9 +262,15 @@ const Transferencias = ({ user }) => {
         </div>
 
         <div className="transfer-container">
-          <h2 className="transfer-title">Transferencias</h2>
+          <h2 className="transfer-title">
+            <FontAwesomeIcon icon={faExchangeAlt} style={{ marginRight: '10px' }} />
+            Transferencias
+          </h2>
 
-          <h2>Mis productos</h2>
+          <h2>
+            <FontAwesomeIcon icon={faBoxOpen} style={{ marginRight: '10px' }} />
+            Mis productos
+          </h2>
 
           <div className="info-container-tran">
             {selectedAccount ? (
@@ -311,10 +314,15 @@ const Transferencias = ({ user }) => {
           <button onClick={openModal} className="btn-abrir-cuenta">
             Selecciona una cuenta para transferir
           </button>
-          <h3>Codigo Qr para cobrar</h3>
+
+          <h3>
+            <FontAwesomeIcon icon={faQrcode} style={{ marginRight: '10px' }} />
+            Código QR para cobrar
+          </h3>
           <div className="qr-code">
             <QRCode value={qrData} size={128} />
           </div>
+
           {!transferenciaRealizada ? (
             <form onSubmit={handleTransfer} className="transfer-form">
               <div className="form-group">
@@ -327,7 +335,7 @@ const Transferencias = ({ user }) => {
                     setCuentaDestino(e.target.value);
                     setNombre('');
                     setCorreo('');
-                    setSaldoDestino(0); // Restablecer el saldo del destinatario
+                    setSaldoDestino(0);
                   }}
                   required
                 />
@@ -382,6 +390,7 @@ const Transferencias = ({ user }) => {
                 />
               </div>
               <button type="submit" className="btn-transferir">
+                <FontAwesomeIcon icon={faPaperPlane} style={{ marginRight: '10px' }} />
                 Transferir
               </button>
             </form>
