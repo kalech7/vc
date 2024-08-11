@@ -111,9 +111,9 @@ function ConfirmacionTransferencias() {
 
         .transfer-container {
           width: 90%;
-          max-width: 500px;
+          max-width: 600px;
           margin: 5% auto;
-          padding: 1.5rem;
+          padding: 2rem;
           background-color: #ffffff;
           border-radius: 8px;
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -121,7 +121,7 @@ function ConfirmacionTransferencias() {
         }
 
         .transfer-title {
-          font-size: 22px;
+          font-size: 24px;
           font-weight: 700;
           color: #1c2833;
           margin-bottom: 1rem;
@@ -129,15 +129,18 @@ function ConfirmacionTransferencias() {
 
         .info-container-tran {
           background: linear-gradient(180deg, #b6cde2 0%, #ddba89 100%);
-          padding: 1.5rem;
+          padding: 2rem;
           border-radius: 8px;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          margin-bottom: 1.5rem;
+          margin-bottom: 2rem;
+          display: flex;
+          flex-direction: column; /* Organiza los elementos en una columna */
         }
 
         .info-box {
           display: flex;
           justify-content: space-between;
+          align-items: center;
           margin-bottom: 1rem;
         }
 
@@ -145,16 +148,20 @@ function ConfirmacionTransferencias() {
           font-size: 16px;
           font-weight: bold;
           color: #1c2833;
+          text-align: left;
+          width: 50%; /* Asegura que el label y el valor estén alineados correctamente */
         }
 
         .info-value {
           font-size: 18px;
           color: #34495e;
+          text-align: right;
+          width: 50%; /* Asegura que el label y el valor estén alineados correctamente */
         }
 
         .share-container {
           text-align: center;
-          margin-top: 1rem;
+          margin-top: 2rem;
         }
 
         .share-button {
@@ -185,7 +192,9 @@ function ConfirmacionTransferencias() {
           color: white;
           text-align: center;
           padding: 1rem;
-          margin-top: 2rem;
+          position: fixed;
+          width: 100%;
+          bottom: 0;
         }
       `}</style>
     </div>
