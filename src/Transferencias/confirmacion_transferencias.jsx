@@ -22,10 +22,22 @@ function ConfirmacionTransferencias() {
   };
 
   const socialLinks = [
-    { icon: faFacebook, url: 'https://www.facebook.com/sharer/sharer.php?u=https://vertexcapital.today' },
-    { icon: faTwitter, url: `https://twitter.com/intent/tweet?url=https://vertexcapital.today&text=Transferencia%20de%20${monto}%20realizada%20a%20${nombre}%20el%20${fecha}` },
-    { icon: faLinkedin, url: 'https://www.linkedin.com/shareArticle?mini=true&url=https://vertexcapital.today' },
-    { icon: faWhatsapp, url: `https://api.whatsapp.com/send?text=Transferencia%20de%20${monto}%20realizada%20a%20${nombre}%20el%20${fecha}%20https://vertexcapital.today` },
+    {
+      icon: faFacebook,
+      url: 'https://www.facebook.com/sharer/sharer.php?u=https://vertexcapital.today',
+    },
+    {
+      icon: faTwitter,
+      url: `https://twitter.com/intent/tweet?url=https://vertexcapital.today&text=Transferencia%20de%20${monto}%20realizada%20a%20${nombre}%20el%20${fecha}`,
+    },
+    {
+      icon: faLinkedin,
+      url: 'https://www.linkedin.com/shareArticle?mini=true&url=https://vertexcapital.today',
+    },
+    {
+      icon: faWhatsapp,
+      url: `https://api.whatsapp.com/send?text=Transferencia%20de%20${monto}%20realizada%20a%20${nombre}%20el%20${fecha}%20https://vertexcapital.today`,
+    },
   ];
 
   return (
@@ -60,7 +72,12 @@ function ConfirmacionTransferencias() {
           {menuOpen && (
             <div className="share-menu">
               {socialLinks.map((link, index) => (
-                <a key={index} href={link.url} target="_blank" rel="noopener noreferrer">
+                <a
+                  key={index}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <FontAwesomeIcon icon={link.icon} size="2x" />
                 </a>
               ))}
@@ -94,9 +111,9 @@ function ConfirmacionTransferencias() {
 
         .transfer-container {
           width: 90%;
-          max-width: 600px;
+          max-width: 500px;
           margin: 5% auto;
-          padding: 2rem;
+          padding: 1.5rem;
           background-color: #ffffff;
           border-radius: 8px;
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -104,7 +121,7 @@ function ConfirmacionTransferencias() {
         }
 
         .transfer-title {
-          font-size: 24px;
+          font-size: 22px;
           font-weight: 700;
           color: #1c2833;
           margin-bottom: 1rem;
@@ -112,10 +129,10 @@ function ConfirmacionTransferencias() {
 
         .info-container-tran {
           background: linear-gradient(180deg, #b6cde2 0%, #ddba89 100%);
-          padding: 2rem;
+          padding: 1.5rem;
           border-radius: 8px;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          margin-bottom: 2rem;
+          margin-bottom: 1.5rem;
         }
 
         .info-box {
@@ -137,7 +154,7 @@ function ConfirmacionTransferencias() {
 
         .share-container {
           text-align: center;
-          margin-top: 2rem;
+          margin-top: 1rem;
         }
 
         .share-button {
@@ -168,9 +185,7 @@ function ConfirmacionTransferencias() {
           color: white;
           text-align: center;
           padding: 1rem;
-          position: fixed;
-          width: 100%;
-          bottom: 0;
+          margin-top: 2rem;
         }
       `}</style>
     </div>
