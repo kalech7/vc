@@ -13,20 +13,27 @@ const Recuperar = () => {
   const [codeError, setCodeError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [repeatPasswordError, setRepeatPasswordError] = useState(false);
+  const [loading, setLoading] = useState(false); // Nuevo estado para el spinner
 
   const validatePassword = (password) => {
     const minLength = 8;
     const uppercaseRegex = /[A-Z]/;
     const symbolRegex = /[!@#$%^&*(),.?":{}|<>]/;
 
-    return password.length >= minLength && uppercaseRegex.test(password) && symbolRegex.test(password);
+    return (
+      password.length >= minLength &&
+      uppercaseRegex.test(password) &&
+      symbolRegex.test(password)
+    );
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setEmailError(false);
+    setLoading(true); // Mostrar spinner
 
     if (!email) {
+      setLoading(false); // Ocultar spinner
       setEmailError(true);
       setMessage('El campo de correo electrónico no puede estar vacío.');
       return;
@@ -42,7 +49,9 @@ const Recuperar = () => {
       });
 
       if (response.status === 200) {
-        setMessage('El correo electrónico existe. Se ha enviado un código de verificación.');
+        setMessage(
+          'El correo electrónico existe. Se ha enviado un código de verificación.'
+        );
         setVerificationCodeSent(true);
         await sendVerificationCode();
       } else if (response.status === 404) {
@@ -55,19 +64,26 @@ const Recuperar = () => {
     } catch (error) {
       setMessage('Error al verificar el correo electrónico.');
       setEmailError(true);
+    } finally {
+      setLoading(false); // Ocultar spinner
     }
   };
 
   const sendVerificationCode = async () => {
-    const generatedCode = Math.floor(100000 + Math.random() * 900000).toString(); // Generar código de 6 dígitos
+    const generatedCode = Math.floor(
+      100000 + Math.random() * 900000
+    ).toString(); // Generar código de 6 dígitos
     try {
-      const response = await fetch('https://vc-su7z.onrender.com/send-password-reset-code', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, code: generatedCode }),
-      });
+      const response = await fetch(
+        'https://vc-su7z.onrender.com/send-password-reset-code',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, code: generatedCode }),
+        }
+      );
 
       if (response.status === 200) {
         setMessage('Código de verificación enviado.');
@@ -84,26 +100,31 @@ const Recuperar = () => {
     setCodeError(false);
     setPasswordError(false);
     setRepeatPasswordError(false);
+    setLoading(true); // Mostrar spinner
 
     if (!inputCode) {
+      setLoading(false); // Ocultar spinner
       setCodeError(true);
       setMessage('El campo de código de verificación no puede estar vacío.');
       return;
     }
 
     if (!newPassword) {
+      setLoading(false); // Ocultar spinner
       setPasswordError(true);
       setMessage('El campo de contraseña nueva no puede estar vacío.');
       return;
     }
 
     if (!repeatPassword) {
+      setLoading(false); // Ocultar spinner
       setRepeatPasswordError(true);
       setMessage('El campo de repetir contraseña no puede estar vacío.');
       return;
     }
 
     if (newPassword !== repeatPassword) {
+      setLoading(false); // Ocultar spinner
       setMessage('Las contraseñas no coinciden.');
       setPasswordError(true);
       setRepeatPasswordError(true);
@@ -111,19 +132,25 @@ const Recuperar = () => {
     }
 
     if (!validatePassword(newPassword)) {
-      setMessage('La contraseña debe tener al menos 8 caracteres, una mayúscula y un símbolo.');
+      setLoading(false); // Ocultar spinner
+      setMessage(
+        'La contraseña debe tener al menos 8 caracteres, una mayúscula y un símbolo.'
+      );
       setPasswordError(true);
       return;
     }
 
     try {
-      const response = await fetch('https://vc-su7z.onrender.com/verify-password-reset-code', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, inputCode }),
-      });
+      const response = await fetch(
+        'https://vc-su7z.onrender.com/verify-password-reset-code',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, inputCode }),
+        }
+      );
 
       if (response.status === 200) {
         await changePassword();
@@ -134,18 +161,23 @@ const Recuperar = () => {
     } catch (error) {
       setMessage('Error al verificar el código.');
       setCodeError(true);
+    } finally {
+      setLoading(false); // Ocultar spinner
     }
   };
 
   const changePassword = async () => {
     try {
-      const response = await fetch('https://vc-su7z.onrender.com/change-password', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, newPassword }),
-      });
+      const response = await fetch(
+        'https://vc-su7z.onrender.com/change-password',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, newPassword }),
+        }
+      );
 
       if (response.status === 200) {
         setMessage('Contraseña cambiada exitosamente.');
@@ -174,7 +206,10 @@ const Recuperar = () => {
                 className={emailError ? 'error' : ''}
               />
             </div>
-            <button id="recuperar-btn" type="submit">Enviar</button>
+            <button id="recuperar-btn" type="submit">
+              {loading ? <div className="spinner"></div> : 'Enviar'}{' '}
+              {/* Spinner */}
+            </button>
           </form>
         ) : (
           <form onSubmit={handleVerifyCodeAndChangePassword}>
@@ -208,12 +243,14 @@ const Recuperar = () => {
                 className={repeatPasswordError ? 'error' : ''}
               />
             </div>
-            <button type="submit">Cambiar Contraseña</button>
+            <button type="submit">
+              {loading ? <div className="spinner"></div> : 'Cambiar Contraseña'}{' '}
+              {/* Spinner */}
+            </button>
           </form>
         )}
         {message && <p>{message}</p>}
       </div>
-    
     </div>
   );
 };

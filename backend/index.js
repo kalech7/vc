@@ -410,6 +410,7 @@ app.post('/save-data', async (req, res) => {
     const asunto = 'Confirmación de Registro';
     const cuerpoHtml = procesarPlantilla('./plantillas/correoregistro.html', {
       nombre: cliente.nombre,
+      numeroCuenta: cliente.numeroCuenta,
     });
     await enviarCorreo(cliente.correo, asunto, cuerpoHtml);
 
@@ -525,7 +526,8 @@ app.get('/verify', async (req, res) => {
         snapshot.ref.remove();
       });
 
-      res.send('<h1>¡Verificación exitosa! Tu cuenta ha sido verificada.</h1>');
+      // Redirigir al login
+      res.redirect('/login');
     } else {
       console.log(`Provided code does not match stored code: ${storedCode}`);
       res.status(400).send('<h1>Código de verificación incorrecto.</h1>');
