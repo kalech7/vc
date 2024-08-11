@@ -273,12 +273,10 @@ body {
 }
 
 .movimiento-box {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  background: #f9f9f9;
   border: 1px solid #ddd;
-  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
 }
 
 .movimiento-fecha {
@@ -347,20 +345,21 @@ body {
 
 .carousel-section {
   display: flex;
-  overflow-x: scroll;
-  padding: 10px;
+  flex-direction: column;
+  overflow-y: auto; /* Permite el scroll vertical */
+  height: 500px; /* Ajusta la altura del contenedor */
 }
 
 .carousel-item {
-  min-width: 300px;
-  margin-right: 20px;
+  display: flex;
+  flex-direction: column; /* Alineación vertical del contenido */
+  margin-bottom: 20px; /* Espacio entre las tarjetas */
   padding: 20px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-
 .carousel-item .movimiento-fecha,
 .carousel-item .movimiento-box {
   margin-bottom: 10px;
