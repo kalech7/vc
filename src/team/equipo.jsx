@@ -154,8 +154,13 @@ const Equipo = () => {
               <h1>Development Team-Tester</h1>
               <p>Elias Bolaños</p>
               <p>Desarrollador de software y soluciones</p>
-              <a href="https://www.linkedin.com/in/elias-bola%C3%B1os-865b911aa/" target="_blank" rel="noopener noreferrer" class="btn-link"> 
-              {' '}
+              <a
+                href="https://www.linkedin.com/in/elias-bola%C3%B1os-865b911aa/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-link"
+              >
+                {' '}
                 Visitar perfil
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/0/01/LinkedIn_Logo.svg"
@@ -163,7 +168,6 @@ const Equipo = () => {
                   class="btn-icon"
                 />
               </a>
-              
 
               <label htmlFor="tr-toggle1" class="btn-next">
                 Ir al inicio
@@ -172,10 +176,7 @@ const Equipo = () => {
           </section>
         </div>
       </div>
-      <div className="burndown-container">
-        <h2>Burndown Chart</h2>
-        <img id="burndown" src={burndown} alt="burndown" />
-      </div>
+
       <Footer />
     </div>
   );
