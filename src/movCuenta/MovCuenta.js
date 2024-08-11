@@ -313,14 +313,11 @@ const UserDashboard = ({ user }) => {
                     <div key={index}>
                       <div className="movimiento-fecha">{mov.fecha}</div>
                       <div className="movimiento-box">
-                        <div className="movimiento-tipo">
-                          {mov.tipo === 'Enviado'
-                            ? 'Transferencia enviada a'
-                            : 'Transferencia recibida por'}{' '}
-                          {mov.tipo === 'Enviado'
-                            ? mov.cuentaDestino
-                            : mov.cuentaOrigen}
-                        </div>
+                      <div className="movimiento-tipo">
+                              {mov.tipo === 'Enviado'
+                                ? `Transferencia enviada a ${mov.nombreDestino} (Cuenta: ${mov.cuentaDestino})`
+                                : `Transferencia recibida por ${mov.nombreOrigen} (Cuenta: ${mov.cuentaOrigen})`}
+                            </div>
                         <div
                           className={`movimiento-monto ${
                             mov.tipo === 'Enviado'
