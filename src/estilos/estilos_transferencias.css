@@ -265,6 +265,16 @@ button[type='submit-transferencias']:hover {
   .menu-toggle {
     left: 20px;
   }
+
+  /* Ajusta el tamaño de los botones en móviles */
+  button[type='button-transferencias'],
+  button[type='submit-transferencias'] {
+    width: 90%; /* Ajusta el ancho del botón al 90% del contenedor */
+    max-width: 300px; /* Establece un ancho máximo para los botones */
+    margin-left: auto; /* Elimina el margen izquierdo */
+    margin-right: auto; /* Centra el botón horizontalmente */
+    display: block; /* Asegura que el botón se comporte como un bloque */
+  }
 }
 
 @media (max-width: 480px) {
@@ -285,5 +295,13 @@ button[type='submit-transferencias']:hover {
     width: calc(100% - 20px);
     padding-left: 10px;
     padding-right: 10px;
+  }
+  button[type='button-transferencias'],
+  button[type='submit-transferencias'] {
+    width: 90%; /* Ajusta el ancho del botón al 90% del contenedor */
+    max-width: 300px; /* Establece un ancho máximo para los botones */
+    margin-left: auto; /* Elimina el margen izquierdo */
+    margin-right: auto; /* Centra el botón horizontalmente */
+    display: block; /* Asegura que el botón se comporte como un bloque */
   }
 }
