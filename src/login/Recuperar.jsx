@@ -181,6 +181,9 @@ const Recuperar = () => {
 
       if (response.status === 200) {
         setMessage('Contraseña cambiada exitosamente.');
+        setTimeout(() => {
+          navigate('/login');
+        }, 3000);
       } else {
         setMessage('Error al cambiar la contraseña.');
       }
