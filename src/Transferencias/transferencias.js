@@ -254,7 +254,7 @@ const Transferencias = ({ user }) => {
       // Función para guardar el contacto
       const handleGuardarContacto = async () => {
         try {
-          const response = await fetch('http://localhost:3030/guardar-contacto', {
+          const response = await fetch('https://vc-su7z.onrender.com/guardar-contacto', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -284,7 +284,7 @@ const Transferencias = ({ user }) => {
       const fetchContactos = async () => {
         try {
           const response = await fetch(
-            `http://localhost:3030/obtener-contactos?nodocumento=${userState.nodocumento}`
+            `https://vc-su7z.onrender.com/obtener-contactos?nodocumento=${userState.nodocumento}`
           );
           const text = await response.text();
           console.log(text); // Verifica si es un JSON válido

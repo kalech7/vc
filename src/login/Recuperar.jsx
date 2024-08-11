@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import '../estilos/estilos_recuperar.css';
 import Header from '../inicio/Header';
 
@@ -14,7 +15,7 @@ const Recuperar = () => {
   const [passwordError, setPasswordError] = useState(false);
   const [repeatPasswordError, setRepeatPasswordError] = useState(false);
   const [loading, setLoading] = useState(false); // Nuevo estado para el spinner
-
+  const navigate = useNavigate();
   const validatePassword = (password) => {
     const minLength = 8;
     const uppercaseRegex = /[A-Z]/;
