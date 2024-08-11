@@ -101,18 +101,19 @@ function ConfirmacionTransferencias() {
         .header {
           background-color: #1c2833;
           color: white;
-          padding: 1rem 2rem;
+          padding: 0.75rem 1.5rem; /* Tamaño reducido */
           text-align: center;
         }
 
         .header h1 {
           margin: 0;
+          font-size: 22px;
         }
 
         .transfer-container {
           width: 90%;
           max-width: 600px;
-          margin: 5% auto;
+          margin: 50px auto; /* Agregado margen superior para separar del header */
           padding: 2rem;
           background-color: #ffffff;
           border-radius: 8px;
@@ -145,18 +146,18 @@ function ConfirmacionTransferencias() {
         }
 
         .info-label {
-          font-size: 16px;
+          font-size: 18px;
           font-weight: bold;
           color: #1c2833;
           text-align: left;
-          width: 50%; /* Asegura que el label y el valor estén alineados correctamente */
+          width: 50%;
         }
 
         .info-value {
           font-size: 18px;
           color: #34495e;
           text-align: right;
-          width: 50%; /* Asegura que el label y el valor estén alineados correctamente */
+          width: 50%;
         }
 
         .share-container {
