@@ -19,6 +19,7 @@ import Tickets from './tickets/Tickets';
 import Equipo from './team/equipo';
 import Reclamos from './reclamos/reclamos';
 import { ThemeContext } from './context/ThemeContext';
+import Confirma from './Transferencias/confirmacion_transferencias'
 import './estilos/theme.css';
 
 const App = () => {
@@ -80,6 +81,7 @@ const App = () => {
             <Route path="/tickets" element={<Tickets user={user} />} />
             <Route path="/equipo" element={<Equipo />} />
             <Route path="/reclamos" element={<Reclamos />} />
+            <Route path="/confirmacion-transferencias" element={<Confirma/>}/>
           </Routes>
         </main>
       </div>
