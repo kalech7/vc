@@ -440,6 +440,11 @@ body {
   .movimientos-container {
     width: 100%;
   }
+
+  .slick-prev,
+  .slick-next {
+    display: none !important;
+  }
 }
 
 @media (max-width: 480px) {

@@ -111,9 +111,9 @@ function ConfirmacionTransferencias() {
 
         .transfer-container {
           width: 90%;
-          max-width: 600px;
+          max-width: 500px;
           margin: 5% auto;
-          padding: 2rem;
+          padding: 1.5rem;
           background-color: #ffffff;
           border-radius: 8px;
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -121,7 +121,7 @@ function ConfirmacionTransferencias() {
         }
 
         .transfer-title {
-          font-size: 24px;
+          font-size: 22px;
           font-weight: 700;
           color: #1c2833;
           margin-bottom: 1rem;
@@ -129,10 +129,10 @@ function ConfirmacionTransferencias() {
 
         .info-container-tran {
           background: linear-gradient(180deg, #b6cde2 0%, #ddba89 100%);
-          padding: 2rem;
+          padding: 1.5rem;
           border-radius: 8px;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          margin-bottom: 2rem;
+          margin-bottom: 1.5rem;
         }
 
         .info-box {
@@ -154,7 +154,7 @@ function ConfirmacionTransferencias() {
 
         .share-container {
           text-align: center;
-          margin-top: 2rem;
+          margin-top: 1rem;
         }
 
         .share-button {
@@ -185,9 +185,7 @@ function ConfirmacionTransferencias() {
           color: white;
           text-align: center;
           padding: 1rem;
-          position: fixed;
-          width: 100%;
-          bottom: 0;
+          margin-top: 2rem;
         }
       `}</style>
     </div>
