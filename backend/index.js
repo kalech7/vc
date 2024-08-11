@@ -492,52 +492,6 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.get('/verify', async (req, res) => {
-  const { code, email } = req.query;
-
-  try {
-    console.log(`Verifying code: ${code} for email: ${email}`);
-
-    // Query the database for the code and email
-    const verificationRef = db
-      .ref('passwordResets')
-      .orderByChild('email')
-      .equalTo(email);
-    const snapshot = await verificationRef.once('value');
-
-    if (!snapshot.exists()) {
-      console.log(`No verification entry found for email: ${email}`);
-      return res
-        .status(404)
-        .send('<h1>Código de verificación no encontrado.</h1>');
-    }
-
-    let storedCode;
-    snapshot.forEach((childSnapshot) => {
-      storedCode = childSnapshot.val().code;
-    });
-
-    // Compare the provided code with the stored code
-    if (storedCode === code) {
-      console.log('Verification successful!');
-
-      // Optionally, remove the code after use
-      await verificationRef.once('child_added', (snapshot) => {
-        snapshot.ref.remove();
-      });
-
-      // Redirigir al login
-      res.redirect('/login');
-    } else {
-      console.log(`Provided code does not match stored code: ${storedCode}`);
-      res.status(400).send('<h1>Código de verificación incorrecto.</h1>');
-    }
-  } catch (error) {
-    console.error('Error during verification:', error);
-    res.status(500).send('<h1>Error al verificar el código.</h1>');
-  }
-});
-
 // Ruta para verificar correo electrónico
 app.post('/check-email', async (req, res) => {
   const { email } = req.body;
