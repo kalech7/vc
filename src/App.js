@@ -23,13 +23,40 @@ import ConfirmacionTransferencias from './Transferencias/confirmacion_transferen
 import './estilos/theme.css';
 
 const App = () => {
-  const [user, setUser] = useState(null);
-  const [admin, setAdmin] = useState(null);
-  const { theme } = useContext(ThemeContext); // Usa el ThemeContext para obtener el tema actual
+  const [user, setUser] = useState(() => {
+    // Recuperar el estado de usuario de localStorage si existe
+    const savedUser = localStorage.getItem('user');
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
+
+  const [admin, setAdmin] = useState(() => {
+    const savedAdmin = localStorage.getItem('admin');
+    return savedAdmin ? JSON.parse(savedAdmin) : null;
+  });
+
+  const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
     document.body.setAttribute('data-theme', theme);
   }, [theme]);
+
+  useEffect(() => {
+    // Guardar el estado del usuario en localStorage cuando cambie
+    if (user) {
+      localStorage.setItem('user', JSON.stringify(user));
+    } else {
+      localStorage.removeItem('user');
+    }
+  }, [user]);
+
+  useEffect(() => {
+    // Guardar el estado del admin en localStorage cuando cambie
+    if (admin) {
+      localStorage.setItem('admin', JSON.stringify(admin));
+    } else {
+      localStorage.removeItem('admin');
+    }
+  }, [admin]);
 
   return (
     <Router>
