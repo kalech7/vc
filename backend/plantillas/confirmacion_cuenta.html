@@ -1,75 +1,163 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Verificación de Cuenta</title>
     <style>
-        :root {
-            --header-height: 70px;
-            --body-color: #1c2833;
-            --title-color: #000000;
-            --title-color-dark: #000;
-            --font-medium: 500;
-        }
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #ffffff;
-            margin: 0;
-            padding-top: var(--header-height); /* espacio para el header fijo */
-        }
+      /* Configuración de variables globales */
+      :root {
+        --primary-color: #4caf50;
+        --secondary-color: #f4f4f7;
+        --text-color: #333333;
+        --background-color: #ffffff;
+        --footer-bg-color: #24262b;
+        --header-bg-color: #1c1e21;
+        --accent-color: #ff4081;
+        --border-radius: 8px;
+        --font-family: 'Roboto', Arial, sans-serif;
+      }
+
+      /* Estilos generales */
+      body {
+        font-family: var(--font-family);
+        background-color: var(--secondary-color);
+        margin: 0;
+        padding: 0;
+        color: var(--text-color);
+      }
+
+      .container {
+        width: 100%;
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: var(--background-color);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+      }
+
+      /* Cabecera */
+      .header {
+        background-color: var(--header-bg-color);
+        color: #ffffff;
+        padding: 20px;
+        text-align: center;
+        border-top-left-radius: var(--border-radius);
+        border-top-right-radius: var(--border-radius);
+      }
+
+      .header img {
+        width: 50px;
+        margin-bottom: 10px;
+      }
+
+      .header h1 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      /* Contenido */
+      .content {
+        padding: 30px;
+        font-size: 16px;
+        line-height: 1.6;
+      }
+
+      .content p {
+        margin: 20px 0;
+      }
+
+      .content strong {
+        font-size: 24px;
+        color: var(--primary-color);
+        display: block;
+        margin-top: 10px;
+      }
+
+      /* Botón de acción */
+      .content a {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 12px 24px;
+        background-color: var(--primary-color);
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+      }
+
+      /* Footer */
+      .footer {
+        background-color: var(--footer-bg-color);
+        color: #ffffff;
+        padding: 20px;
+        text-align: center;
+        font-size: 14px;
+        border-bottom-left-radius: var(--border-radius);
+        border-bottom-right-radius: var(--border-radius);
+      }
+
+      .footer p {
+        margin: 0;
+      }
+
+      /* Media Queries para Responsividad */
+      @media only screen and (max-width: 600px) {
         .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            overflow: hidden;
-            padding: 100px 0;
-            height: auto;
+          width: 90%;
+          padding: 20px;
         }
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #0e0e0f;
-            color: #ffffff;
-            padding: 10px;
-            text-align: center;
-        }
-        .header img {
-            width: 50px; /* ajusta el tamaño del logo según sea necesario */
-            margin-right: 10px; /* espacio entre el logo y el título */
-        }
+
         .header h1 {
-            margin: 0;
-            font-size: 1.5rem;
-            font-weight: var(--font-medium);
+          font-size: 20px;
         }
-        .content {
-            margin: 20px 0;
+
+        .content p {
+          margin: 15px 0;
         }
+
+        .content strong {
+          font-size: 20px;
+        }
+
+        .content a {
+          padding: 10px 20px;
+          font-size: 14px;
+        }
+
         .footer {
-            background-color: #24262b;
-            color: #ffffff;
-            padding: 10px;
-            text-align: center;
+          padding: 15px;
         }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-    <div class="header">
-        <img src="https://vc-su7z.onrender.com/logo_vertex.png" alt="Logo de Vertex Capital"> 
-        <h2>Tu código de verificación</h2>
+      <div class="header">
+        <img
+          src="https://vc-su7z.onrender.com/logo_vertex.png"
+          alt="Logo de Vertex Capital"
+        />
+        <h1>Tu código de verificación</h1>
+      </div>
+      <div class="content">
+        <p>Hola,</p>
+        <p>Tu código de verificación es:</p>
+        <p><strong>{{code}}</strong></p>
+        <p>Este código es válido por 10 minutos.</p>
+        <p>
+          Si no solicitaste este código, puedes ignorar este correo electrónico.
+        </p>
+        <a href="https://vc-su7z.onrender.com/verify">Verifica tu cuenta</a>
+        <br /><br />
+        <p>Gracias por confiar en nosotros.</p>
+      </div>
+      <div class="footer">
+        <p>Saludos,<br />El equipo de Vertex Capital</p>
+      </div>
     </div>
-    <div class="content">
-    <p>Tu código de verificación es: <strong>{{code}}</strong></p>
-    <p>Este código es válido por 10 minutos.</p>
-    <br>
-    <p>Gracias por confiar en nosotros.</p>
-</div>
-<div class="footer">
-    <p>Saludos,<br>El equipo de Vertex Capital</p>
-</div>
-</div>
-</body>
+  </body>
 </html>

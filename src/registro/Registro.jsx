@@ -22,7 +22,7 @@ const Registro = () => {
     celular: '',
     username: '',
     password: '',
-    confirmPassword: '' 
+    confirmPassword: '',
   });
 
   const [errors, setErrors] = useState({});
@@ -35,7 +35,6 @@ const Registro = () => {
   const [step, setStep] = useState(1);
   const [generalMessage, setGeneralMessage] = useState(''); // Para mensajes generales
   const [verificationMessage, setVerificationMessage] = useState(''); // Nuevo estado para el mensaje
-
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -189,11 +188,11 @@ const Registro = () => {
 
       if (!checkResponse.ok) {
         const errorData = await checkResponse.json();
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        general: errorData.message,
-      }));
-      return;
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          general: errorData.message,
+        }));
+        return;
       }
 
       const numeroCuenta =
@@ -235,21 +234,21 @@ const Registro = () => {
       );
 
       if (emailResponse.ok) {
-        setGeneralMessage('Codigo de verificación enviado al correo.');
-      setShowVerificationPopup(true);
-    } else {
-      setGeneralMessage('Error al enviar el correo de verificación.');
+        setGeneralMessage('Código de verificación enviado al correo.');
+        setShowVerificationPopup(true);
+      } else {
+        setGeneralMessage('Error al enviar el correo de verificación.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setGeneralMessage('Error al enviar los datos.');
     }
-  } catch (error) {
-    console.error('Error:', error);
-    setGeneralMessage('Error al enviar los datos.');
-  }
   };
 
   const handleVerificationSubmit = async (event) => {
     event.preventDefault();
     if (verificationCode === generatedCode) {
-     setVerificationMessage('Verificación exitosa.'); 
+      setVerificationMessage('Verificación exitosa.');
 
       const {
         nombre,
@@ -297,19 +296,21 @@ const Registro = () => {
       })
         .then((response) => response.text())
         .then((data) => {
-          setGeneralMessage('Registro exitoso. Redirigiendo al inicio de sesión...');
-        setTimeout(() => {
-          navigate('/login');
-        }, 3000); // Esperar 3 segundos antes de redirigir
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        setGeneralMessage('Error al guardar los datos.');
-      });
-  } else {
-    setVerificationMessage('Código de verificación incorrecto.');
-  }
-};
+          setGeneralMessage(
+            'Registro exitoso. Redirigiendo al inicio de sesión...'
+          );
+          setTimeout(() => {
+            navigate('/login');
+          }, 3000); // Esperar 3 segundos antes de redirigir
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          setGeneralMessage('Error al guardar los datos.');
+        });
+    } else {
+      setVerificationMessage('Código de verificación incorrecto.');
+    }
+  };
 
   const renderStep = () => {
     switch (step) {
@@ -477,7 +478,7 @@ const Registro = () => {
             </div>
             <div>
               <label htmlFor="celular">Celular:</label>
-              <input  
+              <input
                 type="tel"
                 id="celular"
                 name="celular"
@@ -534,20 +535,20 @@ const Registro = () => {
               )}
             </div>
             <div>
-                  <label htmlFor="confirmPassword">Confirmar Contraseña:</label>
-                  <input
-                    type="password"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    className={errors.confirmPassword ? 'error' : ''}
-                    required
-                  />
-                  {errors.confirmPassword && (
-                    <span className="error-message">{errors.confirmPassword}</span>
-                  )}
-                </div>
+              <label htmlFor="confirmPassword">Confirmar Contraseña:</label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                className={errors.confirmPassword ? 'error' : ''}
+                required
+              />
+              {errors.confirmPassword && (
+                <span className="error-message">{errors.confirmPassword}</span>
+              )}
+            </div>
             <div id="button-avanza-retro">
               <button type="button" onClick={handlePrevStep}>
                 Anterior
@@ -582,40 +583,38 @@ const Registro = () => {
             </div>
           </div>
           <form className="form-registro" onSubmit={handleSubmit}>
-          {renderStep()}
-          {errors.general && (
-            <div className="error-message">{errors.general}</div>
-          )}
-          {generalMessage && (
-            <div className="general-message">{generalMessage}</div>
-          )}
+            {renderStep()}
+            {errors.general && (
+              <div className="error-message">{errors.general}</div>
+            )}
+            {generalMessage && (
+              <div className="general-message">{generalMessage}</div>
+            )}
           </form>
         </div>
 
         {showVerificationPopup && (
-  <div className="verification-popup">
-    {generalMessage && (
-      <div className="general-message">{generalMessage}</div>
-    )}
-    <form onSubmit={handleVerificationSubmit}>
-      <label htmlFor="verificationCode">Código de Verificación:</label>
-      <input
-        type="text"
-        id="verificationCode"
-        name="verificationCode"
-        value={verificationCode}
-        onChange={(e) => setVerificationCode(e.target.value)}
-        required
-      />
-      <button type="submit">Verificar</button>
-    </form>
-    {verificationMessage && ( // Mostrar el mensaje debajo del formulario
-      <div className="verification-message">
-        {verificationMessage}
-      </div>
-    )}
-  </div>
-)}
+          <div className="verification-popup">
+            {generalMessage && (
+              <div className="general-message">{generalMessage}</div>
+            )}
+            <form onSubmit={handleVerificationSubmit}>
+              <label htmlFor="verificationCode">Código de Verificación:</label>
+              <input
+                type="text"
+                id="verificationCode"
+                name="verificationCode"
+                value={verificationCode}
+                onChange={(e) => setVerificationCode(e.target.value)}
+                required
+              />
+              <button type="submit">Verificar</button>
+            </form>
+            {verificationMessage && ( // Mostrar el mensaje debajo del formulario
+              <div className="verification-message">{verificationMessage}</div>
+            )}
+          </div>
+        )}
       </div>
       <Footer />
     </div>
