@@ -28,6 +28,9 @@ const Transferencias = ({ user }) => {
   const [cuentas, setCuentas] = useState([]);
   const [selectedAccount, setSelectedAccount] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [contactos, setContactos] = useState([]);
+  const [selectedContact, setSelectedContact] = useState(null);
+  const [showContactos, setShowContactos] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -43,6 +46,20 @@ const Transferencias = ({ user }) => {
     window.addEventListener('resize', handleResize);
 
     return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  useEffect(() => {
+    fetchContactos()
+      .then(data => {
+        if (Array.isArray(data)) {
+          setContactos(data);
+        } else {
+          setContactos([]);
+        }
+      })
+      .catch(error => {
+        console.error('Error al obtener los contactos:', error);
+        setContactos([]);
+      });
   }, []);
 
   useEffect(() => {
@@ -226,6 +243,61 @@ const Transferencias = ({ user }) => {
   const qrData = `https://vertexcapital.today/login?data=${encodeURIComponent(
     transferDataString
   )}`;
+      // Función para guardar el contacto
+      const handleGuardarContacto = async () => {
+        try {
+          const response = await fetch('http://localhost:3030/guardar-contacto', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              nodocumento: userState.nodocumento,
+              nombre,
+              correo,
+              numeroCuenta: cuentaDestino,
+            }),
+          });
+    
+          if (response.ok) {
+            setMessage('Contacto guardado exitosamente.');
+            // Actualizar la lista de contactos después de guardar uno nuevo
+            fetchContactos();
+          } else {
+            const data = await response.json();
+        setMessage(data.error || 'Error al guardar el contacto.');
+          }
+        } catch (error) {
+          console.error('Error al guardar el contacto:', error);
+          setMessage('Error al guardar el contacto.');
+        }
+      };
+    
+      const fetchContactos = async () => {
+        try {
+          const response = await fetch(
+            `http://localhost:3030/obtener-contactos?nodocumento=${userState.nodocumento}`
+          );
+          const text = await response.text();
+          console.log(text); // Verifica si es un JSON válido
+          const data = JSON.parse(text);
+          setContactos(data.contactos || []);
+        } catch (error) {
+          console.error('Error al obtener los contactos:', error);
+        }
+      };
+      
+  useEffect(() => {
+    fetchContactos();
+  }, []);
+  
+  const handleSelectContact = (contact) => {
+    setSelectedContact(contact);
+    setCuentaDestino(contact.numeroCuenta);
+    setNombre(contact.nombre);
+    setCorreo(contact.correo);
+    setModalIsOpen(false); // Close the modal after selecting the contact
+  };
 
   return (
     <div>
@@ -383,6 +455,15 @@ const Transferencias = ({ user }) => {
               <button type="submit" className="btn-transferir">
                 Transferir
               </button>
+              {/* Botón para guardar contacto */}
+            <button
+              type="button"
+              onClick={handleGuardarContacto}
+              className="btn-guardar-contacto"
+              disabled={!nombre || !correo || !cuentaDestino}
+            >
+              Guardar Contacto
+            </button>
             </form>
           ) : (
             <div className="transferencia-exitosa">
@@ -396,6 +477,31 @@ const Transferencias = ({ user }) => {
           )}
 
           {message && <p className="message">{message}</p>}
+          {/* Botón para mostrar/ocultar lista de contactos */}
+<button
+            onClick={() => setShowContactos(!showContactos)}
+            className="btn-toggle-contactos"
+          >
+            {showContactos ? 'Ocultar Contactos' : 'Mostrar Contactos'}
+          </button>
+
+          {/* Lista de contactos */}
+          {showContactos && (
+            <div className="contactos-container">
+              <h1>Lista de Contactos</h1>
+              {Array.isArray(contactos) && contactos.length > 0 ? (
+                contactos.map(contacto => (
+                  <div key={contacto.id}>
+                    <p>{contacto.nombre}</p>
+                    <p>{contacto.correo}</p>
+                    {/* Más detalles */}
+                  </div>
+                ))
+              ) : (
+                <p>No hay contactos disponibles.</p>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
