@@ -1829,10 +1829,10 @@ app.post('/verify-password-reset-code', async (req, res) => {
     res.status(500).json({ message: 'Error al verificar el código.' });
   }
 });
+
 // Ruta para cambiar la contraseña
 app.post('/change-password', async (req, res) => {
   const { email, newPassword } = req.body;
-
   try {
     const clientRef = db.ref('clientes').orderByChild('correo').equalTo(email);
     const snapshot = await clientRef.once('value');
@@ -1853,6 +1853,71 @@ const hashedPassword = await bcrypt.hash(newPassword, 10);
   } catch (error) {
     console.error('Error al cambiar la contraseña:', error);
     res.status(500).send('Error al cambiar la contraseña.');
+  }
+});
+
+// Ruta para guardar contactos
+app.post('/guardar-contacto', async (req, res) => {
+  const { nodocumento, nombre, correo, numeroCuenta } = req.body;
+
+  try {
+    // Referencia a la base de datos para buscar el cliente por nodocumento
+    const clienteRef = db.ref('clientes').orderByChild('nodocumento').equalTo(nodocumento);
+
+    const clienteSnapshot = await clienteRef.once('value');
+
+    if (!clienteSnapshot.exists()) {
+      return res.status(404).json({ error: 'Cliente no encontrado.' });
+    }
+
+    // Asume que solo habrá un cliente con ese nodocumento
+    const clienteKey = Object.keys(clienteSnapshot.val())[0];
+    const contactosRef = db.ref(`clientes/${clienteKey}/contactos`);
+
+    // Verificar si ya existe un contacto con el mismo número de cuenta
+    const snapshot = await contactosRef.orderByChild('numeroCuenta').equalTo(numeroCuenta).once('value');
+
+    if (snapshot.exists()) {
+      return res.status(400).json({ error: 'El contacto con este número de cuenta ya existe.' });
+    }
+
+    // Agregar el nuevo contacto
+    const nuevoContactoRef = contactosRef.push();
+    await nuevoContactoRef.set({ nombre, correo, numeroCuenta });
+
+    res.status(200).json({ mensaje: 'Contacto guardado exitosamente.' });
+  } catch (error) {
+    console.error('Error al guardar el contacto:', error);
+    res.status(500).json({ error: 'Error al guardar el contacto.' });
+  }
+});
+
+// Ruta para obtener los contactos
+app.get('/obtener-contactos', async (req, res) => {
+  const { nodocumento } = req.query;
+
+  try {
+    if (!nodocumento) {
+      return res.status(400).json({ error: 'El nodocumento es requerido.' });
+    }
+
+    const clientesRef = db.ref('clientes');
+    const snapshot = await clientesRef.orderByChild('nodocumento').equalTo(nodocumento).once('value');
+
+    if (!snapshot.exists()) {
+      return res.status(404).json({ error: 'No se encontraron contactos para este cliente.' });
+    }
+
+    const clienteKey = Object.keys(snapshot.val())[0];
+    const contactosRef = db.ref(`clientes/${clienteKey}/contactos`);
+    const contactosSnapshot = await contactosRef.once('value');
+
+    const contactos = contactosSnapshot.val() ? Object.values(contactosSnapshot.val()) : [];
+
+    res.status(200).json({ contactos });
+  } catch (error) {
+    console.error('Error al obtener los contactos:', error);
+    res.status(500).json({ error: 'Error al obtener los contactos.' });
   }
 });
 // Iniciar el servidor

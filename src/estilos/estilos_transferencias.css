@@ -214,6 +214,33 @@ button[type='submit-transferencias']:hover {
 .btn-abrir-cuenta:hover {
   background: rgb(37, 121, 126);
 }
+.contactos-container {
+  margin-top: 20px;
+}
+.contactos-container h1 {
+  margin-bottom: 15px;
+}
+.contactos-container div {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+}
+.btn-toggle-contactos {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 15px 0;
+  transition: background-color 0.3s;
+}
+.btn-toggle-contactos:hover {
+  background-color: #2980b9;
+}
+
 @media (max-width: 768px) {
   .content-container {
     flex-direction: column;
