@@ -1,13 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import Slider from "react-slick";
+import Slider from 'react-slick';
 import { jsPDF } from 'jspdf';
 import * as XLSX from 'xlsx';
 import '../estilos/estilos_movCuenta.css';
-import "slick-carousel/slick/slick.css"; 
-import "slick-carousel/slick/slick-theme.css";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash, faHistory, faExchangeAlt, faWallet, faListAlt, faFilePdf, faFileCsv, faFileExcel } from '@fortawesome/free-solid-svg-icons';
+import {
+  faEye,
+  faEyeSlash,
+  faHistory,
+  faExchangeAlt,
+  faWallet,
+  faListAlt,
+  faFilePdf,
+  faFileCsv,
+  faFileExcel,
+} from '@fortawesome/free-solid-svg-icons';
 import Header from '../dashboard/HeaderDashboard.js';
 import Footer from '../dashboard/FooterDashboard.js';
 import Modal from 'react-modal';
@@ -18,7 +28,7 @@ const NextArrow = (props) => {
   return (
     <div
       className={className}
-      style={{ ...style, display: "block", bottom: "-50px" }} // Ajusta la posición
+      style={{ ...style, display: 'block', bottom: '-50px' }} // Ajusta la posición
       onClick={onClick}
     >
       Siguiente
@@ -31,7 +41,7 @@ const PrevArrow = (props) => {
   return (
     <div
       className={className}
-      style={{ ...style, display: "block", bottom: "-50px" }} // Ajusta la posición
+      style={{ ...style, display: 'block', bottom: '-50px' }} // Ajusta la posición
       onClick={onClick}
     >
       Anterior
@@ -238,7 +248,7 @@ const UserDashboard = ({ user }) => {
     slidesToScroll: 1,
     adaptiveHeight: true,
     nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />
+    prevArrow: <PrevArrow />,
   };
 
   return (
@@ -292,7 +302,10 @@ const UserDashboard = ({ user }) => {
           {userState ? (
             <>
               <h1>
-                <FontAwesomeIcon icon={faHistory} style={{ marginRight: '10px' }} />
+                <FontAwesomeIcon
+                  icon={faHistory}
+                  style={{ marginRight: '10px' }}
+                />
                 Historial de Transacciones
               </h1>
               <div className="info-container">
@@ -327,22 +340,39 @@ const UserDashboard = ({ user }) => {
                   </div>
                 </div>
               </div>
+              <button onClick={openModal} className="btn-abrir-cuentaaa">
+                {selectedAccount
+                  ? 'Seleccionaste la cuenta'
+                  : 'Selecciona una cuenta'}
+              </button>
               <h2>
-                <FontAwesomeIcon icon={faListAlt} style={{ marginRight: '10px' }} />
+                <FontAwesomeIcon
+                  icon={faListAlt}
+                  style={{ marginRight: '10px' }}
+                />
                 Movimientos
               </h2>
               <Grafico movimientos={movimientos} recargas={recargas} />
               <div className="actions-container">
                 <button onClick={exportToPDF}>
-                  <FontAwesomeIcon icon={faFilePdf} style={{ marginRight: '10px' }} />
+                  <FontAwesomeIcon
+                    icon={faFilePdf}
+                    style={{ marginRight: '10px' }}
+                  />
                   Descargar PDF
                 </button>
                 <button onClick={exportToCSV}>
-                  <FontAwesomeIcon icon={faFileCsv} style={{ marginRight: '10px' }} />
+                  <FontAwesomeIcon
+                    icon={faFileCsv}
+                    style={{ marginRight: '10px' }}
+                  />
                   Descargar CSV
                 </button>
                 <button onClick={exportToExcel}>
-                  <FontAwesomeIcon icon={faFileExcel} style={{ marginRight: '10px' }} />
+                  <FontAwesomeIcon
+                    icon={faFileExcel}
+                    style={{ marginRight: '10px' }}
+                  />
                   Descargar Excel
                 </button>
               </div>
@@ -359,7 +389,10 @@ const UserDashboard = ({ user }) => {
                 <Slider {...settings}>
                   <div>
                     <h2>
-                      <FontAwesomeIcon icon={faExchangeAlt} style={{ marginRight: '10px' }} />
+                      <FontAwesomeIcon
+                        icon={faExchangeAlt}
+                        style={{ marginRight: '10px' }}
+                      />
                       Transferencias
                     </h2>
                     <div className="carousel-section">
@@ -368,11 +401,11 @@ const UserDashboard = ({ user }) => {
                           <div key={index} className="carousel-item">
                             <div className="movimiento-fecha">{mov.fecha}</div>
                             <div className="movimiento-box">
-                            <div className="movimiento-tipo">
-                              {mov.tipo === 'Enviado'
-                                ? `Transferencia enviada a ${mov.nombreDestino} (Cuenta: ${mov.cuentaDestino})`
-                                : `Transferencia recibida por ${mov.nombreOrigen} (Cuenta: ${mov.cuentaOrigen})`}
-                            </div>
+                              <div className="movimiento-tipo">
+                                {mov.tipo === 'Enviado'
+                                  ? `Transferencia enviada a ${mov.nombreDestino} (Cuenta: ${mov.cuentaDestino})`
+                                  : `Transferencia recibida por ${mov.nombreOrigen} (Cuenta: ${mov.cuentaOrigen})`}
+                              </div>
                               <div
                                 className={`movimiento-monto ${
                                   mov.tipo === 'Enviado'
@@ -401,7 +434,10 @@ const UserDashboard = ({ user }) => {
                   </div>
                   <div>
                     <h2>
-                      <FontAwesomeIcon icon={faWallet} style={{ marginRight: '10px' }} />
+                      <FontAwesomeIcon
+                        icon={faWallet}
+                        style={{ marginRight: '10px' }}
+                      />
                       Recargas
                     </h2>
                     <div className="carousel-section">

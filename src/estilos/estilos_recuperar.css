@@ -6,21 +6,22 @@
   text-align: center;
   max-width: 400px;
   margin: 0 auto;
-  
 }
-  
-  input {
-    width: 100%;
-    padding: 8px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  #recuperar-prin {
-    background-image: url('../img/montareg.jpg');
-    background-size: cover;
-    background-position: center top; /* Ajusta la posición vertical */
-    background-repeat: no-repeat;
-    height: 100vh;
-    width: 100%;
-  }
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#recuperar-prin {
+  background-image: url('../img/montareg.jpg');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100%;
+  padding-top: 100px; /* Agrega padding superior de 100px */
+}

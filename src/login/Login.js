@@ -10,6 +10,7 @@ const Login = ({ setUser }) => {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [blockTime, setBlockTime] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const [usernameError, setUsernameError] = useState(false);
@@ -26,7 +27,9 @@ const Login = ({ setUser }) => {
           setBlockTime(null);
           setMessage('');
         } else {
-          setMessage(`Cuenta bloqueada temporalmente. Intente de nuevo en ${timeLeft} segundos.`);
+          setMessage(
+            `Cuenta bloqueada temporalmente. Demasiados intentos fallidos. Intente de nuevo en ${timeLeft} segundos.`
+          );
         }
       }, 1000);
     }
@@ -57,6 +60,8 @@ const Login = ({ setUser }) => {
       setMessage('Por favor complete todos los campos.');
       return;
     }
+
+    setIsLoading(true); // Activa la ruedita de carga
 
     try {
       const response = await fetch('https://vc-su7z.onrender.com/login', {
@@ -93,6 +98,8 @@ const Login = ({ setUser }) => {
     } catch (error) {
       console.error('Error al procesar la respuesta del servidor:', error);
       setMessage('Error al iniciar sesión.');
+    } finally {
+      setIsLoading(false); // Desactiva la ruedita de carga después de que finalice la petición
     }
   };
 
@@ -134,7 +141,11 @@ const Login = ({ setUser }) => {
             />
           </div>
           <div className="form-group">
-            <button type="submit">Iniciar Sesión</button>
+            {!blockTime && !isLoading ? (
+              <button type="submit">Iniciar Sesión</button>
+            ) : isLoading ? (
+              <div className="loader"></div> // Aquí se muestra la ruedita de carga
+            ) : null}
           </div>
           {message && (
             <div className="error-message-container slide-in-from-left">
