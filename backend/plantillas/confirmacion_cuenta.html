@@ -4,159 +4,89 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Verificación de Cuenta</title>
-    <style>
-      /* Configuración de variables globales */
-      :root {
-        --primary-color: #4caf50;
-        --secondary-color: #f4f4f7;
-        --text-color: #333333;
-        --background-color: #ffffff;
-        --footer-bg-color: #24262b;
-        --header-bg-color: #1c1e21;
-        --accent-color: #ff4081;
-        --border-radius: 8px;
-        --font-family: 'Roboto', Arial, sans-serif;
-      }
-
-      /* Estilos generales */
-      body {
-        font-family: var(--font-family);
-        background-color: var(--secondary-color);
-        margin: 0;
-        padding: 0;
-        color: var(--text-color);
-      }
-
-      .container {
+  </head>
+  <body
+    style="
+      font-family: 'Roboto', Arial, sans-serif;
+      background-color: #f4f4f7;
+      margin: 0;
+      padding: 0;
+      color: #333333;
+    "
+  >
+    <div
+      style="
         width: 100%;
         max-width: 600px;
         margin: 20px auto;
-        background-color: var(--background-color);
+        background-color: #ffffff;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        border-radius: var(--border-radius);
+        border-radius: 8px;
         overflow: hidden;
-      }
-
-      /* Cabecera */
-      .header {
-        background-color: var(--header-bg-color);
-        color: #ffffff;
-        padding: 20px;
-        text-align: center;
-        border-top-left-radius: var(--border-radius);
-        border-top-right-radius: var(--border-radius);
-      }
-
-      .header img {
-        width: 50px;
-        margin-bottom: 10px;
-      }
-
-      .header h1 {
-        margin: 0;
-        font-size: 24px;
-        font-weight: bold;
-      }
-
-      /* Contenido */
-      .content {
-        padding: 30px;
-        font-size: 16px;
-        line-height: 1.6;
-      }
-
-      .content p {
-        margin: 20px 0;
-      }
-
-      .content strong {
-        font-size: 24px;
-        color: var(--primary-color);
-        display: block;
-        margin-top: 10px;
-      }
-
-      /* Botón de acción */
-      .content a {
-        display: inline-block;
-        margin-top: 20px;
-        padding: 12px 24px;
-        background-color: var(--primary-color);
-        color: #ffffff;
-        text-decoration: none;
-        border-radius: 5px;
-        font-weight: bold;
-        transition: background-color 0.3s ease;
-      }
-
-      /* Footer */
-      .footer {
-        background-color: var(--footer-bg-color);
-        color: #ffffff;
-        padding: 20px;
-        text-align: center;
-        font-size: 14px;
-        border-bottom-left-radius: var(--border-radius);
-        border-bottom-right-radius: var(--border-radius);
-      }
-
-      .footer p {
-        margin: 0;
-      }
-
-      /* Media Queries para Responsividad */
-      @media only screen and (max-width: 600px) {
-        .container {
-          width: 90%;
+      "
+    >
+      <!-- Cabecera -->
+      <div
+        style="
+          background-color: #1c1e21;
+          color: #ffffff;
           padding: 20px;
-        }
-
-        .header h1 {
-          font-size: 20px;
-        }
-
-        .content p {
-          margin: 15px 0;
-        }
-
-        .content strong {
-          font-size: 20px;
-        }
-
-        .content a {
-          padding: 10px 20px;
-          font-size: 14px;
-        }
-
-        .footer {
-          padding: 15px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <div class="header">
+          text-align: center;
+          border-top-left-radius: 8px;
+          border-top-right-radius: 8px;
+        "
+      >
         <img
           src="https://vc-su7z.onrender.com/logo_vertex.png"
           alt="Logo de Vertex Capital"
+          style="width: 50px; margin-bottom: 10px"
         />
-        <h1>Tu código de verificación</h1>
+        <h1 style="margin: 0; font-size: 24px; font-weight: bold">
+          Tu código de verificación
+        </h1>
       </div>
-      <div class="content">
-        <p>Hola,</p>
-        <p>Tu código de verificación es:</p>
-        <p><strong>{{code}}</strong></p>
-        <p>Este código es válido por 10 minutos.</p>
-        <p>
+      <!-- Contenido -->
+      <div style="padding: 30px; font-size: 16px; line-height: 1.6">
+        <p style="margin: 20px 0">Hola,</p>
+        <p style="margin: 20px 0">Tu código de verificación es:</p>
+        <p style="font-size: 24px; color: #4caf50; margin-top: 10px">
+          <strong>{{code}}</strong>
+        </p>
+        <p style="margin: 20px 0">Este código es válido por 10 minutos.</p>
+        <p style="margin: 20px 0">
           Si no solicitaste este código, puedes ignorar este correo electrónico.
         </p>
-        <a href="https://vc-su7z.onrender.com/verify">Verifica tu cuenta</a>
+        <a
+          href="https://vc-su7z.onrender.com/verify?code={{code}}&email={{email}}"
+          style="
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background-color: #4caf50;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+          "
+          >Verifica tu cuenta</a
+        >
         <br /><br />
         <p>Gracias por confiar en nosotros.</p>
       </div>
-      <div class="footer">
-        <p>Saludos,<br />El equipo de Vertex Capital</p>
+      <!-- Footer -->
+      <div
+        style="
+          background-color: #24262b;
+          color: #ffffff;
+          padding: 20px;
+          text-align: center;
+          font-size: 14px;
+          border-bottom-left-radius: 8px;
+          border-bottom-right-radius: 8px;
+        "
+      >
+        <p style="margin: 0">Saludos,<br />El equipo de Vertex Capital</p>
       </div>
     </div>
   </body>

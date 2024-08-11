@@ -6,7 +6,7 @@ const nodemailer = require('nodemailer');
 const checkoutNodeJssdk = require('@paypal/checkout-server-sdk');
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
-const fs = require('fs'); // Requiere el módulo 'fs' 
+const fs = require('fs'); // Requiere el módulo 'fs'
 const path = require('path');
 const router = express.Router();
 const axios = require('axios');
@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use(express.static('plantillas'));
-//carpeta para archivos estaticos 
+//carpeta para archivos estaticos
 app.use(express.static(path.join(__dirname, '../src/transferencias')));
 
 // Configura el SDK de PayPal
@@ -46,25 +46,33 @@ app.post('/transfer', async (req, res) => {
     descripcion,
     saldoAnterior,
     saldoDestino, // Recibir saldoDestino
-    fechaTransaccion
+    fechaTransaccion,
   } = req.body;
 
   try {
     const cuentasRef = db.ref('clientes');
-    const cuentaOrigenSnapshot = await cuentasRef.orderByChild('numeroCuenta').equalTo(cuentaOrigen).once('value');
-    const cuentaDestinoSnapshot = await cuentasRef.orderByChild('numeroCuenta').equalTo(cuentaDestino).once('value');
+    const cuentaOrigenSnapshot = await cuentasRef
+      .orderByChild('numeroCuenta')
+      .equalTo(cuentaOrigen)
+      .once('value');
+    const cuentaDestinoSnapshot = await cuentasRef
+      .orderByChild('numeroCuenta')
+      .equalTo(cuentaDestino)
+      .once('value');
 
     if (!cuentaOrigenSnapshot.exists() || !cuentaDestinoSnapshot.exists()) {
-      return res.status(404).json({ error: 'Cuenta origen o destino no encontrada' });
+      return res
+        .status(404)
+        .json({ error: 'Cuenta origen o destino no encontrada' });
     }
 
     let cuentaOrigenData, cuentaDestinoData;
     let cuentaOrigenKey, cuentaDestinoKey;
-    cuentaOrigenSnapshot.forEach(snapshot => {
+    cuentaOrigenSnapshot.forEach((snapshot) => {
       cuentaOrigenData = snapshot.val();
       cuentaOrigenKey = snapshot.key;
     });
-    cuentaDestinoSnapshot.forEach(snapshot => {
+    cuentaDestinoSnapshot.forEach((snapshot) => {
       cuentaDestinoData = snapshot.val();
       cuentaDestinoKey = snapshot.key;
     });
@@ -95,23 +103,26 @@ app.post('/transfer', async (req, res) => {
       fecha: fechaTransaccion,
       saldoAnterior,
       saldoActual: nuevoSaldoOrigen,
-      saldoDestino: nuevoSaldoDestino // Incluir saldoDestino en la transacción
+      saldoDestino: nuevoSaldoDestino, // Incluir saldoDestino en la transacción
     });
 
     const asunto = 'Confirmación de Transferencia';
-    const cuerpoHtml = procesarPlantilla('./plantillas/correo_confirmaciontd.html', { 
-      nombre: cuentaDestinoData.nombre, 
-      monto: montoNumerico, 
-      descripcion, 
-      fecha: new Date().toLocaleDateString(),
-      saldoDestino: nuevoSaldoDestino // Pasar saldoDestino a la plantilla
-    });
+    const cuerpoHtml = procesarPlantilla(
+      './plantillas/correo_confirmaciontd.html',
+      {
+        nombre: cuentaDestinoData.nombre,
+        monto: montoNumerico,
+        descripcion,
+        fecha: new Date().toLocaleDateString(),
+        saldoDestino: nuevoSaldoDestino, // Pasar saldoDestino a la plantilla
+      }
+    );
     await enviarCorreo(cuentaDestinoData.correo, asunto, cuerpoHtml);
 
-    res.status(200).json({ 
+    res.status(200).json({
       message: 'Transferencia realizada con éxito',
       saldoActual: nuevoSaldoOrigen,
-      saldoDestino: nuevoSaldoDestino // Incluir saldoDestino en la respuesta
+      saldoDestino: nuevoSaldoDestino, // Incluir saldoDestino en la respuesta
     });
   } catch (error) {
     console.error('Error al realizar la transferencia:', error);
@@ -119,39 +130,51 @@ app.post('/transfer', async (req, res) => {
   }
 });
 
-
-//Ruta para transferencia con correo de confirmacion 
+//Ruta para transferencia con correo de confirmacion
 app.get('/confirm-transfer', async (req, res) => {
   const { token } = req.query;
 
   try {
-    const confirmationRef = db.ref('confirmations').orderByChild('token').equalTo(token);
+    const confirmationRef = db
+      .ref('confirmations')
+      .orderByChild('token')
+      .equalTo(token);
     const confirmationSnapshot = await confirmationRef.once('value');
 
     if (!confirmationSnapshot.exists()) {
-      return res.status(400).json({ error: 'Token de confirmación inválido o expirado' });
+      return res
+        .status(400)
+        .json({ error: 'Token de confirmación inválido o expirado' });
     }
 
     let confirmationData;
-    confirmationSnapshot.forEach(snapshot => {
+    confirmationSnapshot.forEach((snapshot) => {
       confirmationData = snapshot.val();
       snapshot.ref.remove(); // Eliminar el token después de su uso
     });
 
-    const { cuentaOrigen, cuentaDestino, monto, descripcion, saldoAnterior, saldoDestino, fechaTransaccion } = confirmationData;
-    
+    const {
+      cuentaOrigen,
+      cuentaDestino,
+      monto,
+      descripcion,
+      saldoAnterior,
+      saldoDestino,
+      fechaTransaccion,
+    } = confirmationData;
+
     const clientesRef = db.ref('clientes');
     const clientesSnapshot = await clientesRef.once('value');
-    
+
     let cuentaOrigenData, cuentaDestinoData;
     let cuentaOrigenKey, cuentaDestinoKey;
     let cuentaOrigenClienteKey, cuentaDestinoClienteKey;
     let correoDestino, nombreDestino;
     let nombreOrigen;
 
-    clientesSnapshot.forEach(clienteSnapshot => {
+    clientesSnapshot.forEach((clienteSnapshot) => {
       const cuentasRef = clienteSnapshot.child('cuentas');
-      cuentasRef.forEach(cuentaSnapshot => {
+      cuentasRef.forEach((cuentaSnapshot) => {
         if (cuentaSnapshot.child('numeroCuenta').val() === cuentaOrigen) {
           cuentaOrigenData = cuentaSnapshot.val();
           cuentaOrigenKey = cuentaSnapshot.key;
@@ -169,7 +192,9 @@ app.get('/confirm-transfer', async (req, res) => {
     });
 
     if (!cuentaOrigenData || !cuentaDestinoData) {
-      return res.status(404).json({ error: 'Cuenta origen o destino no encontrada' });
+      return res
+        .status(404)
+        .json({ error: 'Cuenta origen o destino no encontrada' });
     }
 
     const montoNumerico = parseFloat(monto);
@@ -184,8 +209,12 @@ app.get('/confirm-transfer', async (req, res) => {
 
     // Actualizar saldos en la colección 'clientes'
     const updates = {};
-    updates[`clientes/${cuentaOrigenClienteKey}/cuentas/${cuentaOrigenKey}/saldo`] = nuevoSaldoOrigen;
-    updates[`clientes/${cuentaDestinoClienteKey}/cuentas/${cuentaDestinoKey}/saldo`] = nuevoSaldoDestino;
+    updates[
+      `clientes/${cuentaOrigenClienteKey}/cuentas/${cuentaOrigenKey}/saldo`
+    ] = nuevoSaldoOrigen;
+    updates[
+      `clientes/${cuentaDestinoClienteKey}/cuentas/${cuentaDestinoKey}/saldo`
+    ] = nuevoSaldoDestino;
     await db.ref().update(updates);
 
     // Registrar la transacción en la colección 'transacciones'
@@ -200,27 +229,31 @@ app.get('/confirm-transfer', async (req, res) => {
       fecha: fechaTransaccion,
       saldoAnterior,
       saldoActual: nuevoSaldoOrigen,
-      saldoDestino: nuevoSaldoDestino // Incluir saldoDestino en el registro de la transacción
+      saldoDestino: nuevoSaldoDestino, // Incluir saldoDestino en el registro de la transacción
     });
 
     // Correo de verificación de transferencia al destinatario
     const asunto = 'Confirmación de Transferencia';
-    const cuerpoHtml = procesarPlantilla('./plantillas/correo_confirmaciontd.html', { 
-      nombre: nombreDestino, 
-      monto: montoNumerico, 
-      descripcion, 
-      fecha: new Date().toLocaleDateString(),
-      saldoDestino: nuevoSaldoDestino // Incluir saldoDestino en el correo
-    });
+    const cuerpoHtml = procesarPlantilla(
+      './plantillas/correo_confirmaciontd.html',
+      {
+        nombre: nombreDestino,
+        monto: montoNumerico,
+        descripcion,
+        fecha: new Date().toLocaleDateString(),
+        saldoDestino: nuevoSaldoDestino, // Incluir saldoDestino en el correo
+      }
+    );
     await enviarCorreo(correoDestino, asunto, cuerpoHtml);
 
-    res.redirect(`https://vertexcapital.today/confirmacion-transferencias?monto=${montoNumerico}&nombre=${nombreDestino}&fecha=${fechaTransaccion}&saldoDestino=${nuevoSaldoDestino}`);
+    res.redirect(
+      `https://vertexcapital.today/confirmacion-transferencias?monto=${montoNumerico}&nombre=${nombreDestino}&fecha=${fechaTransaccion}&saldoDestino=${nuevoSaldoDestino}`
+    );
   } catch (error) {
     console.error('Error al realizar la transferencia:', error);
     res.status(500).json({ error: 'Error al realizar la transferencia' });
   }
 });
-
 
 app.post('/send-confirmation-link', async (req, res) => {
   const {
@@ -233,7 +266,7 @@ app.post('/send-confirmation-link', async (req, res) => {
     saldoAnterior,
     saldoDestino, // Asegúrate de recibir saldoDestino
     fechaTransaccion,
-    nombreOrigen
+    nombreOrigen,
   } = req.body;
 
   try {
@@ -251,29 +284,32 @@ app.post('/send-confirmation-link', async (req, res) => {
       saldoAnterior,
       saldoDestino, // Almacenar saldoDestino
       fechaTransaccion,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
 
     const confirmUrl = `https://vc-su7z.onrender.com/confirm-transfer?token=${token}`;
     const asunto = 'Confirmación de Transferencia';
 
-    const cuerpoHtml = procesarPlantilla('./plantillas/correo_confirmacion.html', {
-      url: confirmUrl,
-      monto,
-      cuentaDestino,
-      saldoDestino // Pasar saldoDestino a la plantilla
-    });
+    const cuerpoHtml = procesarPlantilla(
+      './plantillas/correo_confirmacion.html',
+      {
+        url: confirmUrl,
+        monto,
+        cuentaDestino,
+        saldoDestino, // Pasar saldoDestino a la plantilla
+      }
+    );
 
     await enviarCorreo(email, asunto, cuerpoHtml);
 
     res.status(200).json({ message: 'Enlace de confirmación enviado' });
   } catch (error) {
     console.error('Error al enviar el enlace de confirmación:', error);
-    res.status(500).json({ error: 'Error al enviar el enlace de confirmación al servidor' });
+    res
+      .status(500)
+      .json({ error: 'Error al enviar el enlace de confirmación al servidor' });
   }
 });
-
-
 
 // Configuración del transportador de correo
 const transporter = nodemailer.createTransport({
@@ -282,8 +318,8 @@ const transporter = nodemailer.createTransport({
   secure: false,
   auth: {
     user: 'verificaciones@vertexcapital.today',
-    pass: 'Verificaciones_124'
-  }
+    pass: 'Verificaciones_124',
+  },
 });
 
 // Función para enviar correo electrónico
@@ -321,12 +357,14 @@ const procesarPlantilla = (templatePath, variables) => {
   }
 };
 
-
 // Ruta para enviar el correo de verificación (sin guardar en la base de datos)
 app.post('/send-verification-email', async (req, res) => {
   const { email, code } = req.body;
   // Procesar la plantilla HTML, reemplazando {{code}} con el código de verificación
-  const htmlContent = procesarPlantilla('./plantillas/confirmacion_cuenta.html', { code });
+  const htmlContent = procesarPlantilla(
+    './plantillas/confirmacion_cuenta.html',
+    { code }
+  );
 
   const mailOptions = {
     from: 'verificaciones@vertexcapital.today',
@@ -370,7 +408,9 @@ app.post('/save-data', async (req, res) => {
 
     // Enviar correo de confirmación
     const asunto = 'Confirmación de Registro';
-    const cuerpoHtml = procesarPlantilla('./plantillas/correoregistro.html', { nombre: cliente.nombre });
+    const cuerpoHtml = procesarPlantilla('./plantillas/correoregistro.html', {
+      nombre: cliente.nombre,
+    });
     await enviarCorreo(cliente.correo, asunto, cuerpoHtml);
 
     res.status(200).send('Datos guardados exitosamente y correo enviado.');
@@ -386,7 +426,10 @@ app.post('/login', async (req, res) => {
 
   try {
     // Verificar si el usuario existe en la base de datos
-    const userRef = db.ref('clientes').orderByChild('username').equalTo(username);
+    const userRef = db
+      .ref('clientes')
+      .orderByChild('username')
+      .equalTo(username);
     const snapshot = await userRef.once('value');
 
     if (!snapshot.exists()) {
@@ -412,22 +455,23 @@ app.post('/login', async (req, res) => {
       blockedUntil: null,
     };
 
-// Verificar la contraseña
-const passwordMatch = await bcrypt.compare(password, userData.password);
-if (!passwordMatch) {
-// Incrementar el contador de intentos fallidos
-attemptsData.failedAttempts = (attemptsData.failedAttempts || 0) + 1;
+    // Verificar la contraseña
+    const passwordMatch = await bcrypt.compare(password, userData.password);
+    if (!passwordMatch) {
+      // Incrementar el contador de intentos fallidos
+      attemptsData.failedAttempts = (attemptsData.failedAttempts || 0) + 1;
 
-if (attemptsData.failedAttempts >= 3) {
-  // Bloquear la cuenta temporalmente después de 3 intentos fallidos
-  attemptsData.blockedUntil = now + thirtySeconds;
-}
+      if (attemptsData.failedAttempts >= 3) {
+        // Bloquear la cuenta temporalmente después de 3 intentos fallidos
+        attemptsData.blockedUntil = now + thirtySeconds;
+      }
 
       await attemptsRef.set(attemptsData);
 
       if (attemptsData.blockedUntil) {
         return res.status(403).json({
-          message: 'Cuenta bloqueada temporalmente. Intente nuevamente más tarde.',
+          message:
+            'Cuenta bloqueada temporalmente. Intente nuevamente más tarde.',
         });
       }
 
@@ -438,48 +482,93 @@ if (attemptsData.failedAttempts >= 3) {
     await attemptsRef.set({ failedAttempts: 0, blockedUntil: null });
 
     // Si las credenciales son correctas
-    res.status(200).json({ message: 'Inicio de sesión exitoso.', user: userData });
+    res
+      .status(200)
+      .json({ message: 'Inicio de sesión exitoso.', user: userData });
   } catch (error) {
     console.error('Error al iniciar sesión:', error);
     res.status(500).json({ message: 'Error al iniciar sesión.' });
   }
 });
 
-// Ruta para verificar el código de verificación
-app.post('/verify-code', async (req, res) => {
-  const { email, code, inputCode } = req.body;
+app.get('/verify', async (req, res) => {
+  const { code, email } = req.query;
 
-  if (code === inputCode) {
-    res.status(200).send('Código de verificación correcto.');
-  } else {
-    res.status(400).send('Código de verificación incorrecto.');
+  try {
+    // Obtén el código de verificación almacenado en la base de datos
+    const verificationRef = db
+      .ref('passwordResets')
+      .orderByChild('email')
+      .equalTo(email);
+    const snapshot = await verificationRef.once('value');
+
+    if (!snapshot.exists()) {
+      return res
+        .status(404)
+        .send('<h1>Código de verificación no encontrado.</h1>');
+    }
+
+    let storedCode;
+    snapshot.forEach((childSnapshot) => {
+      storedCode = childSnapshot.val().code;
+    });
+
+    // Compara el código ingresado con el código almacenado
+    if (storedCode === code) {
+      // Eliminar el código de verificación para que no pueda ser reutilizado
+      await verificationRef.once('child_added', (snapshot) => {
+        snapshot.ref.remove();
+      });
+
+      // Muestra la página de verificación exitosa
+      res.send('<h1>¡Verificación exitosa! Tu cuenta ha sido verificada.</h1>');
+    } else {
+      res.status(400).send('<h1>Código de verificación incorrecto.</h1>');
+    }
+  } catch (error) {
+    console.error('Error al verificar el código:', error);
+    res.status(500).send('<h1>Error al verificar el código.</h1>');
   }
 });
 
-// Ruta para cambiar la contraseña
-app.post('/change-password', async (req, res) => {
-  const { email, newPassword } = req.body;
+// Nueva ruta para verificar el código de verificación a través de un enlace GET
+app.get('/verify', async (req, res) => {
+  const { code, email } = req.query;
 
   try {
-    const clientRef = db.ref('clientes').orderByChild('correo').equalTo(email);
-    const snapshot = await clientRef.once('value');
+    // Obtén el código de verificación almacenado en la base de datos
+    const verificationRef = db
+      .ref('passwordResets')
+      .orderByChild('email')
+      .equalTo(email);
+    const snapshot = await verificationRef.once('value');
 
     if (!snapshot.exists()) {
-      return res.status(404).send('Correo electrónico no encontrado.');
+      return res
+        .status(404)
+        .send('<h1>Código de verificación no encontrado.</h1>');
     }
-// Hashear la nueva contraseña
-const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    const updates = {};
+    let storedCode;
     snapshot.forEach((childSnapshot) => {
-      updates[childSnapshot.key] = { ...childSnapshot.val(), password: hashedPassword };
+      storedCode = childSnapshot.val().code;
     });
 
-    await db.ref('clientes').update(updates);
-    res.status(200).send('Contraseña cambiada exitosamente.');
+    // Compara el código ingresado con el código almacenado
+    if (storedCode === code) {
+      // Eliminar el código de verificación para que no pueda ser reutilizado
+      await verificationRef.once('child_added', (snapshot) => {
+        snapshot.ref.remove();
+      });
+
+      // Muestra la página de verificación exitosa
+      res.send('<h1>¡Verificación exitosa! Tu cuenta ha sido verificada.</h1>');
+    } else {
+      res.status(400).send('<h1>Código de verificación incorrecto.</h1>');
+    }
   } catch (error) {
-    console.error('Error al cambiar la contraseña:', error);
-    res.status(500).send('Error al cambiar la contraseña.');
+    console.error('Error al verificar el código:', error);
+    res.status(500).send('<h1>Error al verificar el código.</h1>');
   }
 });
 
@@ -509,48 +598,69 @@ app.post('/check-client', async (req, res) => {
 
   try {
     // Verificar si el username ya existe
-    const usernameRef = db.ref('clientes').orderByChild('username').equalTo(username);
+    const usernameRef = db
+      .ref('clientes')
+      .orderByChild('username')
+      .equalTo(username);
     const usernameSnapshot = await usernameRef.once('value');
     if (usernameSnapshot.exists()) {
-      return res.status(400).json({ message: 'El nombre de usuario ya está en uso.' });
+      return res
+        .status(400)
+        .json({ message: 'El nombre de usuario ya está en uso.' });
     }
 
     // Verificar si el email ya existe
     const emailRef = db.ref('clientes').orderByChild('correo').equalTo(email);
     const emailSnapshot = await emailRef.once('value');
     if (emailSnapshot.exists()) {
-      return res.status(400).json({ message: 'El correo electrónico ya está en uso.' });
+      return res
+        .status(400)
+        .json({ message: 'El correo electrónico ya está en uso.' });
     }
 
     // Verificar si el número de documento ya existe
-    const nodocumentoRef = db.ref('clientes').orderByChild('nodocumento').equalTo(nodocumento);
+    const nodocumentoRef = db
+      .ref('clientes')
+      .orderByChild('nodocumento')
+      .equalTo(nodocumento);
     const nodocumentoSnapshot = await nodocumentoRef.once('value');
     if (nodocumentoSnapshot.exists()) {
-      return res.status(400).json({ message: 'El número de documento ya está en uso.' });
+      return res
+        .status(400)
+        .json({ message: 'El número de documento ya está en uso.' });
     }
 
     // Verificar si el número de celular ya existe
-    const celularRef = db.ref('clientes').orderByChild('celular').equalTo(celular);
+    const celularRef = db
+      .ref('clientes')
+      .orderByChild('celular')
+      .equalTo(celular);
     const celularSnapshot = await celularRef.once('value');
     if (celularSnapshot.exists()) {
-      return res.status(400).json({ message: 'El número de celular ya está en uso.' });
+      return res
+        .status(400)
+        .json({ message: 'El número de celular ya está en uso.' });
     }
 
     // Si todos los datos son únicos
-    res.status(200).json({ message: 'Datos válidos. Proceder con la verificación.' });
+    res
+      .status(200)
+      .json({ message: 'Datos válidos. Proceder con la verificación.' });
   } catch (error) {
     console.error('Error al verificar los datos del cliente:', error);
-    res.status(500).json({ message: 'Error al verificar los datos del cliente.' });
+    res
+      .status(500)
+      .json({ message: 'Error al verificar los datos del cliente.' });
   }
 });
-
 
 // Ruta para manejar transferencias con PayPal
 app.post('/transfer', async (req, res) => {
   const { cuentaDestino, monto, descripcion } = req.body;
 
   // Token de acceso de PayPal
-  const accessToken = 'A21AAKZIKE3mmCqARH2DTi9L9rdTbZvnbpIpI63qK_F9av_PsW8XMctuExQV9AX0J_LGJe42yyrczXiZ8Vr-ZobJMUKXdMQtg';
+  const accessToken =
+    'A21AAKZIKE3mmCqARH2DTi9L9rdTbZvnbpIpI63qK_F9av_PsW8XMctuExQV9AX0J_LGJe42yyrczXiZ8Vr-ZobJMUKXdMQtg';
 
   try {
     const response = await axios.post(
@@ -558,30 +668,34 @@ app.post('/transfer', async (req, res) => {
       {
         intent: 'sale',
         payer: {
-          payment_method: 'paypal'
+          payment_method: 'paypal',
         },
-        transactions: [{
-          amount: {
-            total: monto,
-            currency: 'USD'
+        transactions: [
+          {
+            amount: {
+              total: monto,
+              currency: 'USD',
+            },
+            description: descripcion,
           },
-          description: descripcion
-        }],
+        ],
         redirect_urls: {
           return_url: 'https://vc-su7z.onrender.com/success',
-          cancel_url: 'https://vc-su7z.onrender.com/cancel'
-        }
+          cancel_url: 'https://vc-su7z.onrender.com/cancel',
+        },
       },
       {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`
-        }
+          Authorization: `Bearer ${accessToken}`,
+        },
       }
     );
 
     // Extraer el enlace de aprobación del pago de la respuesta de PayPal
-    const approvalUrl = response.data.links.find(link => link.rel === 'approval_url').href;
+    const approvalUrl = response.data.links.find(
+      (link) => link.rel === 'approval_url'
+    ).href;
 
     // Enviar la URL de aprobación al cliente
     res.json({ approvalUrl });
@@ -591,20 +705,21 @@ app.post('/transfer', async (req, res) => {
   }
 });
 
-
 app.post('/create-order', async (req, res) => {
   const { amount } = req.body;
-  
+
   const request = new checkoutNodeJssdk.orders.OrdersCreateRequest();
-  request.prefer("return=representation");
+  request.prefer('return=representation');
   request.requestBody({
     intent: 'CAPTURE',
-    purchase_units: [{
-      amount: {
-        currency_code: 'USD',
-        value: amount 
-      }
-    }]
+    purchase_units: [
+      {
+        amount: {
+          currency_code: 'USD',
+          value: amount,
+        },
+      },
+    ],
   });
 
   try {
@@ -614,7 +729,6 @@ app.post('/create-order', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
 
 app.post('/capture-order', async (req, res) => {
   const { orderID } = req.body;
@@ -634,7 +748,9 @@ app.get('/consultar-cuentaa', async (req, res) => {
 
   try {
     if (!numeroCuenta) {
-      return res.status(400).json({ error: 'El número de cuenta es requerido.' });
+      return res
+        .status(400)
+        .json({ error: 'El número de cuenta es requerido.' });
     }
 
     const clientesRef = db.ref('clientes');
@@ -642,7 +758,7 @@ app.get('/consultar-cuentaa', async (req, res) => {
 
     let cuentaDestino = null;
 
-    clientesSnapshot.forEach(clienteSnapshot => {
+    clientesSnapshot.forEach((clienteSnapshot) => {
       const cliente = clienteSnapshot.val();
       const cuentas = cliente.cuentas || {};
 
@@ -652,10 +768,10 @@ app.get('/consultar-cuentaa', async (req, res) => {
             nombre: cliente.nombre,
             correo: cliente.correo,
           };
-          return true;  // Salir del bucle forEach
+          return true; // Salir del bucle forEach
         }
       }
-      if (cuentaDestino) return true;  // Salir del bucle forEach
+      if (cuentaDestino) return true; // Salir del bucle forEach
     });
 
     if (cuentaDestino) {
@@ -665,14 +781,22 @@ app.get('/consultar-cuentaa', async (req, res) => {
     }
   } catch (error) {
     console.error('Error al consultar datos del destinatario:', error);
-    res.status(500).json({ error: 'Error al consultar datos del destinatario.' });
+    res
+      .status(500)
+      .json({ error: 'Error al consultar datos del destinatario.' });
   }
 });
 
 // Ruta para transferir fondos
 app.post('/transferir', async (req, res) => {
   try {
-    const { cuentaOrigen, cuentaDestino, monto, descripcion, fechaTransaccion } = req.body;
+    const {
+      cuentaOrigen,
+      cuentaDestino,
+      monto,
+      descripcion,
+      fechaTransaccion,
+    } = req.body;
 
     const cuentaOrigenRef = db.ref(`usuarios/${cuentaOrigen}`);
     const cuentaDestinoRef = db.ref(`usuarios/${cuentaDestino}`);
@@ -680,18 +804,22 @@ app.post('/transferir', async (req, res) => {
     // Obtener los datos de ambas cuentas
     const [cuentaOrigenSnapshot, cuentaDestinoSnapshot] = await Promise.all([
       cuentaOrigenRef.once('value'),
-      cuentaDestinoRef.once('value')
+      cuentaDestinoRef.once('value'),
     ]);
 
     if (!cuentaOrigenSnapshot.exists() || !cuentaDestinoSnapshot.exists()) {
-      return res.status(404).json({ error: 'No se encontró alguna de las cuentas.' });
+      return res
+        .status(404)
+        .json({ error: 'No se encontró alguna de las cuentas.' });
     }
 
     const saldoOrigen = cuentaOrigenSnapshot.val().saldo;
     const saldoDestino = cuentaDestinoSnapshot.val().saldo;
 
     if (saldoOrigen < monto) {
-      return res.status(400).json({ error: 'Saldo insuficiente en la cuenta de origen.' });
+      return res
+        .status(400)
+        .json({ error: 'Saldo insuficiente en la cuenta de origen.' });
     }
 
     // Realizar la transferencia
@@ -714,16 +842,15 @@ app.post('/transferir', async (req, res) => {
       fecha: fechaTransaccion,
       saldoAnteriorOrigen: saldoOrigen,
       saldoActualOrigen: nuevoSaldoOrigen,
-      saldoDestino: nuevoSaldoDestino // Agregar saldoDestino al registro de transacción
+      saldoDestino: nuevoSaldoDestino, // Agregar saldoDestino al registro de transacción
     });
 
     // Responder con éxito
-    res.status(200).json({ 
+    res.status(200).json({
       message: 'Transferencia realizada con éxito',
       saldoActualOrigen: nuevoSaldoOrigen,
-      saldoDestino: nuevoSaldoDestino // Incluir saldoDestino en la respuesta
+      saldoDestino: nuevoSaldoDestino, // Incluir saldoDestino en la respuesta
     });
-
   } catch (error) {
     console.error('Error al realizar la transferencia:', error);
     res.status(500).json({ error: 'Error al realizar la transferencia' });
@@ -764,8 +891,6 @@ app.post('/transacciones/recarga', async (req, res) => {
   }
 });
 
-
-
 app.get('/transacciones/:numeroCuenta', async (req, res) => {
   const { numeroCuenta } = req.params;
 
@@ -773,16 +898,22 @@ app.get('/transacciones/:numeroCuenta', async (req, res) => {
     const transaccionesRef = db.ref('transacciones');
 
     // Obtener transacciones donde el usuario es cuentaOrigen
-    const snapshotOrigen = await transaccionesRef.orderByChild('cuentaOrigen').equalTo(numeroCuenta).once('value');
+    const snapshotOrigen = await transaccionesRef
+      .orderByChild('cuentaOrigen')
+      .equalTo(numeroCuenta)
+      .once('value');
     const transaccionesOrigen = [];
-    snapshotOrigen.forEach(childSnapshot => {
+    snapshotOrigen.forEach((childSnapshot) => {
       transaccionesOrigen.push(childSnapshot.val());
     });
 
     // Obtener transacciones donde el usuario es cuentaDestino
-    const snapshotDestino = await transaccionesRef.orderByChild('cuentaDestino').equalTo(numeroCuenta).once('value');
+    const snapshotDestino = await transaccionesRef
+      .orderByChild('cuentaDestino')
+      .equalTo(numeroCuenta)
+      .once('value');
     const transaccionesDestino = [];
-    snapshotDestino.forEach(childSnapshot => {
+    snapshotDestino.forEach((childSnapshot) => {
       transaccionesDestino.push(childSnapshot.val());
     });
 
@@ -790,7 +921,9 @@ app.get('/transacciones/:numeroCuenta', async (req, res) => {
     const transacciones = [...transaccionesOrigen, ...transaccionesDestino];
 
     if (transacciones.length === 0) {
-      return res.status(404).json({ error: 'No se encontraron transacciones para esta cuenta.' });
+      return res
+        .status(404)
+        .json({ error: 'No se encontraron transacciones para esta cuenta.' });
     }
 
     res.status(200).json(transacciones);
@@ -804,10 +937,15 @@ app.get('/recargas/:numeroCuenta', async (req, res) => {
 
   try {
     const recargasRef = db.ref('transacciones/RECARGA');
-    const snapshot = await recargasRef.orderByChild('numeroCuenta').equalTo(numeroCuenta).once('value');
-    
+    const snapshot = await recargasRef
+      .orderByChild('numeroCuenta')
+      .equalTo(numeroCuenta)
+      .once('value');
+
     if (!snapshot.exists()) {
-      return res.status(404).json({ error: 'No se encontraron recargas para esta cuenta' });
+      return res
+        .status(404)
+        .json({ error: 'No se encontraron recargas para esta cuenta' });
     }
 
     const recargas = [];
@@ -834,7 +972,7 @@ app.post('/update-user-data', async (req, res) => {
     }
 
     let userKey;
-    snapshot.forEach(childSnapshot => {
+    snapshot.forEach((childSnapshot) => {
       userKey = childSnapshot.key; // Obtiene la clave del usuario
     });
 
@@ -846,7 +984,9 @@ app.post('/update-user-data', async (req, res) => {
     res.status(200).json({ message: 'Datos actualizados exitosamente.' });
   } catch (error) {
     console.error('Error al actualizar los datos del usuario:', error);
-    res.status(500).json({ message: 'Error al actualizar los datos del usuario.' });
+    res
+      .status(500)
+      .json({ message: 'Error al actualizar los datos del usuario.' });
   }
 });
 app.get('/clientes', async (req, res) => {
@@ -857,12 +997,12 @@ app.get('/clientes', async (req, res) => {
 
     if (snapshot.exists()) {
       const clientes = [];
-      snapshot.forEach(childSnapshot => {
+      snapshot.forEach((childSnapshot) => {
         const data = childSnapshot.val();
         clientes.push({
           nombre: data.nombre,
           apellido: data.apellido,
-          numeroCuenta: data.numeroCuenta
+          numeroCuenta: data.numeroCuenta,
         });
       });
 
@@ -871,7 +1011,7 @@ app.get('/clientes', async (req, res) => {
       res.status(404).send('No se encontraron clientes.');
     }
   } catch (error) {
-      console.error('Error al consultar datos de los clientes:', error);
+    console.error('Error al consultar datos de los clientes:', error);
     res.status(500).send('Error al consultar datos de los clientes.');
   }
 });
@@ -881,14 +1021,14 @@ app.get('/transacciones', async (req, res) => {
     // Obtener referencia a la colección de transacciones en Realtime Database
     const transaccionesRef = db.ref('transacciones');
     const snapshot = await transaccionesRef.once('value');
-    
+
     if (snapshot.exists()) {
       const transacciones = [];
-      snapshot.forEach(childSnapshot => {
+      snapshot.forEach((childSnapshot) => {
         const data = childSnapshot.val();
         transacciones.push({
           id: childSnapshot.key,
-          ...data
+          ...data,
         });
       });
       res.status(200).json(transacciones);
@@ -897,7 +1037,9 @@ app.get('/transacciones', async (req, res) => {
     }
   } catch (error) {
     console.error('Error fetching transactions:', error);
-    res.status(500).json({ message: 'Error fetching transactions', error: error.message });
+    res
+      .status(500)
+      .json({ message: 'Error fetching transactions', error: error.message });
   }
 });
 
@@ -909,20 +1051,32 @@ app.post('/updateStatus', async (req, res) => {
     // Actualiza el estado de la cuenta
     await cuentaRef.update({ estado: nuevoEstado });
     // Enviar una respuesta exitosa
-    res.status(200).json({ message: `Estado de la cuenta actualizado a ${nuevoEstado}` });
+    res
+      .status(200)
+      .json({ message: `Estado de la cuenta actualizado a ${nuevoEstado}` });
   } catch (error) {
     // Enviar una respuesta de error
-    res.status(500).json({ error: 'Error actualizando el estado de la cuenta', details: error.message });
+    res.status(500).json({
+      error: 'Error actualizando el estado de la cuenta',
+      details: error.message,
+    });
   }
 });
 
-
 app.post('/loginadmin', async (req, res) => {
   const { username, password } = req.body;
-  const adminEmails = ['cesarlui02@hotmail.com', 'chavezalejo85@gmail.com', 'luxo18062001@gmail.com','wbrjaramillo@gmail.com'];
+  const adminEmails = [
+    'cesarlui02@hotmail.com',
+    'chavezalejo85@gmail.com',
+    'luxo18062001@gmail.com',
+    'wbrjaramillo@gmail.com',
+  ];
   try {
     // Verificar si el usuario existe en la base de datos
-    const userRef = db.ref('administracion').orderByChild('admin').equalTo(username);
+    const userRef = db
+      .ref('administracion')
+      .orderByChild('admin')
+      .equalTo(username);
     const snapshot = await userRef.once('value');
 
     if (!snapshot.exists()) {
@@ -951,26 +1105,28 @@ app.post('/loginadmin', async (req, res) => {
     // Verificar si la cuenta está bloqueada temporalmente
     if (attemptsData.blockedUntil && now < attemptsData.blockedUntil) {
       return res.status(403).json({
-        message: 'Cuenta bloqueada temporalmente. Intente nuevamente más tarde.',
+        message:
+          'Cuenta bloqueada temporalmente. Intente nuevamente más tarde.',
       });
     }
 
-     // Verificar la contraseña
-     const passwordMatch = await bcrypt.compare(password, userData.password);
-     if (!passwordMatch) {
-       // Incrementar el contador de intentos fallidos
-       attemptsData.failedAttempts = (attemptsData.failedAttempts || 0) + 1;
- 
-       if (attemptsData.failedAttempts >= 3) {
-         // Bloquear la cuenta temporalmente después de 3 intentos fallidos
-         attemptsData.blockedUntil = now + thirtySeconds;
-       }
+    // Verificar la contraseña
+    const passwordMatch = await bcrypt.compare(password, userData.password);
+    if (!passwordMatch) {
+      // Incrementar el contador de intentos fallidos
+      attemptsData.failedAttempts = (attemptsData.failedAttempts || 0) + 1;
+
+      if (attemptsData.failedAttempts >= 3) {
+        // Bloquear la cuenta temporalmente después de 3 intentos fallidos
+        attemptsData.blockedUntil = now + thirtySeconds;
+      }
 
       await attemptsRef.set(attemptsData);
 
       if (attemptsData.blockedUntil) {
         return res.status(403).json({
-          message: 'Cuenta bloqueada temporalmente. Intente nuevamente más tarde.',
+          message:
+            'Cuenta bloqueada temporalmente. Intente nuevamente más tarde.',
         });
       }
 
@@ -985,21 +1141,22 @@ app.post('/loginadmin', async (req, res) => {
       from: 'verificaciones@vertexcapital.today',
       to: adminEmails.join(','),
       subject: 'Nuevo inicio de sesión de administrador',
-      text: `El administrador ${username} ha iniciado sesión.`
-  };
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
+      text: `El administrador ${username} ha iniciado sesión.`,
+    };
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
         console.error('Error al enviar el correo:', error);
-    } else {
+      } else {
         console.log('Correo enviado:', info.response);
-    }
-});
-    res.status(200).json({ message: 'Inicio de sesión exitoso.', admin: userData });
+      }
+    });
+    res
+      .status(200)
+      .json({ message: 'Inicio de sesión exitoso.', admin: userData });
   } catch (error) {
     console.error('Error al iniciar sesión:', error);
     res.status(500).json({ message: 'Error al iniciar sesión.' });
   }
-
 });
 app.get('/clientes/:nodocumento', async (req, res) => {
   const { nodocumento } = req.params;
@@ -1007,11 +1164,14 @@ app.get('/clientes/:nodocumento', async (req, res) => {
   try {
     // Obtener referencia a la colección de clientes
     const clientesRef = db.ref('clientes');
-    const snapshot = await clientesRef.orderByChild('nodocumento').equalTo(nodocumento).once('value');
+    const snapshot = await clientesRef
+      .orderByChild('nodocumento')
+      .equalTo(nodocumento)
+      .once('value');
 
     if (snapshot.exists()) {
       let clienteData = null;
-      snapshot.forEach(childSnapshot => {
+      snapshot.forEach((childSnapshot) => {
         clienteData = childSnapshot.val();
       });
 
@@ -1035,14 +1195,17 @@ app.post('/clientes/:nodocumento/cuentas', async (req, res) => {
     }
 
     const clienteRef = db.ref('clientes');
-    const snapshot = await clienteRef.orderByChild('nodocumento').equalTo(nodocumento).once('value');
+    const snapshot = await clienteRef
+      .orderByChild('nodocumento')
+      .equalTo(nodocumento)
+      .once('value');
 
     if (!snapshot.exists()) {
       return res.status(404).json({ error: 'Cliente no encontrado.' });
     }
 
     let clienteKey = null;
-    snapshot.forEach(childSnapshot => {
+    snapshot.forEach((childSnapshot) => {
       clienteKey = childSnapshot.key;
     });
 
@@ -1054,7 +1217,7 @@ app.post('/clientes/:nodocumento/cuentas', async (req, res) => {
     const nuevaCuenta = {
       numeroCuenta,
       saldo,
-      estado
+      estado,
     };
 
     await cuentasRef.child(cuentasCount.toString()).set(nuevaCuenta);
@@ -1074,14 +1237,17 @@ app.get('/clientes/:nodocumento/cuentas', async (req, res) => {
     }
 
     const clienteRef = db.ref('clientes');
-    const snapshot = await clienteRef.orderByChild('nodocumento').equalTo(nodocumento).once('value');
+    const snapshot = await clienteRef
+      .orderByChild('nodocumento')
+      .equalTo(nodocumento)
+      .once('value');
 
     if (!snapshot.exists()) {
       return res.status(404).json({ error: 'Cliente no encontrado.' });
     }
 
     let clienteKey = null;
-    snapshot.forEach(childSnapshot => {
+    snapshot.forEach((childSnapshot) => {
       clienteKey = childSnapshot.key;
     });
 
@@ -1102,7 +1268,9 @@ app.get('/consultar-cuenta', async (req, res) => {
 
   try {
     if (!numeroCuenta) {
-      return res.status(400).json({ error: 'El número de cuenta es requerido.' });
+      return res
+        .status(400)
+        .json({ error: 'El número de cuenta es requerido.' });
     }
 
     const cuentasRef = db.ref('clientes');
@@ -1110,13 +1278,13 @@ app.get('/consultar-cuenta', async (req, res) => {
 
     let cuentaInfo = null;
 
-    snapshot.forEach(clientSnapshot => {
+    snapshot.forEach((clientSnapshot) => {
       const cuentas = clientSnapshot.child('cuentas').val();
       for (const cuentaKey in cuentas) {
         if (cuentas[cuentaKey].numeroCuenta === numeroCuenta) {
           cuentaInfo = {
             nombre: clientSnapshot.child('nombre').val(),
-            correo: clientSnapshot.child('correo').val()
+            correo: clientSnapshot.child('correo').val(),
           };
           break;
         }
@@ -1138,13 +1306,26 @@ app.get('/consultar-cuenta', async (req, res) => {
 //crear ticket
 app.post('/creartickets', async (req, res) => {
   const { usuario, nodocumento, asunto, tipoProblema, descripcion } = req.body;
-// Obtener la fecha y hora actual
-const fechaActual = new Date();
-const fechaTicket = `${fechaActual.getFullYear()}-${(fechaActual.getMonth() + 1).toString().padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')} ${fechaActual.getHours().toString().padStart(2, '0')}:${fechaActual.getMinutes().toString().padStart(2, '0')}:${fechaActual.getSeconds().toString().padStart(2, '0')}`;
+  // Obtener la fecha y hora actual
+  const fechaActual = new Date();
+  const fechaTicket = `${fechaActual.getFullYear()}-${(
+    fechaActual.getMonth() + 1
+  )
+    .toString()
+    .padStart(2, '0')}-${fechaActual
+    .getDate()
+    .toString()
+    .padStart(2, '0')} ${fechaActual
+    .getHours()
+    .toString()
+    .padStart(2, '0')}:${fechaActual
+    .getMinutes()
+    .toString()
+    .padStart(2, '0')}:${fechaActual.getSeconds().toString().padStart(2, '0')}`;
 
   try {
     const ticketRef = db.ref('tickets').push();
-    const ticketId = ticketRef.key; 
+    const ticketId = ticketRef.key;
     await ticketRef.set({
       id: ticketId,
       usuario,
@@ -1152,12 +1333,14 @@ const fechaTicket = `${fechaActual.getFullYear()}-${(fechaActual.getMonth() + 1)
       asunto,
       descripcion,
       estado: 'abierto',
-      tipoProblema, 
+      tipoProblema,
       fechaTicket,
-      respuestas: []
+      respuestas: [],
     });
 
-    res.status(201).json({ message: 'Ticket creado con éxito', id: ticketRef.key });
+    res
+      .status(201)
+      .json({ message: 'Ticket creado con éxito', id: ticketRef.key });
   } catch (error) {
     console.error('Error al crear el ticket:', error);
     res.status(500).json({ message: 'Error al crear el ticket', error });
@@ -1171,13 +1354,17 @@ app.get('/tickets', async (req, res) => {
   try {
     let snapshot;
     if (usuario) {
-      snapshot = await db.ref('tickets').orderByChild('usuario').equalTo(usuario).once('value');
+      snapshot = await db
+        .ref('tickets')
+        .orderByChild('usuario')
+        .equalTo(usuario)
+        .once('value');
     } else {
       snapshot = await db.ref('tickets').once('value');
     }
 
     const tickets = [];
-    snapshot.forEach(childSnapshot => {
+    snapshot.forEach((childSnapshot) => {
       tickets.push(childSnapshot.val());
     });
 
@@ -1187,14 +1374,16 @@ app.get('/tickets', async (req, res) => {
     res.status(500).json({ message: 'Error al obtener los tickets', error });
   }
 });
-//obtiene datos del contacto 
+//obtiene datos del contacto
 // Ruta para obtener los datos de contacto del cliente
 app.get('/contacto/:usuario', async (req, res) => {
   const { usuario } = req.params;
 
   try {
     if (!usuario) {
-      return res.status(400).json({ error: 'El nombre de usuario es requerido.' });
+      return res
+        .status(400)
+        .json({ error: 'El nombre de usuario es requerido.' });
     }
 
     const clientesRef = db.ref('clientes');
@@ -1202,14 +1391,14 @@ app.get('/contacto/:usuario', async (req, res) => {
 
     let contacto = null;
 
-    clientesSnapshot.forEach(clienteSnapshot => {
+    clientesSnapshot.forEach((clienteSnapshot) => {
       const cliente = clienteSnapshot.val();
       if (cliente.username === usuario) {
         contacto = {
           correo: cliente.correo,
-          celular: cliente.celular
+          celular: cliente.celular,
         };
-        return true;  // Salir del bucle forEach
+        return true; // Salir del bucle forEach
       }
     });
 
@@ -1224,25 +1413,23 @@ app.get('/contacto/:usuario', async (req, res) => {
   }
 });
 
-
-
-
 //muestra todos los tickets
 // Ruta para obtener todos los tickets sin filtrar por usuario
 app.get('/alltickets', async (req, res) => {
   try {
     const snapshot = await db.ref('tickets').once('value');
     const tickets = [];
-    snapshot.forEach(childSnapshot => {
+    snapshot.forEach((childSnapshot) => {
       tickets.push(childSnapshot.val());
     });
     res.status(200).json(tickets);
   } catch (error) {
     console.error('Error al obtener todos los tickets:', error);
-    res.status(500).json({ message: 'Error al obtener todos los tickets', error });
+    res
+      .status(500)
+      .json({ message: 'Error al obtener todos los tickets', error });
   }
 });
-
 
 //gestion tickets admin
 // Suponiendo que estás usando Express y Firebase
@@ -1262,11 +1449,15 @@ app.post('/tickets/:ticketId/resolver', async (req, res) => {
     ticket.estado = 'resuelto';
     ticket.fechaResolucion = new Date().toISOString();
     ticket.comentario = comentario; // Añadir el comentario al ticket
-    
+
     await ticketRef.update(ticket);
 
     // Obtener los datos del usuario que creó el ticket
-    const userSnapshot = await db.ref('clientes').orderByChild('username').equalTo(ticket.usuario).once('value');
+    const userSnapshot = await db
+      .ref('clientes')
+      .orderByChild('username')
+      .equalTo(ticket.usuario)
+      .once('value');
     if (!userSnapshot.exists()) {
       return res.status(404).json({ error: 'Usuario no encontrado' });
     }
@@ -1287,7 +1478,11 @@ app.post('/tickets/:ticketId/resolver', async (req, res) => {
     });
 
     // Enviar el correo
-    await enviarCorreo(correoDestino, `Tu ticket "${ticket.asunto}" ha sido resuelto`, cuerpoHtml);
+    await enviarCorreo(
+      correoDestino,
+      `Tu ticket "${ticket.asunto}" ha sido resuelto`,
+      cuerpoHtml
+    );
 
     res.status(200).json(ticket);
   } catch (error) {
@@ -1295,7 +1490,6 @@ app.post('/tickets/:ticketId/resolver', async (req, res) => {
     res.status(500).json({ message: 'Error al resolver el ticket', error });
   }
 });
-
 
 const enviarCorreoMov = async (correoDestino, nombreUsuario) => {
   if (!correoDestino || !nombreUsuario) {
@@ -1354,12 +1548,11 @@ app.post('/send-email-to-user', async (req, res) => {
 
     res.status(200).json({ message: 'Email enviado correctamente' });
   } catch (error) {
-    res.status(500).json({ message: 'Error al enviar el correo', error: error.message });
+    res
+      .status(500)
+      .json({ message: 'Error al enviar el correo', error: error.message });
   }
 });
-
-
-
 
 // Nueva ruta para validar el "No de documento"
 app.post('/validate-nodocumento', (req, res) => {
@@ -1378,7 +1571,9 @@ app.get('/clientes/:nombre/:apellido/cuentas', async (req, res) => {
 
   try {
     if (!nombre || !apellido) {
-      return res.status(400).json({ error: 'El nombre y apellido del usuario son requeridos.' });
+      return res
+        .status(400)
+        .json({ error: 'El nombre y apellido del usuario son requeridos.' });
     }
 
     const clienteRef = db.ref('clientes');
@@ -1392,7 +1587,7 @@ app.get('/clientes/:nombre/:apellido/cuentas', async (req, res) => {
     }
 
     let clienteKey = null;
-    snapshot.forEach(childSnapshot => {
+    snapshot.forEach((childSnapshot) => {
       const childData = childSnapshot.val();
       if (childData.apellido === apellido) {
         clienteKey = childSnapshot.key;
@@ -1416,7 +1611,9 @@ app.get('/clientes/:nombre/:apellido/cuentas', async (req, res) => {
 
 const generateAccountNumber = () => {
   // Genera 10 dígitos aleatorios
-  const randomDigits = Math.floor(1000000000 + Math.random() * 9000000000).toString();
+  const randomDigits = Math.floor(
+    1000000000 + Math.random() * 9000000000
+  ).toString();
   // El número de cuenta se compone de 18 + 10 dígitos
   return `18${randomDigits}`;
 };
@@ -1426,7 +1623,9 @@ app.post('/clientes/:nombre/:apellido/cuentas', async (req, res) => {
 
   try {
     if (!nombre || !apellido) {
-      return res.status(400).json({ error: 'El nombre y apellido del usuario son requeridos.' });
+      return res
+        .status(400)
+        .json({ error: 'El nombre y apellido del usuario son requeridos.' });
     }
 
     const clienteRef = db.ref('clientes');
@@ -1440,7 +1639,7 @@ app.post('/clientes/:nombre/:apellido/cuentas', async (req, res) => {
     }
 
     let clienteKey = null;
-    snapshot.forEach(childSnapshot => {
+    snapshot.forEach((childSnapshot) => {
       const childData = childSnapshot.val();
       if (childData.apellido === apellido) {
         clienteKey = childSnapshot.key;
@@ -1460,7 +1659,7 @@ app.post('/clientes/:nombre/:apellido/cuentas', async (req, res) => {
     const nuevaCuenta = {
       numeroCuenta: nuevaCuentaNumero,
       saldo: 0, // Saldo inicial
-      estado: 'activado' // Estado inicial
+      estado: 'activado', // Estado inicial
     };
 
     // Determina el siguiente índice para la nueva cuenta
@@ -1469,65 +1668,77 @@ app.post('/clientes/:nombre/:apellido/cuentas', async (req, res) => {
 
     await cuentasRef.set(cuentas);
 
-    res.status(200).json({ message: 'Cuenta añadida correctamente.', cuenta: nuevaCuenta });
+    res
+      .status(200)
+      .json({ message: 'Cuenta añadida correctamente.', cuenta: nuevaCuenta });
   } catch (error) {
     console.error('Error al agregar la cuenta:', error);
     res.status(500).json({ error: 'Error al agregar la cuenta' });
   }
 });
-app.delete('/clientes/:nombre/:apellido/cuentas/:numeroCuenta', async (req, res) => {
-  const { nombre, apellido, numeroCuenta } = req.params;
+app.delete(
+  '/clientes/:nombre/:apellido/cuentas/:numeroCuenta',
+  async (req, res) => {
+    const { nombre, apellido, numeroCuenta } = req.params;
 
-  try {
-    if (!nombre || !apellido || !numeroCuenta) {
-      return res.status(400).json({ error: 'Nombre, apellido y número de cuenta son requeridos.' });
-    }
-
-    const clienteRef = db.ref('clientes');
-    const snapshot = await clienteRef
-      .orderByChild('nombre')
-      .equalTo(nombre)
-      .once('value');
-
-    if (!snapshot.exists()) {
-      return res.status(404).json({ error: 'Cliente no encontrado.' });
-    }
-
-    let clienteKey = null;
-    snapshot.forEach(childSnapshot => {
-      const childData = childSnapshot.val();
-      if (childData.apellido === apellido) {
-        clienteKey = childSnapshot.key;
+    try {
+      if (!nombre || !apellido || !numeroCuenta) {
+        return res.status(400).json({
+          error: 'Nombre, apellido y número de cuenta son requeridos.',
+        });
       }
-    });
 
-    if (!clienteKey) {
-      return res.status(404).json({ error: 'Cliente no encontrado.' });
+      const clienteRef = db.ref('clientes');
+      const snapshot = await clienteRef
+        .orderByChild('nombre')
+        .equalTo(nombre)
+        .once('value');
+
+      if (!snapshot.exists()) {
+        return res.status(404).json({ error: 'Cliente no encontrado.' });
+      }
+
+      let clienteKey = null;
+      snapshot.forEach((childSnapshot) => {
+        const childData = childSnapshot.val();
+        if (childData.apellido === apellido) {
+          clienteKey = childSnapshot.key;
+        }
+      });
+
+      if (!clienteKey) {
+        return res.status(404).json({ error: 'Cliente no encontrado.' });
+      }
+
+      const cuentaRef = db.ref(`clientes/${clienteKey}/cuentas`);
+      const cuentaSnapshot = await cuentaRef
+        .orderByChild('numeroCuenta')
+        .equalTo(numeroCuenta)
+        .once('value');
+
+      if (!cuentaSnapshot.exists()) {
+        return res.status(404).json({ error: 'Cuenta no encontrada.' });
+      }
+
+      cuentaSnapshot.forEach(async (cuentaChildSnapshot) => {
+        await cuentaChildSnapshot.ref.remove();
+      });
+
+      res.status(200).json({ message: 'Cuenta eliminada exitosamente.' });
+    } catch (error) {
+      console.error('Error al eliminar la cuenta:', error);
+      res.status(500).json({ error: 'Error al eliminar la cuenta.' });
     }
-
-    const cuentaRef = db.ref(`clientes/${clienteKey}/cuentas`);
-    const cuentaSnapshot = await cuentaRef.orderByChild('numeroCuenta').equalTo(numeroCuenta).once('value');
-    
-    if (!cuentaSnapshot.exists()) {
-      return res.status(404).json({ error: 'Cuenta no encontrada.' });
-    }
-
-    cuentaSnapshot.forEach(async (cuentaChildSnapshot) => {
-      await cuentaChildSnapshot.ref.remove();
-    });
-
-    res.status(200).json({ message: 'Cuenta eliminada exitosamente.' });
-  } catch (error) {
-    console.error('Error al eliminar la cuenta:', error);
-    res.status(500).json({ error: 'Error al eliminar la cuenta.' });
   }
-});
+);
 app.delete('/clientes/:nombre/:apellido', async (req, res) => {
   const { nombre, apellido } = req.params;
 
   try {
     if (!nombre || !apellido) {
-      return res.status(400).json({ error: 'El nombre y apellido del cliente son requeridos.' });
+      return res
+        .status(400)
+        .json({ error: 'El nombre y apellido del cliente son requeridos.' });
     }
 
     const clienteRef = db.ref('clientes');
@@ -1541,7 +1752,7 @@ app.delete('/clientes/:nombre/:apellido', async (req, res) => {
     }
 
     let clienteKey = null;
-    snapshot.forEach(childSnapshot => {
+    snapshot.forEach((childSnapshot) => {
       const childData = childSnapshot.val();
       if (childData.apellido === apellido) {
         clienteKey = childSnapshot.key;
@@ -1559,55 +1770,67 @@ app.delete('/clientes/:nombre/:apellido', async (req, res) => {
     res.status(500).json({ error: 'Error al eliminar el cliente' });
   }
 });
-app.patch('/clientes/:nombre/:apellido/cuentas/:numeroCuenta', async (req, res) => {
-  const { nombre, apellido, numeroCuenta } = req.params;
-  const { estado } = req.body;
+app.patch(
+  '/clientes/:nombre/:apellido/cuentas/:numeroCuenta',
+  async (req, res) => {
+    const { nombre, apellido, numeroCuenta } = req.params;
+    const { estado } = req.body;
 
-  try {
-    if (!nombre || !apellido || !numeroCuenta || !estado) {
-      return res.status(400).json({ error: 'Nombre, apellido, número de cuenta y estado son requeridos.' });
-    }
-
-    const clienteRef = db.ref('clientes');
-    const snapshot = await clienteRef
-      .orderByChild('nombre')
-      .equalTo(nombre)
-      .once('value');
-
-    if (!snapshot.exists()) {
-      return res.status(404).json({ error: 'Cliente no encontrado.' });
-    }
-
-    let clienteKey = null;
-    snapshot.forEach(childSnapshot => {
-      const childData = childSnapshot.val();
-      if (childData.apellido === apellido) {
-        clienteKey = childSnapshot.key;
+    try {
+      if (!nombre || !apellido || !numeroCuenta || !estado) {
+        return res.status(400).json({
+          error: 'Nombre, apellido, número de cuenta y estado son requeridos.',
+        });
       }
-    });
 
-    if (!clienteKey) {
-      return res.status(404).json({ error: 'Cliente no encontrado.' });
+      const clienteRef = db.ref('clientes');
+      const snapshot = await clienteRef
+        .orderByChild('nombre')
+        .equalTo(nombre)
+        .once('value');
+
+      if (!snapshot.exists()) {
+        return res.status(404).json({ error: 'Cliente no encontrado.' });
+      }
+
+      let clienteKey = null;
+      snapshot.forEach((childSnapshot) => {
+        const childData = childSnapshot.val();
+        if (childData.apellido === apellido) {
+          clienteKey = childSnapshot.key;
+        }
+      });
+
+      if (!clienteKey) {
+        return res.status(404).json({ error: 'Cliente no encontrado.' });
+      }
+
+      const cuentaRef = db.ref(`clientes/${clienteKey}/cuentas`);
+      const cuentaSnapshot = await cuentaRef
+        .orderByChild('numeroCuenta')
+        .equalTo(numeroCuenta)
+        .once('value');
+
+      if (!cuentaSnapshot.exists()) {
+        return res.status(404).json({ error: 'Cuenta no encontrada.' });
+      }
+
+      cuentaSnapshot.forEach(async (cuentaChildSnapshot) => {
+        await cuentaChildSnapshot.ref.update({ estado });
+      });
+
+      res.status(200).json({
+        message: 'Estado de la cuenta actualizado exitosamente.',
+        estado,
+      });
+    } catch (error) {
+      console.error('Error al actualizar el estado de la cuenta:', error);
+      res
+        .status(500)
+        .json({ error: 'Error al actualizar el estado de la cuenta.' });
     }
-
-    const cuentaRef = db.ref(`clientes/${clienteKey}/cuentas`);
-    const cuentaSnapshot = await cuentaRef.orderByChild('numeroCuenta').equalTo(numeroCuenta).once('value');
-    
-    if (!cuentaSnapshot.exists()) {
-      return res.status(404).json({ error: 'Cuenta no encontrada.' });
-    }
-
-    cuentaSnapshot.forEach(async (cuentaChildSnapshot) => {
-      await cuentaChildSnapshot.ref.update({ estado });
-    });
-
-    res.status(200).json({ message: 'Estado de la cuenta actualizado exitosamente.', estado });
-  } catch (error) {
-    console.error('Error al actualizar el estado de la cuenta:', error);
-    res.status(500).json({ error: 'Error al actualizar el estado de la cuenta.' });
   }
-});
-
+);
 
 // Ruta para enviar el correo de verificación (almacenando en la base de datos para cambio de contraseña)
 app.post('/send-password-reset-code', async (req, res) => {
@@ -1619,7 +1842,7 @@ app.post('/send-password-reset-code', async (req, res) => {
     await verificationRef.set({
       email,
       code,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
 
     const mailOptions = {
@@ -1640,10 +1863,11 @@ app.post('/send-password-reset-code', async (req, res) => {
     });
   } catch (error) {
     console.error('Error al enviar el correo de verificación:', error);
-    res.status(500).json({ message: 'Error al enviar el correo de verificación.', error });
+    res
+      .status(500)
+      .json({ message: 'Error al enviar el correo de verificación.', error });
   }
 });
-
 
 // Ruta para verificar el código de verificación para cambio de contraseña
 app.post('/verify-password-reset-code', async (req, res) => {
@@ -1651,11 +1875,16 @@ app.post('/verify-password-reset-code', async (req, res) => {
 
   try {
     // Obtén el código de verificación almacenado en la base de datos
-    const verificationRef = db.ref('passwordResets').orderByChild('email').equalTo(email);
+    const verificationRef = db
+      .ref('passwordResets')
+      .orderByChild('email')
+      .equalTo(email);
     const snapshot = await verificationRef.once('value');
 
     if (!snapshot.exists()) {
-      return res.status(404).json({ message: 'Código de verificación no encontrado.' });
+      return res
+        .status(404)
+        .json({ message: 'Código de verificación no encontrado.' });
     }
 
     let storedCode;
@@ -1674,7 +1903,6 @@ app.post('/verify-password-reset-code', async (req, res) => {
     res.status(500).json({ message: 'Error al verificar el código.' });
   }
 });
-
 
 // Iniciar el servidor
 const PORT = process.env.PORT || 3030;
