@@ -17,9 +17,8 @@ import AdminDash from './admin/Dashadmin';
 import Admin from './admin/Admin';
 import Tickets from './tickets/Tickets';
 import Equipo from './team/equipo';
-import Reclamos from './reclamos/reclamos'; // Importa el componente Reclamos
-import { ThemeContext } from './context/ThemeContext'; // Importa el ThemeContext
-import ConfirmacionTransferencias from './Transferencias/confirmacion_transferencias';
+import Reclamos from './reclamos/reclamos';
+import { ThemeContext } from './context/ThemeContext';
 import './estilos/theme.css';
 
 const App = () => {
@@ -71,18 +70,16 @@ const App = () => {
             <Route path="/Historia" element={<Historia />} />
             <Route path="/dashboard" element={<UserDashboard user={user} />} />
             <Route path="/movCuenta" element={<MovCuenta user={user} />} />
-            <Route path="/admin" element={<Admin />} />
+            <Route path="/admin" element={<Admin setAdmin={setAdmin} />} />
             <Route path="/perfil" element={<Perfil user={user} />} />
-            <Route path="/calculadora" element={<InterestCalculator />} /> 
-            <Route path="/ofertas" element={<OfertasPage />} /> 
-            <Route path="/ayuda" element={<Ayuda />} /> 
-            <Route path="/transferencias" element={<Transferencias user={user}/>} />            
-            <Route path="/admin" element={<Admin setAdmin={setAdmin}/>} />
-            <Route path="/dashadmin" element={<AdminDash admin={admin}/> } />
-            <Route path="/tickets" element={<Tickets user={user}/>} />
-            <Route path="/equipo" element={<Equipo />}  />
-            <Route path="/reclamos" element={<Reclamos />} /> {/* Agrega esta línea */}
-            <Route path="/confirmacion-transferencias" element={<ConfirmacionTransferencias/>} />
+            <Route path="/calculadora" element={<InterestCalculator />} />
+            <Route path="/ofertas" element={<OfertasPage />} />
+            <Route path="/ayuda" element={<Ayuda />} />
+            <Route path="/transferencias" element={<Transferencias user={user} />} />
+            <Route path="/dashadmin" element={<AdminDash admin={admin} />} />
+            <Route path="/tickets" element={<Tickets user={user} />} />
+            <Route path="/equipo" element={<Equipo />} />
+            <Route path="/reclamos" element={<Reclamos />} />
           </Routes>
         </main>
       </div>
