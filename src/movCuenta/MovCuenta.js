@@ -327,6 +327,9 @@ const UserDashboard = ({ user }) => {
                   </div>
                 </div>
               </div>
+                      <button onClick={openModal} className="btn-abrir-cuenta">
+                    Selecciona una cuenta 
+                  </button>
               <h2>
                 <FontAwesomeIcon icon={faListAlt} style={{ marginRight: '10px' }} />
                 Movimientos
