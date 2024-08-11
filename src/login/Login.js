@@ -144,7 +144,7 @@ const Login = ({ setUser }) => {
             {!blockTime && !isLoading ? (
               <button type="submit">Iniciar Sesión</button>
             ) : isLoading ? (
-              <div className="loader"></div> // Aquí se muestra la ruedita de carga
+              <div className="loader-login"></div> // Aquí se muestra la ruedita de carga
             ) : null}
           </div>
           {message && (

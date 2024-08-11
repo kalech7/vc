@@ -5,7 +5,14 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import QRCode from 'qrcode.react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash, faExchangeAlt, faBoxOpen, faQrcode, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import {
+  faEye,
+  faEyeSlash,
+  faExchangeAlt,
+  faBoxOpen,
+  faQrcode,
+  faPaperPlane,
+} from '@fortawesome/free-solid-svg-icons';
 
 const Transferencias = ({ user }) => {
   const [menuOpen, setMenuOpen] = useState(true);
@@ -152,7 +159,10 @@ const Transferencias = ({ user }) => {
       .padStart(2, '0')}:${fechaActual
       .getMinutes()
       .toString()
-      .padStart(2, '0')}:${fechaActual.getSeconds().toString().padStart(2, '0')}`;
+      .padStart(2, '0')}:${fechaActual
+      .getSeconds()
+      .toString()
+      .padStart(2, '0')}`;
     setFechaTransaccion(fechaFormateada);
 
     const nuevoSaldoActual = selectedAccount.saldo - montoFloat;
@@ -180,7 +190,7 @@ const Transferencias = ({ user }) => {
             saldoDestino: nuevoSaldoDestino,
             fechaTransaccion: fechaFormateada,
             email: userState.correo,
-            nombreOrigen: userState.nombre
+            nombreOrigen: userState.nombre,
           }),
         }
       );
@@ -263,7 +273,10 @@ const Transferencias = ({ user }) => {
 
         <div className="transfer-container">
           <h2 className="transfer-title">
-            <FontAwesomeIcon icon={faExchangeAlt} style={{ marginRight: '10px' }} />
+            <FontAwesomeIcon
+              icon={faExchangeAlt}
+              style={{ marginRight: '10px' }}
+            />
             Transferencias
           </h2>
 
@@ -340,7 +353,7 @@ const Transferencias = ({ user }) => {
                   required
                 />
                 <button
-                  type="button"
+                  type="button-transferencias"
                   onClick={handleVerificarCuenta}
                   className="btn-verificar"
                 >
@@ -389,8 +402,11 @@ const Transferencias = ({ user }) => {
                   onChange={(e) => setDescripcion(e.target.value)}
                 />
               </div>
-              <button type="submit" className="btn-transferir">
-                <FontAwesomeIcon icon={faPaperPlane} style={{ marginRight: '10px' }} />
+              <button type="submit-transferencias" className="btn-transferir">
+                <FontAwesomeIcon
+                  icon={faPaperPlane}
+                  style={{ marginRight: '10px' }}
+                />
                 Transferir
               </button>
             </form>

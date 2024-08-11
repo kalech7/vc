@@ -37,6 +37,13 @@ body {
   text-align: center;
 }
 
+#date-filter {
+  width: 150px; /* Ajusta este valor según el ancho deseado */
+  padding: 5px; /* Ajusta el padding según sea necesario */
+  font-size: 16px; /* Ajusta el tamaño de la fuente si es necesario */
+  border-radius: 4px; /* Opcional: para bordes redondeados */
+}
+
 .menu-open .sidebar {
   left: 0;
 }
@@ -365,7 +372,8 @@ body {
   margin-bottom: 10px;
 }
 
-.slick-prev, .slick-next {
+.slick-prev,
+.slick-next {
   position: absolute;
   bottom: -50px; /* Mueve los botones más abajo */
   font-size: 18px;
@@ -384,7 +392,8 @@ body {
   right: 10%; /* Ajusta según el espacio que necesites */
 }
 
-.slick-prev:hover, .slick-next:hover {
+.slick-prev:hover,
+.slick-next:hover {
   color: #333;
 }
 

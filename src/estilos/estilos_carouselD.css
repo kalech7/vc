@@ -51,7 +51,7 @@
 .carouseld-card button:hover {
   background-color: #184563;
 }
-.carouseld-card h3{
+.carouseld-card h3 {
   background-color: rgb(185, 225, 248);
 }
 /* Estilo para los botones del carrusel */
@@ -128,6 +128,10 @@
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Agrega una sombra sutil al texto */
 }
 
+.menu-open .carouseld-card h3 {
+  margin-left: 485px; /* Adjust this value as needed */
+}
+
 /* Estilo del texto en cada card */
 .carouseld-card p {
   font-size: 17px;
@@ -135,7 +139,6 @@
   margin: 10px 0;
 }
 
-/* Para pantallas móviles */
 /* Para pantallas móviles */
 @media (max-width: 768px) {
   .carouseld-container {

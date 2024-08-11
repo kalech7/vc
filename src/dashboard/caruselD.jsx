@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import movil from '../img/movil.jpg';
 import '../estilos/estilos_carouselD.css';
-import cripto from '../img/criptos.jpg'
+import cripto from '../img/criptos.jpg';
 const CarouselD = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [cardWidth, setCardWidth] = useState(0);
