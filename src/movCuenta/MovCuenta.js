@@ -475,28 +475,18 @@ const UserDashboard = ({ user }) => {
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         contentLabel="Seleccionar Cuenta"
-        className="custom-modal"
-        overlayClassName="custom-overlay"
+        className="custom-modal-select-account"
+        overlayClassName="custom-overlay-select-account"
       >
-        <h2>Selecciona una cuenta</h2>
-        <div className="cuentas-list">
-          {cuentas.map((cuenta) => (
-            <button
-              key={cuenta.numeroCuenta}
-              onClick={() => {
-                setSelectedAccount(cuenta);
-                closeModal();
-              }}
-              className={`cuenta-button ${
-                selectedAccount === cuenta ? 'selected' : ''
-              }`}
-            >
-              <div>Número de Cuenta: {cuenta.numeroCuenta}</div>
-              <div>Saldo: ${parseFloat(cuenta.saldo).toFixed(2)}</div>
-            </button>
+        <h2>Seleccionar Cuenta</h2>
+        <ul>
+          {cuentas.map((cuenta, index) => (
+            <li key={index} onClick={() => setSelectedAccount(cuenta)}>
+              {cuenta.numeroCuenta}
+            </li>
           ))}
-        </div>
-        <button onClick={closeModal} className="btn-cerrar-modal">
+        </ul>
+        <button onClick={closeModal} className="close-button">
           Cerrar
         </button>
       </Modal>
