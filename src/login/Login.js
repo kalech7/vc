@@ -10,7 +10,7 @@ const Login = ({ setUser }) => {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [blockTime, setBlockTime] = useState(null);
-  const [isLoading, setIsLoading] = useState(false); // Nuevo estado de carga
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const [usernameError, setUsernameError] = useState(false);
@@ -28,7 +28,7 @@ const Login = ({ setUser }) => {
           setMessage('');
         } else {
           setMessage(
-            `Cuenta bloqueada temporalmente. Intente de nuevo en ${timeLeft} segundos.`
+            `Cuenta bloqueada temporalmente. Demasiados intentos fallidos. Intente de nuevo en ${timeLeft} segundos.`
           );
         }
       }, 1000);
@@ -141,11 +141,11 @@ const Login = ({ setUser }) => {
             />
           </div>
           <div className="form-group">
-            {isLoading ? (
-              <div className="loader"></div> // Aquí se muestra la ruedita de carga
-            ) : (
+            {!blockTime && !isLoading ? (
               <button type="submit">Iniciar Sesión</button>
-            )}
+            ) : isLoading ? (
+              <div className="loader"></div> // Aquí se muestra la ruedita de carga
+            ) : null}
           </div>
           {message && (
             <div className="error-message-container slide-in-from-left">
