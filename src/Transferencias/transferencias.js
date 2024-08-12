@@ -530,7 +530,6 @@ const Transferencias = ({ user }) => {
           )}
 
           {message && <p className="message">{message}</p>}
-          {/* Botón para mostrar/ocultar lista de contactos */}
         </div>
       </div>
 
