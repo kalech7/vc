@@ -252,23 +252,21 @@ const Transferencias = ({ user }) => {
     transferDataString
   )}`;
   // Función para guardar el contacto
+  // Función para guardar el contacto
   const handleGuardarContacto = async () => {
     try {
-      const response = await fetch(
-        'https://vc-su7z.onrender.com/guardar-contacto',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            nodocumento: userState.nodocumento,
-            nombre,
-            correo,
-            numeroCuenta: cuentaDestino,
-          }),
-        }
-      );
+      const response = await fetch('https://vc-su7z.onrender.com/guardar-contacto', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nodocumento: userState.nodocumento,
+          nombre,
+          correo,
+          numeroCuenta: cuentaDestino,
+        }),
+      });
 
       if (response.ok) {
         setMessage('Contacto guardado exitosamente.');
@@ -276,13 +274,14 @@ const Transferencias = ({ user }) => {
         fetchContactos();
       } else {
         const data = await response.json();
-        setMessage(data.error || 'Error al guardar el contacto.');
+    setMessage(data.error || 'Error al guardar el contacto.');
       }
     } catch (error) {
       console.error('Error al guardar el contacto:', error);
       setMessage('Error al guardar el contacto.');
     }
   };
+
 
   const fetchContactos = async () => {
     try {
@@ -427,14 +426,22 @@ const Transferencias = ({ user }) => {
                     <p>Nombre: {contacto.nombre}</p>
                     <p>Correo: {contacto.correo}</p>
                     <p>Numero de cuenta: {contacto.numeroCuenta}</p>
-                    {/* Más detalles */}
                   </div>
                 ))
               ) : (
                 <p>No hay contactos disponibles.</p>
               )}
             </div>
+            
           )}
+          <button
+                type="button-transferencias"
+                onClick={handleGuardarContacto}
+                className="btn-guardar-contacto"
+                disabled={!nombre || !correo || !cuentaDestino}
+              >
+                Guardar Contacto
+              </button>
           {!transferenciaRealizada ? (
             <form onSubmit={handleTransfer} className="transfer-form">
               <div className="form-group">
@@ -458,6 +465,7 @@ const Transferencias = ({ user }) => {
                 >
                   Verificar
                 </button>
+                
               </div>
               <div className="form-group">
                 <label htmlFor="nombre">Nombre del Destinatario</label>
@@ -507,15 +515,6 @@ const Transferencias = ({ user }) => {
                   style={{ marginRight: '10px' }}
                 />
                 Transferir
-              </button>
-              {/* Botón para guardar contacto */}
-              <button
-                type="button-transferencias"
-                onClick={handleGuardarContacto}
-                className="btn-guardar-contacto"
-                disabled={!nombre || !correo || !cuentaDestino}
-              >
-                Guardar Contacto
               </button>
             </form>
           ) : (
