@@ -196,7 +196,7 @@ const Tickets = ({ user }) => {
                   <strong>Tipo de Problema:</strong> {ticket.tipoProblema}
                 </p>
                 <p>
-                  <strong>Fecha de Creación:</strong> {ticket.FechaTicket}
+                  <strong>Fecha de Creación:</strong> {ticket.fechaTicket}
                 </p>
                 <p>
                   <strong>Estado:</strong> {ticket.estado}
