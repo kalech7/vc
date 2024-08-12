@@ -19,7 +19,15 @@ const Transferencias = ({ user }) => {
   const [userState, setUserState] = useState(() => {
     const storedUser = localStorage.getItem(`user_${user.nodocumento}`);
     return storedUser ? JSON.parse(storedUser) : user;
+    const handleSelectContact = (contact) => {
+      setSelectedContact(contact);
+      setCuentaDestino(contact.numeroCuenta);
+      setNombre(contact.nombre);
+      setCorreo(contact.correo);
+      setModalIsOpen(false); // Cierra el modal si lo estás utilizando
+    };
   });
+  
   const [cuentaDestino, setCuentaDestino] = useState('');
   const [nombre, setNombre] = useState('');
   const [correo, setCorreo] = useState('');
@@ -415,24 +423,24 @@ const Transferencias = ({ user }) => {
           >
             {showContactos ? 'Ocultar Contactos' : 'Mostrar Contactos'}
           </button>
-
           {/* Lista de contactos */}
           {showContactos && (
             <div className="contactos-container">
               <h1>Lista de Contactos</h1>
               {Array.isArray(contactos) && contactos.length > 0 ? (
                 contactos.map((contacto) => (
-                  <div key={contacto.id}>
-                    <p>Nombre: {contacto.nombre}</p>
-                    <p>Correo: {contacto.correo}</p>
-                    <p>Numero de cuenta: {contacto.numeroCuenta}</p>
-                  </div>
+                  <button
+                    key={contacto.id}
+                    onClick={() => handleSelectContact(contacto)}
+                    className="contacto-button"
+                  >
+                    {contacto.nombre} - {contacto.numeroCuenta}
+                  </button>
                 ))
               ) : (
                 <p>No hay contactos disponibles.</p>
               )}
             </div>
-            
           )}
           <button
                 type="button-transferencias"

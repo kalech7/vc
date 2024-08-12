@@ -332,3 +332,21 @@ button[type='submit-transferencias']:hover {
     display: block; /* Asegura que el botón se comporte como un bloque */
   }
 }
+.contacto-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: left;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.contacto-button:hover {
+  background-color: #e0e0e0;
+}
+
