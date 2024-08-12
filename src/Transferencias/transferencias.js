@@ -252,23 +252,21 @@ const Transferencias = ({ user }) => {
     transferDataString
   )}`;
   // Función para guardar el contacto
+  // Función para guardar el contacto
   const handleGuardarContacto = async () => {
     try {
-      const response = await fetch(
-        'https://vc-su7z.onrender.com/guardar-contacto',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            nodocumento: userState.nodocumento,
-            nombre,
-            correo,
-            numeroCuenta: cuentaDestino,
-          }),
-        }
-      );
+      const response = await fetch('https://vc-su7z.onrender.com/guardar-contacto', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nodocumento: userState.nodocumento,
+          nombre,
+          correo,
+          numeroCuenta: cuentaDestino,
+        }),
+      });
 
       if (response.ok) {
         setMessage('Contacto guardado exitosamente.');
@@ -276,13 +274,14 @@ const Transferencias = ({ user }) => {
         fetchContactos();
       } else {
         const data = await response.json();
-        setMessage(data.error || 'Error al guardar el contacto.');
+    setMessage(data.error || 'Error al guardar el contacto.');
       }
     } catch (error) {
       console.error('Error al guardar el contacto:', error);
       setMessage('Error al guardar el contacto.');
     }
   };
+
 
   const fetchContactos = async () => {
     try {
@@ -410,7 +409,39 @@ const Transferencias = ({ user }) => {
           <div className="qr-code">
             <QRCode value={qrData} size={128} />
           </div>
+          <button
+            onClick={() => setShowContactos(!showContactos)}
+            className="btn-toggle-contactos"
+          >
+            {showContactos ? 'Ocultar Contactos' : 'Mostrar Contactos'}
+          </button>
 
+          {/* Lista de contactos */}
+          {showContactos && (
+            <div className="contactos-container">
+              <h1>Lista de Contactos</h1>
+              {Array.isArray(contactos) && contactos.length > 0 ? (
+                contactos.map((contacto) => (
+                  <div key={contacto.id}>
+                    <p>Nombre: {contacto.nombre}</p>
+                    <p>Correo: {contacto.correo}</p>
+                    <p>Numero de cuenta: {contacto.numeroCuenta}</p>
+                  </div>
+                ))
+              ) : (
+                <p>No hay contactos disponibles.</p>
+              )}
+            </div>
+            
+          )}
+          <button
+                type="button-transferencias"
+                onClick={handleGuardarContacto}
+                className="btn-guardar-contacto"
+                disabled={!nombre || !correo || !cuentaDestino}
+              >
+                Guardar Contacto
+              </button>
           {!transferenciaRealizada ? (
             <form onSubmit={handleTransfer} className="transfer-form">
               <div className="form-group">
@@ -434,6 +465,7 @@ const Transferencias = ({ user }) => {
                 >
                   Verificar
                 </button>
+                
               </div>
               <div className="form-group">
                 <label htmlFor="nombre">Nombre del Destinatario</label>
@@ -484,15 +516,6 @@ const Transferencias = ({ user }) => {
                 />
                 Transferir
               </button>
-              {/* Botón para guardar contacto */}
-              <button
-                type="button-transferencias"
-                onClick={handleGuardarContacto}
-                className="btn-guardar-contacto"
-                disabled={!nombre || !correo || !cuentaDestino}
-              >
-                Guardar Contacto
-              </button>
             </form>
           ) : (
             <div className="transferencia-exitosa">
@@ -506,31 +529,6 @@ const Transferencias = ({ user }) => {
           )}
 
           {message && <p className="message">{message}</p>}
-          {/* Botón para mostrar/ocultar lista de contactos */}
-          <button
-            onClick={() => setShowContactos(!showContactos)}
-            className="btn-toggle-contactos"
-          >
-            {showContactos ? 'Ocultar Contactos' : 'Mostrar Contactos'}
-          </button>
-
-          {/* Lista de contactos */}
-          {showContactos && (
-            <div className="contactos-container">
-              <h1>Lista de Contactos</h1>
-              {Array.isArray(contactos) && contactos.length > 0 ? (
-                contactos.map((contacto) => (
-                  <div key={contacto.id}>
-                    <p>{contacto.nombre}</p>
-                    <p>{contacto.correo}</p>
-                    {/* Más detalles */}
-                  </div>
-                ))
-              ) : (
-                <p>No hay contactos disponibles.</p>
-              )}
-            </div>
-          )}
         </div>
       </div>
 

@@ -20,6 +20,7 @@ const UserDashboard = ({ user }) => {
     const storedUser = localStorage.getItem(`user_${user.nodocumento}`);
     return storedUser ? JSON.parse(storedUser) : user;
   });
+  const [isBlocked, setIsBlocked] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [cuentas, setCuentas] = useState([]);
@@ -34,6 +35,7 @@ const UserDashboard = ({ user }) => {
   const toggleSaldoVisibility = () => {
     setIsSaldoVisible(!isSaldoVisible);
   };
+  
 
   useEffect(() => {
     const handleResize = () => setScreenWidth(window.innerWidth);
@@ -43,10 +45,6 @@ const UserDashboard = ({ user }) => {
   }, []);
 
   useEffect(() => {
-    if (!location.hash) {
-      window.scrollTo(0, 0);
-    }
-
     const fetchCuentas = async () => {
       try {
         const response = await fetch(
@@ -56,7 +54,15 @@ const UserDashboard = ({ user }) => {
           throw new Error('Error al obtener las cuentas del usuario');
         }
         const data = await response.json();
-        setCuentas(Object.values(data));
+        const cuentasData = Object.values(data);
+
+        // Verificar si alguna cuenta está bloqueada
+        const cuentaBloqueada = cuentasData.some(cuenta => cuenta.estado === 'Bloqueada');
+        if (cuentaBloqueada) {
+          setIsBlocked(true);
+        }
+
+        setCuentas(cuentasData);
       } catch (error) {
         console.error('Error al obtener las cuentas:', error);
       }
@@ -268,6 +274,16 @@ const UserDashboard = ({ user }) => {
       }px)`;
     }
   };
+  if (isBlocked) {
+    return (
+      <div className="blocked-message">
+        <HeaderD user={userState} />
+        <div className="blocked-content">
+          <h1>USUARIO BLOQUEADO</h1>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>

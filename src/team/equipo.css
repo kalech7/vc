@@ -1,7 +1,7 @@
 .btn-link {
   display: inline-flex; /* Usa flex para alinear el texto y el ícono */
   align-items: center; /* Centra verticalmente el texto y el ícono */
-  background-color: #083464; /* Color de fondo del botón */
+  background-color: #0f7ff7; /* Color de fondo del botón */
   color: #ffffff; /* Color del texto */
   padding: 10px 20px; /* Espaciado interno */
   border: none; /* Sin borde */
@@ -42,7 +42,7 @@
 }
 
 .btn-next:hover {
-  background-color: #043468; /* Color de fondo al pasar el ratón */
+  background-color: #184a81; /* Color de fondo al pasar el ratón */
   transform: scale(1.05); /* Efecto de aumento al pasar el ratón */
 }
 
