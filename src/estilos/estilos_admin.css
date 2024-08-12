@@ -1,11 +1,29 @@
 .form-admin-login button {
-    background-color: #007bff; /* Cambia el color de fondo del botón */
-    color: white; /* Cambia el color del texto del botón */
-    border: none; /* Quita el borde si no lo deseas */
-    padding: 10px 20px; /* Ajusta el padding según tus necesidades */
-    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+  background-color: #007bff; /* Cambia el color de fondo del botón */
+  color: white; /* Cambia el color del texto del botón */
+  border: none; /* Quita el borde si no lo deseas */
+  padding: 10px 20px; /* Ajusta el padding según tus necesidades */
+  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+}
+
+.form-admin-login button:hover {
+  background-color: #0056b3; /* Cambia el color de fondo del botón al pasar el cursor */
+}
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-left-color: #ffffff;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
   }
-  
-  .form-admin-login button:hover {
-    background-color: #0056b3; /* Cambia el color de fondo del botón al pasar el cursor */
+  to {
+    transform: rotate(360deg);
   }
+}
