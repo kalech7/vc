@@ -228,7 +228,7 @@ button[type='submit-transferencias']:hover {
   background-color: #f9f9f9;
 }
 .btn-toggle-contactos {
-  background-color: #3498db;
+  background-color: rgb(65, 161, 167);
   color: #fff;
   border: none;
   padding: 10px 15px;
@@ -238,7 +238,7 @@ button[type='submit-transferencias']:hover {
   transition: background-color 0.3s;
 }
 .btn-toggle-contactos:hover {
-  background-color: #2980b9;
+  background-color: rgb(37, 121, 126);
 }
 
 @media (max-width: 768px) {

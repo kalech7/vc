@@ -56,14 +56,14 @@ const Transferencias = ({ user }) => {
   }, []);
   useEffect(() => {
     fetchContactos()
-      .then(data => {
+      .then((data) => {
         if (Array.isArray(data)) {
           setContactos(data);
         } else {
           setContactos([]);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error al obtener los contactos:', error);
         setContactos([]);
       });
@@ -251,54 +251,57 @@ const Transferencias = ({ user }) => {
   const qrData = `https://vertexcapital.today/login?data=${encodeURIComponent(
     transferDataString
   )}`;
-      // Función para guardar el contacto
-      const handleGuardarContacto = async () => {
-        try {
-          const response = await fetch('https://vc-su7z.onrender.com/guardar-contacto', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              nodocumento: userState.nodocumento,
-              nombre,
-              correo,
-              numeroCuenta: cuentaDestino,
-            }),
-          });
-    
-          if (response.ok) {
-            setMessage('Contacto guardado exitosamente.');
-            // Actualizar la lista de contactos después de guardar uno nuevo
-            fetchContactos();
-          } else {
-            const data = await response.json();
+  // Función para guardar el contacto
+  const handleGuardarContacto = async () => {
+    try {
+      const response = await fetch(
+        'https://vc-su7z.onrender.com/guardar-contacto',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            nodocumento: userState.nodocumento,
+            nombre,
+            correo,
+            numeroCuenta: cuentaDestino,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        setMessage('Contacto guardado exitosamente.');
+        // Actualizar la lista de contactos después de guardar uno nuevo
+        fetchContactos();
+      } else {
+        const data = await response.json();
         setMessage(data.error || 'Error al guardar el contacto.');
-          }
-        } catch (error) {
-          console.error('Error al guardar el contacto:', error);
-          setMessage('Error al guardar el contacto.');
-        }
-      };
-    
-      const fetchContactos = async () => {
-        try {
-          const response = await fetch(
-            `https://vc-su7z.onrender.com/obtener-contactos?nodocumento=${userState.nodocumento}`
-          );
-          const text = await response.text();
-          console.log(text); // Verifica si es un JSON válido
-          const data = JSON.parse(text);
-          setContactos(data.contactos || []);
-        } catch (error) {
-          console.error('Error al obtener los contactos:', error);
-        }
-      };
-      
+      }
+    } catch (error) {
+      console.error('Error al guardar el contacto:', error);
+      setMessage('Error al guardar el contacto.');
+    }
+  };
+
+  const fetchContactos = async () => {
+    try {
+      const response = await fetch(
+        `https://vc-su7z.onrender.com/obtener-contactos?nodocumento=${userState.nodocumento}`
+      );
+      const text = await response.text();
+      console.log(text); // Verifica si es un JSON válido
+      const data = JSON.parse(text);
+      setContactos(data.contactos || []);
+    } catch (error) {
+      console.error('Error al obtener los contactos:', error);
+    }
+  };
+
   useEffect(() => {
     fetchContactos();
   }, []);
-  
+
   const handleSelectContact = (contact) => {
     setSelectedContact(contact);
     setCuentaDestino(contact.numeroCuenta);
@@ -482,14 +485,14 @@ const Transferencias = ({ user }) => {
                 Transferir
               </button>
               {/* Botón para guardar contacto */}
-            <button
-              type="button"
-              onClick={handleGuardarContacto}
-              className="btn-guardar-contacto"
-              disabled={!nombre || !correo || !cuentaDestino}
-            >
-              Guardar Contacto
-            </button>
+              <button
+                type="button-transferencias"
+                onClick={handleGuardarContacto}
+                className="btn-guardar-contacto"
+                disabled={!nombre || !correo || !cuentaDestino}
+              >
+                Guardar Contacto
+              </button>
             </form>
           ) : (
             <div className="transferencia-exitosa">
@@ -504,7 +507,7 @@ const Transferencias = ({ user }) => {
 
           {message && <p className="message">{message}</p>}
           {/* Botón para mostrar/ocultar lista de contactos */}
-<button
+          <button
             onClick={() => setShowContactos(!showContactos)}
             className="btn-toggle-contactos"
           >
@@ -516,7 +519,7 @@ const Transferencias = ({ user }) => {
             <div className="contactos-container">
               <h1>Lista de Contactos</h1>
               {Array.isArray(contactos) && contactos.length > 0 ? (
-                contactos.map(contacto => (
+                contactos.map((contacto) => (
                   <div key={contacto.id}>
                     <p>{contacto.nombre}</p>
                     <p>{contacto.correo}</p>
