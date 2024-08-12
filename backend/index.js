@@ -1872,7 +1872,7 @@ app.post('/guardar-contacto', async (req, res) => {
 
     // Asume que solo habrá un cliente con ese nodocumento
     const clienteKey = Object.keys(clienteSnapshot.val())[0];
-    const contactosRef = db.ref(clientes/${clienteKey}/contactos);
+    const contactosRef = db.ref(`clientes/${clienteKey}/contactos`);
 
     // Verificar si ya existe un contacto con el mismo número de cuenta
     const snapshot = await contactosRef.orderByChild('numeroCuenta').equalTo(numeroCuenta).once('value');
@@ -1909,7 +1909,7 @@ app.get('/obtener-contactos', async (req, res) => {
     }
 
     const clienteKey = Object.keys(snapshot.val())[0];
-    const contactosRef = db.ref(clientes/${clienteKey}/contactos);
+    const contactosRef = db.ref(`clientes/${clienteKey}/contactos`);
     const contactosSnapshot = await contactosRef.once('value');
 
     const contactos = contactosSnapshot.val() ? Object.values(contactosSnapshot.val()) : [];
@@ -1920,7 +1920,6 @@ app.get('/obtener-contactos', async (req, res) => {
     res.status(500).json({ error: 'Error al obtener los contactos.' });
   }
 });
-
 // Iniciar el servidor
 const PORT = process.env.PORT || 3030;
 app.listen(PORT, () => {
