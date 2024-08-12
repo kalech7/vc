@@ -410,7 +410,31 @@ const Transferencias = ({ user }) => {
           <div className="qr-code">
             <QRCode value={qrData} size={128} />
           </div>
+          <button
+            onClick={() => setShowContactos(!showContactos)}
+            className="btn-toggle-contactos"
+          >
+            {showContactos ? 'Ocultar Contactos' : 'Mostrar Contactos'}
+          </button>
 
+          {/* Lista de contactos */}
+          {showContactos && (
+            <div className="contactos-container">
+              <h1>Lista de Contactos</h1>
+              {Array.isArray(contactos) && contactos.length > 0 ? (
+                contactos.map((contacto) => (
+                  <div key={contacto.id}>
+                    <p>Nombre: {contacto.nombre}</p>
+                    <p>Correo: {contacto.correo}</p>
+                    <p>Numero de cuenta: {contacto.numeroCuenta}</p>
+                    {/* Más detalles */}
+                  </div>
+                ))
+              ) : (
+                <p>No hay contactos disponibles.</p>
+              )}
+            </div>
+          )}
           {!transferenciaRealizada ? (
             <form onSubmit={handleTransfer} className="transfer-form">
               <div className="form-group">
@@ -507,30 +531,6 @@ const Transferencias = ({ user }) => {
 
           {message && <p className="message">{message}</p>}
           {/* Botón para mostrar/ocultar lista de contactos */}
-          <button
-            onClick={() => setShowContactos(!showContactos)}
-            className="btn-toggle-contactos"
-          >
-            {showContactos ? 'Ocultar Contactos' : 'Mostrar Contactos'}
-          </button>
-
-          {/* Lista de contactos */}
-          {showContactos && (
-            <div className="contactos-container">
-              <h1>Lista de Contactos</h1>
-              {Array.isArray(contactos) && contactos.length > 0 ? (
-                contactos.map((contacto) => (
-                  <div key={contacto.id}>
-                    <p>{contacto.nombre}</p>
-                    <p>{contacto.correo}</p>
-                    {/* Más detalles */}
-                  </div>
-                ))
-              ) : (
-                <p>No hay contactos disponibles.</p>
-              )}
-            </div>
-          )}
         </div>
       </div>
 
