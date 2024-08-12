@@ -134,20 +134,16 @@ const UserDetails = ({ user }) => {
       alert('No hay cuenta seleccionada.');
       return;
     }
-  
+
     try {
-      const response = await fetch('https://vc-su7z.onrender.com/updateStatus', {
-        method: 'POST',
+      const response = await fetch(`https://vc-su7z.onrender.com/clientes/${encodeURIComponent(user.nombre)}/${encodeURIComponent(user.apellido)}/cuentas/${selectedAccount.numeroCuenta}`, {
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          user: `${user.nombre} ${user.apellido}`,
-          numeroCuenta: selectedAccount.numeroCuenta,
-          nuevoEstado: newStatus
-        })
+        body: JSON.stringify({ estado: newStatus })
       });
-  
+
       if (response.ok) {
         const updatedAccount = { ...selectedAccount, estado: newStatus };
         setSelectedAccount(updatedAccount);
@@ -161,7 +157,6 @@ const UserDetails = ({ user }) => {
       alert('Error al cambiar el estado de la cuenta.');
     }
   };
-  
 
   return (
     <div className="user-details">
