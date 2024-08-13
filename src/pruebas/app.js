@@ -76,7 +76,7 @@ app.post('/loginadmin', async (req, res) => {
     
   } catch (error) {
     console.error('Error al iniciar sesión:', error);
-    res.status(500).json({ message: 'Error al iniciar sesión.' });
+    
   }
 });
 
