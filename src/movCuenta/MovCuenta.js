@@ -396,37 +396,29 @@ const UserDashboard = ({ user }) => {
                       Transferencias
                     </h2>
                     <div className="carousel-section">
-                      {filteredMovimientos.length > 0 ? (
-                        filteredMovimientos.map((mov, index) => (
-                          <div key={index} className="carousel-item">
-                            <div className="movimiento-fecha">{mov.fecha}</div>
-                            <div className="movimiento-box">
-                              <div className="movimiento-tipo">
-                                {mov.tipo === 'Enviado'
-                                  ? `Transferencia enviada a ${mov.nombreDestino} (Cuenta: ${mov.cuentaDestino})`
-                                  : `Transferencia recibida por ${mov.nombreOrigen} (Cuenta: ${mov.cuentaOrigen})`}
+                    {filteredMovimientos.length > 0 ? (
+                        filteredMovimientos.map((mov, index) => {
+                          const url = `https://vertexcapital.today/confirmacion-transferencias?monto=${mov.monto}&nombre=${mov.tipo === 'Enviado' ? mov.nombreDestino : mov.nombreOrigen}&fecha=${mov.fecha}&saldoDestino=${mov.saldoDestino}`;
+                          return (
+                            <Link to={url} key={index} className="carousel-item">
+                              <div className="movimiento-fecha">{mov.fecha}</div>
+                              <div className="movimiento-box">
+                                <div className="movimiento-tipo">
+                                  {mov.tipo === 'Enviado'
+                                    ? `Transferencia enviada a ${mov.nombreDestino} (Cuenta: ${mov.cuentaDestino})`
+                                    : `Transferencia recibida por ${mov.nombreOrigen} (Cuenta: ${mov.cuentaOrigen})`}
+                                </div>
+                                <div className={`movimiento-monto ${mov.tipo === 'Enviado' ? 'movimiento-monto-envio' : 'movimiento-monto-recibido'}`}>
+                                  <span className="monto-label">Monto de transferencia: </span>
+                                  {mov.tipo === 'Enviado' ? '-' : '+'}${mov.monto}
+                                </div>
+                                <div className="movimiento-saldo">
+                                  Saldo después de la transacción: ${mov.tipo === 'Enviado' ? mov.saldoActual : mov.saldoDestino}
+                                </div>
                               </div>
-                              <div
-                                className={`movimiento-monto ${
-                                  mov.tipo === 'Enviado'
-                                    ? 'movimiento-monto-envio'
-                                    : 'movimiento-monto-recibido'
-                                }`}
-                              >
-                                <span className="monto-label">
-                                  Monto de transferencia:{' '}
-                                </span>
-                                {mov.tipo === 'Enviado' ? '-' : '+'}${mov.monto}
-                              </div>
-                              <div className="movimiento-saldo">
-                                Saldo después de la transacción: $
-                                {mov.tipo === 'Enviado'
-                                  ? mov.saldoActual
-                                  : mov.saldoDestino}
-                              </div>
-                            </div>
-                          </div>
-                        ))
+                            </Link>
+                          );
+                        })
                       ) : (
                         <p>No se encontraron movimientos.</p>
                       )}
