@@ -73,7 +73,7 @@ app.post('/loginadmin', async (req, res) => {
 
     await attemptsRef.set({ failedAttempts: 0, blockedUntil: null });
 
-    res.status(200).json({ message: 'Inicio de sesión exitoso.', admin: userData });
+    
   } catch (error) {
     console.error('Error al iniciar sesión:', error);
     res.status(500).json({ message: 'Error al iniciar sesión.' });
