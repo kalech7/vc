@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShareAlt } from '@fortawesome/free-solid-svg-icons';
+import { faShareAlt, faDownload } from '@fortawesome/free-solid-svg-icons';
 import {
   faFacebook,
   faTwitter,
   faLinkedin,
   faWhatsapp,
 } from '@fortawesome/free-brands-svg-icons';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 function ConfirmacionTransferencias() {
   const query = new URLSearchParams(useLocation().search);
@@ -40,13 +42,23 @@ function ConfirmacionTransferencias() {
     },
   ];
 
+  const downloadPDF = () => {
+    const input = document.getElementById('pdf-content');
+    html2canvas(input).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF();
+      pdf.addImage(imgData, 'PNG', 0, 0);
+      pdf.save('confirmacion-transferencia.pdf');
+    });
+  };
+
   return (
     <div>
       <div className="header">
         <h1>Confirmación de Transferencia</h1>
       </div>
 
-      <div className="transfer-container">
+      <div id="pdf-content" className="transfer-container">
         <h2 className="transfer-title">Transferencia Exitosa</h2>
 
         <div className="info-container-tran">
@@ -87,6 +99,9 @@ function ConfirmacionTransferencias() {
       </div>
 
       <div className="footer">
+        <button className="pdf-button" onClick={downloadPDF}>
+          <FontAwesomeIcon icon={faDownload} /> Descargar PDF
+        </button>
         © 2024 VertexCapital. Todos los derechos reservados.
       </div>
 
@@ -196,6 +211,23 @@ function ConfirmacionTransferencias() {
           position: fixed;
           width: 100%;
           bottom: 0;
+        }
+
+        .pdf-button {
+          background-color: #1c2833;
+          color: white;
+          padding: 0.5rem 1rem;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 1rem;
+        }
+
+        .pdf-button:hover {
+          background-color: #34495e;
         }
       `}</style>
     </div>
