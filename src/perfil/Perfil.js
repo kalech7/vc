@@ -64,7 +64,7 @@ const UserProfile = ({ user }) => {
     }
 
     try {
-      const response = await fetch('http://localhost:3030/update-user-data', {
+      const response = await fetch('https://vc-su7z.onrender.com/update-user-data', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
