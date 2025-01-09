@@ -8,6 +8,7 @@ import cesarines from './cesarines.jpg';
 import wilsito from './wilsito.jpg';
 import eli from './eli.jpg';
 import michael from './michael.jpg';
+import asd from './asd.jpeg';
 import team from './tmpteam.jpg';
 import burndown from './burndown2.png';
 const Equipo = () => {
@@ -22,6 +23,7 @@ const Equipo = () => {
           <input type="radio" name="toggle" id="tr-toggle4" />
           <input type="radio" name="toggle" id="tr-toggle5" />
           <input type="radio" name="toggle" id="tr-toggle6" />
+          <input type="radio" name="toggle" id="tr-toggle7" />
 
           <section id="tr-section-1">
             <div className="tr-image-container">
@@ -146,6 +148,7 @@ const Equipo = () => {
               </label>
             </div>
           </section>
+
           <section id="tr-section-6">
             <div className="tr-image-container">
               <img id="eli" src={eli} alt="eli" />
@@ -169,11 +172,44 @@ const Equipo = () => {
                 />
               </a>
 
+              <label htmlFor="tr-toggle7" class="btn-next">
+                Siguiente
+              </label>
+            </div>
+          </section>
+
+
+          <section id="tr-section-7">
+            <div className="tr-image-container">
+              <img id="asd" src={asd} alt="aaron" />
+            </div>
+            <div className="tr-info-container">
+              <h1>Development Team</h1>
+              <p>Aarón Yumancela</p>
+              <p>
+                Desarrollador full stack
+              </p>
+              <a
+                href="https://www.linkedin.com/in/aaron-yumancela-yumnancela-7a2ab533a/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-link"
+              >
+                {' '}
+                Visitar perfil
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/0/01/LinkedIn_Logo.svg"
+                  alt="LinkedIn"
+                  class="btn-icon"
+                />
+              </a>
               <label htmlFor="tr-toggle1" class="btn-next">
                 Ir al inicio
               </label>
             </div>
           </section>
+
+
         </div>
       </div>
 
